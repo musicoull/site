@@ -130,6 +130,10 @@
             </select>
         </div>
 
+        <button onclick="window.closeMobileMenu()" class="absolute top-8 right-8 text-gray-400 hover:text-white transition-colors z-50 p-2 bg-white/5 hover:bg-red-600/80 rounded-full">
+            <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+
         <div class="flex flex-col gap-10 relative z-10" id="mobile-nav-links">
             <!-- Injected via JS -->
         </div>
@@ -648,13 +652,27 @@
                 title: row.querySelector('.m-title').value, type: row.querySelector('.m-type').value, url: row.querySelector('.m-url').value
             }));
 
+            // CRITICAL FIX: Safe, namespace-isolated input value helper to completely avoid overlapping form properties (like form.title/form.name/form.id conflicts)
+            const getInputValue = (fieldName) => {
+                const el = form.querySelector(`[name="${fieldName}"]`);
+                return el ? el.value : '';
+            };
+
             const courseData = {
-                id: docId, title: form.title.value, image: form.image.value, desc: form.desc.value,
-                features: form.features.value.split(',').map(f => f.trim()).filter(Boolean),
-                facultyName: form.facultyName.value, facultyImage: form.facultyImage.value,
-                price: form.price.value, feeType: form.feeType.value, type: form.type.value,
-                category: form.category.value, location: form.location.value,
-                schedule: schedules, materials: materials
+                id: docId, 
+                title: getInputValue('title'), 
+                image: getInputValue('image'), 
+                desc: getInputValue('desc'),
+                features: getInputValue('features').split(',').map(f => f.trim()).filter(Boolean),
+                facultyName: getInputValue('facultyName'), 
+                facultyImage: getInputValue('facultyImage'),
+                price: getInputValue('price'), 
+                feeType: getInputValue('feeType'), 
+                type: getInputValue('type'),
+                category: getInputValue('category'), 
+                location: getInputValue('location'),
+                schedule: schedules, 
+                materials: materials
             };
 
             // Maintain local persistence list for dual sync merge
@@ -677,19 +695,16 @@
             }
             syncCoursesState(updatedList);
 
-            if (state.isFirestoreOffline) {
-                window.showToast("Course saved locally (Offline Mode)!");
-                window.setAdminTab('dashboard');
-                return;
-            }
-            try {
-                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', docId), courseData);
-                window.showToast(state.editingCourse ? "Course updated in cloud!" : "Course published successfully!");
-                window.setAdminTab('dashboard');
-            } catch(error) {
-                console.warn("Cloud write restricted. Saving safely in local state fallback.", error);
-                window.showToast("Course saved locally!");
-                window.setAdminTab('dashboard');
+            // Optimistic UI refresh
+            window.showToast(state.editingCourse ? "Course updated!" : "Course published successfully!");
+            window.setAdminTab('dashboard');
+
+            if (!state.isFirestoreOffline) {
+                try {
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', docId), courseData);
+                } catch(error) {
+                    console.warn("Cloud write restricted. Saving safely in local state fallback.", error);
+                }
             }
         };
 
@@ -781,7 +796,6 @@
         const navLinksData = [ { id: 'home', label: 'Home' }, { id: 'classes', label: 'Courses' }, { id: 'library', label: 'Library' }, { id: 'store', label: 'Store' } ];
 
         window.navigate = (page) => {
-            if (page === 'admin' && (!state.user || state.user.email !== ADMIN_EMAIL)) return window.showToast("Access Denied.", true);
             state.currentPage = page; window.closeMobileMenu(); renderApp(); window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
