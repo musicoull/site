@@ -467,12 +467,7 @@
         // --- Database Logic & Offline fallbacks ---
         const useOfflineCoursesFallback = () => {
             state.isFirestoreOffline = true;
-            if (state.dynamicCourses.length === 0) {
-                const localCourses = localStorage.getItem('musicoul_local_courses');
-                state.dynamicCourses = localCourses ? JSON.parse(localCourses) : [...DATA.classesData];
-            }
-            if (state.currentPage === 'classes') renderClassesGrid();
-            if (state.currentPage === 'admin') renderApp();
+            syncCoursesState([]);
         };
 
         const useOfflineUsersFallback = () => {
@@ -481,41 +476,76 @@
             if (state.currentPage === 'admin' && state.adminTab === 'users') renderApp();
         };
 
+        // Unified State Sync System to prioritize local overrides & avoid reverts
+        const syncCoursesState = (cloudList = []) => {
+            let merged = [...cloudList];
+            
+            // Read local storage overrides
+            const localStr = localStorage.getItem('musicoul_local_courses');
+            if (localStr) {
+                try {
+                    const localList = JSON.parse(localStr);
+                    if (Array.isArray(localList)) {
+                        // Create a map of local items by stringified ID
+                        const localMap = new Map(localList.map(item => [item.id ? item.id.toString() : '', item]));
+                        
+                        // Replace existing cloud items with local ones
+                        merged = merged.map(item => {
+                            const itemIdStr = item.id ? item.id.toString() : '';
+                            if (localMap.has(itemIdStr)) {
+                                return localMap.get(itemIdStr);
+                            }
+                            return item;
+                        });
+                        
+                        // Append local items that don't exist in the cloud list
+                        const cloudIds = new Set(merged.map(item => item.id ? item.id.toString() : ''));
+                        localList.forEach(localItem => {
+                            const localIdStr = localItem.id ? localItem.id.toString() : '';
+                            if (localIdStr && !cloudIds.has(localIdStr)) {
+                                merged.push(localItem);
+                            }
+                        });
+                    }
+                } catch (e) {
+                    console.error("Error parsing local courses", e);
+                }
+            }
+            
+            // If still empty, fallback to initial mock baseline
+            if (merged.length === 0) {
+                merged = [...DATA.classesData];
+            }
+            
+            state.dynamicCourses = merged;
+            
+            // Save state to local cache list
+            localStorage.setItem('musicoul_local_courses', JSON.stringify(merged));
+            
+            // Re-render UI segments safely
+            if (state.currentPage === 'classes') renderClassesGrid();
+            if (state.currentPage === 'admin') renderApp();
+        };
+
         const loadDynamicData = () => {
             try {
                 const coursesRef = collection(db, 'artifacts', appId, 'public', 'data', 'courses');
                 onSnapshot(coursesRef, (snapshot) => {
-                    let cloudCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                    // Merge local edits with priority so client changes are persistent
-                    const localCoursesStr = localStorage.getItem('musicoul_local_courses');
-                    if (localCoursesStr) {
-                        try {
-                            const localCourses = JSON.parse(localCoursesStr);
-                            const localMap = new Map(localCourses.map(c => [c.id.toString(), c]));
-
-                            // Replace cloud courses with local modifications
-                            cloudCourses = cloudCourses.map(c => localMap.has(c.id.toString()) ? localMap.get(c.id.toString()) : c);
-
-                            // Append any newly created local courses that aren't on cloud yet
-                            const cloudIds = new Set(cloudCourses.map(c => c.id.toString()));
-                            localCourses.forEach(lc => {
-                                if (!cloudIds.has(lc.id.toString())) {
-                                    cloudCourses.push(lc);
-                                }
-                            });
-                        } catch (e) {
-                            console.error("Error merging offline local course edits", e);
-                        }
+                    const cloudCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    
+                    // If cloud is totally empty, seed database first
+                    if (cloudCourses.length === 0) {
+                        DATA.classesData.forEach(async (cls) => { 
+                            try { 
+                                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', cls.id.toString()), cls); 
+                            } catch(e) {} 
+                        });
                     }
-
-                    state.dynamicCourses = cloudCourses;
-                    if (state.dynamicCourses.length === 0) {
-                        DATA.classesData.forEach(async (cls) => { try { await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', cls.id.toString()), cls); } catch(e) {} });
-                    }
-                    if (state.currentPage === 'classes') renderClassesGrid();
-                    if (state.currentPage === 'admin') renderApp();
-                }, () => useOfflineCoursesFallback());
+                    syncCoursesState(cloudCourses);
+                }, (error) => {
+                    console.warn("Firestore snapshot failed, falling back to offline mode", error);
+                    useOfflineCoursesFallback();
+                });
             } catch (e) { useOfflineCoursesFallback(); }
 
             try {
@@ -637,12 +667,15 @@
             localCoursesList.push(courseData);
             localStorage.setItem('musicoul_local_courses', JSON.stringify(localCoursesList));
 
-            // Instant memory update to prevent layout replacement by snapshot triggers
-            if (state.editingCourse) {
-                state.dynamicCourses = state.dynamicCourses.map(c => c.id.toString() === docId ? courseData : c);
+            // Optimistic memory update with safe layout rendering priority
+            let updatedList = [...state.dynamicCourses];
+            const exists = updatedList.some(c => c.id.toString() === docId);
+            if (exists) {
+                updatedList = updatedList.map(c => c.id.toString() === docId ? courseData : c);
             } else {
-                state.dynamicCourses.push(courseData);
+                updatedList.push(courseData);
             }
+            syncCoursesState(updatedList);
 
             if (state.isFirestoreOffline) {
                 window.showToast("Course saved locally (Offline Mode)!");
@@ -671,11 +704,11 @@
              localStorage.setItem('musicoul_local_courses', JSON.stringify(localCoursesList));
 
              // Clean from currently active memory state instantly
-             state.dynamicCourses = state.dynamicCourses.filter(c => c.id.toString() !== id.toString());
+             const updatedList = state.dynamicCourses.filter(c => c.id.toString() !== id.toString());
+             syncCoursesState(updatedList);
 
              if (state.isFirestoreOffline) {
                  window.showToast("Course deleted locally."); 
-                 renderApp(); 
                  return;
              }
              try { 
@@ -683,7 +716,6 @@
                  window.showToast("Course deleted."); 
              } catch(e) {
                  window.showToast("Course deleted locally.");
-                 renderApp();
              }
         };
 
@@ -1254,7 +1286,8 @@
             }
         };
 
-        // Initialize App
+        // Initialize App State Immediately with safe local memory startup (prevent flash of original unedited data)
+        syncCoursesState([]);
         renderApp();
     </script>
 </body>
