@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg" type="image/x-icon">
     <title>Musicoul | Premium Music Institute</title>
     
     <!-- Tailwind CSS -->
@@ -20,69 +19,36 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
 
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,hi,mr', autoDisplay: false}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <style>
         /* === Premium Scrollbar Design === */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #030303;
-            border-left: 1px solid #111;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
-            border-radius: 4px;
-            transition: background 0.3s ease;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #dc2626; /* Premium Crimson Red */
-        }
-        ::-webkit-scrollbar-corner {
-            background: #030303;
-        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #030303; border-left: 1px solid #111; }
+        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; transition: background 0.3s ease; }
+        ::-webkit-scrollbar-thumb:hover { background: #dc2626; }
+        ::-webkit-scrollbar-corner { background: #030303; }
 
         /* Hide Scrollbar for specific horizontal rows */
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
 
         /* === Typography & Base === */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #030303; /* Deepest black */
-            color: #ffffff;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-        h1, h2, .font-serif {
-            font-family: 'Playfair Display', serif;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #030303; color: #ffffff; overflow-x: hidden; -webkit-font-smoothing: antialiased; top: 0 !important; }
+        h1, h2, .font-serif { font-family: 'Playfair Display', serif; }
 
         /* === Animations & Effects === */
-        .glass-panel {
-            background: rgba(15, 15, 15, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        .glass-panel { background: rgba(15, 15, 15, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
 
-        @keyframes slideUpFade {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slowZoom {
-            from { transform: scale(1); }
-            to { transform: scale(1.08); }
-        }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.08); } }
 
         .animate-slide-up-fade { animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
@@ -90,16 +56,13 @@
         .page-transition { animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         /* Custom Input Styling */
-        .premium-input:focus ~ .input-border {
-            width: 100%;
-            opacity: 1;
-            box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
-        }
-        
-        select option {
-            background-color: #111;
-            color: #fff;
-        }
+        .premium-input:focus ~ .input-border { width: 100%; opacity: 1; box-shadow: 0 0 10px rgba(220, 38, 38, 0.5); }
+        select option { background-color: #111; color: #fff; }
+
+        /* Hidden Google Translate Default UI */
+        #google_translate_element { display: none !important; }
+        .skiptranslate { display: none !important; }
+        .VIpgJd-ZVi9od-ORHb-OEVmcd { display: none !important; } /* Hide google popup */
     </style>
 </head>
 <body>
@@ -110,24 +73,29 @@
             <!-- Logo -->
             <div class="cursor-pointer flex items-center gap-4 group" onclick="window.navigate('home')">
                 <div class="relative">
-                    <img 
-                        src="WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg" 
-                        alt="Musicoul Logo" 
-                        class="h-10 md:h-12 w-auto object-contain rounded-full transition-transform duration-700 group-hover:scale-105 relative z-10"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                    >
+                    <img src="WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg" alt="Musicoul Logo" class="h-10 md:h-12 w-auto object-contain rounded-full transition-transform duration-700 group-hover:scale-105 relative z-10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="absolute inset-0 bg-red-600 blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-700 rounded-full"></div>
                 </div>
                 <span class="text-xl md:text-2xl font-light tracking-[0.25em] text-white uppercase mt-1 hidden sm:block font-serif">Musicoul</span>
             </div>
 
             <!-- Desktop Links -->
-            <div class="hidden md:flex items-center gap-10 lg:gap-14" id="nav-links">
+            <div class="hidden md:flex items-center gap-8 lg:gap-14" id="nav-links">
                 <!-- Injected via JS -->
             </div>
 
             <!-- Desktop Actions -->
-            <div class="hidden md:flex items-center gap-6 lg:gap-8">
+            <div class="hidden md:flex items-center gap-5 lg:gap-6">
+                <!-- Translate Dropdown Desktop -->
+                <div class="relative flex items-center gap-2 border-r border-white/10 pr-5">
+                    <i data-lucide="globe" class="w-4 h-4 text-gray-400"></i>
+                    <select onchange="window.changeLanguage(this.value)" class="bg-transparent text-gray-300 hover:text-white text-xs font-bold uppercase tracking-widest outline-none cursor-pointer appearance-none">
+                        <option value="en" class="bg-black">EN</option>
+                        <option value="hi" class="bg-black">HI</option>
+                        <option value="mr" class="bg-black">MR</option>
+                    </select>
+                </div>
+
                 <button class="text-gray-400 hover:text-white transition-colors hover:scale-110 duration-300" onclick="window.navigate('classes')"><i data-lucide="search" class="w-5 h-5"></i></button>
                 <button class="text-gray-400 hover:text-white transition-colors relative group hover:scale-110 duration-300" onclick="window.navigate('store')">
                     <i data-lucide="shopping-bag" class="w-5 h-5"></i>
@@ -148,6 +116,17 @@
     <!-- === FULLSCREEN MOBILE MENU === -->
     <div id="mobile-menu" class="fixed inset-0 bg-black/95 backdrop-blur-3xl z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-center px-12 opacity-0 pointer-events-none">
         <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-red-900/20 to-transparent pointer-events-none"></div>
+        
+        <!-- Translate Dropdown Mobile -->
+        <div class="absolute top-10 left-12 flex items-center gap-3 z-20">
+            <i data-lucide="globe" class="w-5 h-5 text-red-500"></i>
+            <select onchange="window.changeLanguage(this.value)" class="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-white text-xs font-bold uppercase tracking-widest outline-none cursor-pointer">
+                <option value="en" class="bg-black">English</option>
+                <option value="hi" class="bg-black">हिन्दी (Hindi)</option>
+                <option value="mr" class="bg-black">मराठी (Marathi)</option>
+            </select>
+        </div>
+
         <div class="flex flex-col gap-8 relative z-10" id="mobile-nav-links">
             <!-- Injected via JS -->
         </div>
@@ -219,10 +198,8 @@
         <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="window.closeAuthModal()"></div>
         
         <div class="relative w-full max-w-[420px] bg-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(220,38,38,0.15)] z-10 p-8 sm:p-10 transform scale-95 transition-transform duration-500" id="auth-modal-content">
-            <!-- Glow Effect -->
             <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-50"></div>
             
-            <!-- Close Btn -->
             <button onclick="window.closeAuthModal()" class="absolute top-5 right-5 text-gray-500 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-2 rounded-full duration-300">
                 <i data-lucide="x" class="w-4 h-4"></i>
             </button>
@@ -237,15 +214,11 @@
 
             <form id="auth-form" onsubmit="window.handleEmailAuth(event)" class="flex flex-col gap-6 mb-8">
                 <div class="relative">
-                    <input type="email" id="auth-email" placeholder="Email Address" required
-                        class="premium-input w-full bg-transparent border-b border-white/10 pb-3 text-white text-sm focus:outline-none placeholder-gray-600 transition-colors"
-                    >
+                    <input type="email" id="auth-email" placeholder="Email Address" required class="premium-input w-full bg-transparent border-b border-white/10 pb-3 text-white text-sm focus:outline-none placeholder-gray-600 transition-colors">
                     <div class="input-border absolute bottom-0 left-0 h-[1px] bg-red-600 w-0 opacity-0 transition-all duration-500"></div>
                 </div>
                 <div class="relative">
-                    <input type="password" id="auth-password" placeholder="Password" required
-                        class="premium-input w-full bg-transparent border-b border-white/10 pb-3 text-white text-sm focus:outline-none placeholder-gray-600 transition-colors"
-                    >
+                    <input type="password" id="auth-password" placeholder="Password" required class="premium-input w-full bg-transparent border-b border-white/10 pb-3 text-white text-sm focus:outline-none placeholder-gray-600 transition-colors">
                     <div class="input-border absolute bottom-0 left-0 h-[1px] bg-red-600 w-0 opacity-0 transition-all duration-500"></div>
                 </div>
                 <button type="submit" id="auth-submit-btn" class="w-full bg-red-700 text-white hover:bg-red-600 rounded-full px-4 py-4 text-xs font-bold uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-[0.98] mt-4 shadow-[0_0_20px_rgba(220,38,38,0.3)] duration-300">
@@ -286,7 +259,6 @@
         let firebaseConfig;
         let appId;
         try {
-            // Priority: environment-provided Firebase configurations, fallback to static project config
             firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
                 apiKey: "AIzaSyD8Q1mlT45tzHXelf5RNvlRQa1lXXasgbU",
                 authDomain: "musicoul-1.firebaseapp.com",
@@ -314,7 +286,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         
-        // Admin Config
         const ADMIN_EMAIL = 'chandrashekharkolhe7@gmail.com';
         const RAZORPAY_KEY_ID = 'rzp_live_StCBryEj0YbSmn';
 
@@ -328,11 +299,12 @@
             filters: { search: '', type: 'All', category: 'All' },
             dynamicCourses: [],
             adminTab: 'dashboard',
+            editingCourse: null,
             allUsers: [],
             isFirestoreOffline: false
         };
 
-        // --- Mock Data with Enhanced Class Details ---
+        // --- Mock Initial Data ---
         const DATA = {
             featuredCourse: { id: 'f1', title: "The Art of Vocal Agility", description: "Master complex vocal runs, breathing techniques, and stage presence in this high-definition exclusive.", image: "https://images.unsplash.com/photo-1516280440503-6c9fa5ceec4e?auto=format&fit=crop&q=90&w=1600", type: "Masterclass" },
             libraryCategories: [
@@ -347,12 +319,8 @@
                 ]}
             ],
             classesData: [
-                { id: 1, title: "Private Vocal Coaching", type: "Online", location: "Global", category: "Singing", price: "₹2500", period: "/ month", desc: "1-on-1 personalized sessions tailored strictly to your vocal range and capabilities.", features: ["Pitch correction", "Breath control", "Repertoire building"] },
-                { id: 2, title: "Grand Piano Masterclass", type: "Offline", location: "Mumbai", category: "Instruments", price: "₹5000", period: "/ session", desc: "Experience playing on a concert grand in a purely acoustic treated room.", features: ["Steinway Grand", "Acoustic room", "Recital prep"] },
-                { id: 3, title: "Acoustic Guitar Basics", type: "Offline", location: "Pune", category: "Instruments", price: "₹1500", period: "/ session", desc: "Start your guitar journey with proper finger positioning, strumming patterns, and music theory.", features: ["Beginner friendly", "Chords & Scales", "Rhythm tracking"] },
-                { id: 4, title: "Studio Production 101", type: "Online", location: "Global", category: "Production", price: "₹8000", period: "One-time", desc: "Learn to mix and master your tracks from home using standard industry DAWs.", features: ["DAW fundamentals", "EQ & Compression", "Final Mastering"] },
-                { id: 5, title: "Advanced Vocal Agility", type: "Offline", location: "Delhi", category: "Singing", price: "₹3000", period: "/ month", desc: "Master complex vocal runs, R&B techniques, and advanced breath support.", features: ["Vocal runs", "Agility drills", "Live performance prep"] },
-                { id: 6, title: "Electric Bass Grooves", type: "Offline", location: "Pune", category: "Instruments", price: "₹2000", period: "/ session", desc: "Lock in with the drummer. Learn slapping, popping, and walking basslines.", features: ["Slap technique", "Rhythm theory", "Band locking"] }
+                { id: 1, title: "Private Vocal Coaching", type: "Online", location: "Global", category: "Singing", price: "₹2500", period: "/ month", desc: "1-on-1 personalized sessions tailored strictly to your vocal range and capabilities.", features: ["Pitch correction", "Breath control", "Repertoire building"], schedule: [{day: 'Monday', time: '18:00', type: 'Teaching Class'}, {day: 'Wednesday', time: '18:00', type: 'Group Practice'}], materials: [{title: 'Vocal Warmups PDF', type: 'PDF', url: '#'}] },
+                { id: 2, title: "Grand Piano Masterclass", type: "Offline", location: "Mumbai", category: "Instruments", price: "₹5000", period: "/ session", desc: "Experience playing on a concert grand in a purely acoustic treated room.", features: ["Steinway Grand", "Acoustic room", "Recital prep"], schedule: [{day: 'Saturday', time: '10:00', type: 'Workshop'}] }
             ],
             storeItems: [
                 { id: 1, name: "Pro Studio Headphones", price: "$199", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800" },
@@ -360,14 +328,21 @@
                 { id: 3, name: "Condenser Microphone", price: "$249", image: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&q=80&w=800" },
                 { id: 4, name: "Signature Hoodie", price: "$65", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=800" }
             ],
-            mockAdminStats: {
-                totalStudents: 1240,
-                activeBookings: 84,
-                monthlyRevenue: "$14,500"
-            }
+            mockAdminStats: { totalStudents: 1240, activeBookings: 84, monthlyRevenue: "$14,500" }
         };
 
-        // --- Core UI Functions ---
+        // --- Core UI & Translate Functions ---
+        window.changeLanguage = (lang) => {
+            const select = document.querySelector('.goog-te-combo');
+            if (select) {
+                select.value = lang;
+                select.dispatchEvent(new Event('change'));
+            } else {
+                window.showToast("Translating engine loading... please wait a moment.", true);
+            }
+            if (state.mobileMenuOpen) window.closeMobileMenu();
+        };
+
         let toastTimeout;
         window.showToast = (msg, isError = false) => {
             const toast = document.getElementById('toast');
@@ -396,20 +371,8 @@
             toast.classList.remove('opacity-100', 'translate-y-0');
         };
 
-        window.openAuthModal = () => {
-            window.closeMobileMenu();
-            const modal = document.getElementById('auth-modal');
-            const content = document.getElementById('auth-modal-content');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            content.classList.remove('scale-95');
-        };
-        window.closeAuthModal = () => {
-            const modal = document.getElementById('auth-modal');
-            const content = document.getElementById('auth-modal-content');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            content.classList.add('scale-95');
-        };
-
+        window.openAuthModal = () => { window.closeMobileMenu(); document.getElementById('auth-modal').classList.remove('opacity-0', 'pointer-events-none'); document.getElementById('auth-modal-content').classList.remove('scale-95'); };
+        window.closeAuthModal = () => { document.getElementById('auth-modal').classList.add('opacity-0', 'pointer-events-none'); document.getElementById('auth-modal-content').classList.add('scale-95'); };
         window.toggleAuthMode = () => {
             state.isLoginMode = !state.isLoginMode;
             document.getElementById('auth-title').innerText = state.isLoginMode ? 'Welcome Back' : 'Join Musicoul';
@@ -426,53 +389,24 @@
             updateNavbarUI();
             
             if (user && !user.isAnonymous) {
-                // Save user info for Admin Panel visibility
-                try {
-                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', user.uid), {
-                        email: user.email,
-                        lastLogin: new Date().toISOString()
-                    }, { merge: true });
-                } catch(e) { console.warn("Could not sync user profile:", e); }
-
-                // Sync cart
+                try { await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', user.uid), { email: user.email, lastLogin: new Date().toISOString() }, { merge: true }); } catch(e) {}
                 const cartRef = collection(db, 'artifacts', appId, 'users', user.uid, 'cart');
                 try {
-                    window.cartUnsubscribe = onSnapshot(cartRef, (snapshot) => {
-                        state.cartCount = snapshot.size;
-                        updateCartBadge();
-                    }, (err) => {
-                        console.warn("Cart listen failed. Utilizing offline fallback.");
-                    });
-                } catch(e) { console.error("Firestore rules might restrict this:", e); }
+                    window.cartUnsubscribe = onSnapshot(cartRef, (snapshot) => { state.cartCount = snapshot.size; updateCartBadge(); }, (err) => { console.warn("Cart fallback"); });
+                } catch(e) {}
             } else {
                 if (window.cartUnsubscribe) { window.cartUnsubscribe(); }
-                state.cartCount = 0;
-                updateCartBadge();
+                state.cartCount = 0; updateCartBadge();
             }
-            
-            // Redirect from admin if logged out
-            if (state.currentPage === 'admin' && (!user || user.email !== ADMIN_EMAIL)) {
-                window.navigate('home');
-            }
+            if (state.currentPage === 'admin' && (!user || user.email !== ADMIN_EMAIL)) { window.navigate('home'); }
         });
 
-        const initGuest = async () => {
-            if (!auth.currentUser) {
-                try { await signInAnonymously(auth); } catch(e) { console.warn("Anonymous auth disabled/failed."); }
-            }
-        }
+        const initGuest = async () => { if (!auth.currentUser) { try { await signInAnonymously(auth); } catch(e) {} } }
         initGuest();
 
         window.handleGoogleSignIn = async () => {
-            try {
-                const provider = new GoogleAuthProvider();
-                await signInWithPopup(auth, provider);
-                window.closeAuthModal();
-                window.showToast("Welcome to Musicoul! Signed in with Google.");
-            } catch (error) {
-                console.error("Google Sign-In error:", error);
-                window.showToast(error.message, true);
-            }
+            try { await signInWithPopup(auth, new GoogleAuthProvider()); window.closeAuthModal(); window.showToast("Welcome to Musicoul!"); } 
+            catch (error) { window.showToast(error.message, true); }
         };
 
         window.handleEmailAuth = async (e) => {
@@ -481,57 +415,28 @@
             const password = document.getElementById('auth-password').value;
             
             try {
-                if (!state.isLoginMode) {
-                    await createUserWithEmailAndPassword(auth, email, password);
-                    window.showToast("Welcome! Account created successfully.");
-                } else {
-                    await signInWithEmailAndPassword(auth, email, password);
-                    window.showToast("Welcome back!");
-                }
-                window.closeAuthModal();
-                document.getElementById('auth-form').reset();
+                if (!state.isLoginMode) { await createUserWithEmailAndPassword(auth, email, password); window.showToast("Account created successfully."); } 
+                else { await signInWithEmailAndPassword(auth, email, password); window.showToast("Welcome back!"); }
+                window.closeAuthModal(); document.getElementById('auth-form').reset();
             } catch (error) {
-                console.error("Email auth error:", error);
                 if (error.code === 'auth/operation-not-allowed') {
-                    // Provide a seamless fallback if Firebase Email Auth is not enabled in the console
-                    window.showToast("Auth disabled in Firebase. Activating Premium Local Mode for testing.");
-                    
+                    window.showToast("Auth disabled. Activating Local Test Mode.");
                     state.isFirestoreOffline = true;
-                    state.user = { email: email, uid: 'local-mock-' + Date.now(), isAnonymous: false };
-                    
-                    window.closeAuthModal();
-                    document.getElementById('auth-form').reset();
+                    state.user = { email: email, uid: 'local-mock', isAnonymous: false };
+                    window.closeAuthModal(); document.getElementById('auth-form').reset();
                     updateNavbarUI();
-                    
-                    if (email === ADMIN_EMAIL) {
-                        window.navigate('admin');
-                    } else {
-                        renderApp();
-                    }
+                    if (email === ADMIN_EMAIL) { window.navigate('admin'); } else { renderApp(); }
                 } else if (error.code === 'auth/invalid-credential') {
                     window.showToast("Invalid email or password.", true);
-                } else {
-                    window.showToast(error.message.replace('Firebase: ', ''), true);
-                }
+                } else { window.showToast(error.message.replace('Firebase: ', ''), true); }
             }
         };
 
         window.handleSignOut = async () => {
             try {
-                if (state.isFirestoreOffline) {
-                    state.user = null;
-                    state.isFirestoreOffline = false;
-                    updateNavbarUI();
-                    window.navigate('home');
-                    window.showToast("Logged out securely.");
-                    return;
-                }
-                await signOut(auth);
-                await initGuest(); 
-                window.showToast("Logged out securely.");
-            } catch (error) {
-                window.showToast("Failed to log out.", true);
-            }
+                if (state.isFirestoreOffline) { state.user = null; state.isFirestoreOffline = false; updateNavbarUI(); window.navigate('home'); window.showToast("Logged out."); return; }
+                await signOut(auth); await initGuest(); window.showToast("Logged out securely.");
+            } catch (error) { window.showToast("Failed to log out.", true); }
         };
 
         // --- Database Logic & Offline fallbacks ---
@@ -539,11 +444,7 @@
             state.isFirestoreOffline = true;
             if (state.dynamicCourses.length === 0) {
                 const localCourses = localStorage.getItem('musicoul_local_courses');
-                if (localCourses) {
-                    state.dynamicCourses = JSON.parse(localCourses);
-                } else {
-                    state.dynamicCourses = [...DATA.classesData];
-                }
+                state.dynamicCourses = localCourses ? JSON.parse(localCourses) : [...DATA.classesData];
             }
             if (state.currentPage === 'classes') renderClassesGrid();
             if (state.currentPage === 'admin') renderApp();
@@ -551,14 +452,7 @@
 
         const useOfflineUsersFallback = () => {
             const localUsers = localStorage.getItem('musicoul_local_users');
-            if (localUsers) {
-                state.allUsers = JSON.parse(localUsers);
-            } else {
-                state.allUsers = [
-                    { id: 'usr-1', email: 'student@example.com', lastLogin: new Date().toISOString() },
-                    { id: 'usr-admin', email: 'chandrashekharkolhe7@gmail.com', lastLogin: new Date().toISOString() }
-                ];
-            }
+            state.allUsers = localUsers ? JSON.parse(localUsers) : [ { id: 'usr-1', email: 'student@example.com', lastLogin: new Date().toISOString() }, { id: 'usr-admin', email: 'chandrashekharkolhe7@gmail.com', lastLogin: new Date().toISOString() } ];
             if (state.currentPage === 'admin' && state.adminTab === 'users') renderApp();
         };
 
@@ -567,259 +461,199 @@
                 const coursesRef = collection(db, 'artifacts', appId, 'public', 'data', 'courses');
                 onSnapshot(coursesRef, (snapshot) => {
                     state.dynamicCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    
-                    // Seed initial data if DB is empty
                     if (state.dynamicCourses.length === 0) {
-                        DATA.classesData.forEach(async (cls) => {
-                            try {
-                                await setDoc(doc(coursesRef, cls.id.toString()), cls);
-                            } catch(e) { console.warn("Failed to seed initial course", e); }
-                        });
+                        DATA.classesData.forEach(async (cls) => { try { await setDoc(doc(coursesRef, cls.id.toString()), cls); } catch(e) {} });
                     }
-                    
                     if (state.currentPage === 'classes') renderClassesGrid();
                     if (state.currentPage === 'admin') renderApp();
-                }, (error) => {
-                    console.warn("Could not reach Cloud Firestore. Running with premium local database mode.", error);
-                    useOfflineCoursesFallback();
-                });
-            } catch (e) {
-                console.warn("Firestore initialization error. Running in Local Storage database mode.", e);
-                useOfflineCoursesFallback();
-            }
+                }, () => useOfflineCoursesFallback());
+            } catch (e) { useOfflineCoursesFallback(); }
 
             try {
                 const usersRef = collection(db, 'artifacts', appId, 'public', 'data', 'users');
                 onSnapshot(usersRef, (snapshot) => {
                     state.allUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     if (state.currentPage === 'admin' && state.adminTab === 'users') renderApp();
-                }, (error) => {
-                    console.warn("Could not fetch active users list from Firestore. Running in premium fallback mode.", error);
-                    useOfflineUsersFallback();
-                });
-            } catch (e) {
-                console.warn("Users listen initialization error.", e);
-                useOfflineUsersFallback();
-            }
+                }, () => useOfflineUsersFallback());
+            } catch (e) { useOfflineUsersFallback(); }
         };
-        
         loadDynamicData();
 
         window.addToCart = async (itemName) => {
-            if (!state.user || state.user.isAnonymous) {
-                window.openAuthModal();
-                return window.showToast("Please sign in to shop with us.");
-            }
-            
-            if (state.isFirestoreOffline) {
-                state.cartCount++;
-                updateCartBadge();
-                window.showToast(`<b>${itemName}</b> added to your cart (Premium Local Mode).`);
-                return;
-            }
-
-            try {
-                const docId = Date.now().toString();
-                await setDoc(doc(db, 'artifacts', appId, 'users', state.user.uid, 'cart', docId), {
-                    itemName, addedAt: new Date().toISOString()
-                });
-                window.showToast(`<b>${itemName}</b> added to your cart.`);
-            } catch (e) {
-                console.error(e);
-                window.showToast("Network error. Could not add item.", true);
-            }
+            if (!state.user || state.user.isAnonymous) return window.openAuthModal();
+            if (state.isFirestoreOffline) { state.cartCount++; updateCartBadge(); return window.showToast(`<b>${itemName}</b> added to cart (Local Mode).`); }
+            try { await setDoc(doc(db, 'artifacts', appId, 'users', state.user.uid, 'cart', Date.now().toString()), { itemName, addedAt: new Date().toISOString() }); window.showToast(`<b>${itemName}</b> added to your cart.`); } 
+            catch (e) { window.showToast("Network error.", true); }
         };
 
         window.bookSession = async (courseId) => {
-            if (!state.user || state.user.isAnonymous) {
-                window.openAuthModal();
-                return window.showToast("Please sign in to book sessions.");
-            }
-            
-            // Find the course details
+            if (!state.user || state.user.isAnonymous) return window.openAuthModal();
             const course = state.dynamicCourses.find(c => c.id.toString() === courseId.toString());
             if (!course) return window.showToast("Course not found.", true);
 
-            // Extract numeric price for Razorpay
             const numericPrice = parseInt((course.price || "0").replace(/[^0-9]/g, '')) || 0;
-
             const options = {
-                key: RAZORPAY_KEY_ID,
-                amount: numericPrice * 100, // Amount in paise
-                currency: "INR",
-                name: "Musicoul Institute",
-                description: course.title,
-                image: "WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg",
+                key: RAZORPAY_KEY_ID, amount: numericPrice * 100, currency: "INR", name: "Musicoul Institute", description: course.title, image: "WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg",
                 handler: async function (response) {
                     try {
-                        const docId = Date.now().toString();
-                        if (state.isFirestoreOffline) {
-                            window.showToast(`Payment successful! Welcome to <b>${course.title}</b>.`);
-                            return;
-                        }
-                        await setDoc(doc(db, 'artifacts', appId, 'users', state.user.uid, 'bookings', docId), {
-                            className: course.title, 
-                            status: 'paid', 
-                            paymentId: response.razorpay_payment_id,
-                            bookedAt: new Date().toISOString(), 
-                            userEmail: state.user.email
+                        if (state.isFirestoreOffline) return window.showToast(`Payment successful! Welcome to <b>${course.title}</b>.`);
+                        await setDoc(doc(db, 'artifacts', appId, 'users', state.user.uid, 'bookings', Date.now().toString()), {
+                            className: course.title, status: 'paid', paymentId: response.razorpay_payment_id, bookedAt: new Date().toISOString(), userEmail: state.user.email
                         });
                         window.showToast(`Payment successful! Welcome to <b>${course.title}</b>.`);
-                    } catch (e) {
-                        console.error(e);
-                        window.showToast("Network error saving booking.", true);
-                    }
-                },
-                prefill: {
-                    email: state.user.email
-                },
-                theme: {
-                    color: "#dc2626"
-                }
+                    } catch (e) { window.showToast("Network error saving booking.", true); }
+                }, prefill: { email: state.user.email }, theme: { color: "#dc2626" }
             };
-            
             const rzp = new window.Razorpay(options);
-            rzp.on('payment.failed', function (response){
-                window.showToast("Payment Failed: " + response.error.description, true);
-            });
+            rzp.on('payment.failed', function (response){ window.showToast("Payment Failed: " + response.error.description, true); });
             rzp.open();
         };
 
         // --- Admin Specific Functions ---
-        window.setAdminTab = (tab) => {
-            state.adminTab = tab;
+        window.setAdminTab = (tab) => { state.adminTab = tab; state.editingCourse = null; renderApp(); };
+        window.editCourse = (id) => {
+            state.editingCourse = state.dynamicCourses.find(c => c.id.toString() === id.toString());
+            state.adminTab = 'create_course';
             renderApp();
         };
+
+        // Dynamic Rows for Editor
+        window.getScheduleRowHTML = (s = {day: 'Monday', time: '', type: 'Teaching Class'}) => `
+            <div class="schedule-row grid grid-cols-1 sm:grid-cols-4 gap-4 items-end bg-white/5 p-4 rounded-xl border border-white/5 relative group">
+                <button type="button" onclick="this.parentElement.remove()" class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="x" class="w-3 h-3"></i></button>
+                <div><label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Day</label>
+                <select class="s-day w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white text-sm">
+                    <option value="Monday" ${s.day==='Monday'?'selected':''}>Monday</option> <option value="Tuesday" ${s.day==='Tuesday'?'selected':''}>Tuesday</option>
+                    <option value="Wednesday" ${s.day==='Wednesday'?'selected':''}>Wednesday</option> <option value="Thursday" ${s.day==='Thursday'?'selected':''}>Thursday</option>
+                    <option value="Friday" ${s.day==='Friday'?'selected':''}>Friday</option> <option value="Saturday" ${s.day==='Saturday'?'selected':''}>Saturday</option>
+                    <option value="Sunday" ${s.day==='Sunday'?'selected':''}>Sunday</option>
+                </select></div>
+                <div><label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Time</label>
+                <input type="time" class="s-time w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white text-sm" value="${s.time}"></div>
+                <div class="sm:col-span-2"><label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Lecture Type</label>
+                <select class="s-type w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white text-sm">
+                    <option value="Teaching Class" ${s.type==='Teaching Class'?'selected':''}>Teaching Class</option>
+                    <option value="Revision Class" ${s.type==='Revision Class'?'selected':''}>Revision Class</option>
+                    <option value="Group Practice" ${s.type==='Group Practice'?'selected':''}>Group Practice</option>
+                    <option value="Workshop" ${s.type==='Workshop'?'selected':''}>Workshop</option>
+                </select></div>
+            </div>`;
+
+        window.getMaterialRowHTML = (m = {title: '', type: 'PDF', url: ''}) => `
+            <div class="material-row grid grid-cols-1 sm:grid-cols-5 gap-4 items-end bg-white/5 p-4 rounded-xl border border-white/5 relative group">
+                <button type="button" onclick="this.parentElement.remove()" class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="x" class="w-3 h-3"></i></button>
+                <div class="sm:col-span-2"><label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Title</label>
+                <input type="text" placeholder="e.g. Sheet Music" class="m-title w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white text-sm" value="${m.title}"></div>
+                <div><label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Type</label>
+                <select class="m-type w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white text-sm">
+                    <option value="PDF" ${m.type==='PDF'?'selected':''}>PDF</option> <option value="Audio" ${m.type==='Audio'?'selected':''}>Audio</option>
+                    <option value="Video" ${m.type==='Video'?'selected':''}>Video</option> <option value="Image" ${m.type==='Image'?'selected':''}>Image</option>
+                    <option value="External Link" ${m.type==='External Link'?'selected':''}>External Link</option>
+                </select></div>
+                <div class="sm:col-span-2"><label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">URL</label>
+                <input type="url" placeholder="https://..." class="m-url w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white text-sm" value="${m.url}"></div>
+            </div>`;
+
+        window.addScheduleRow = () => { document.getElementById('schedule-container').insertAdjacentHTML('beforeend', window.getScheduleRowHTML()); lucide.createIcons(); };
+        window.addMaterialRow = () => { document.getElementById('material-container').insertAdjacentHTML('beforeend', window.getMaterialRowHTML()); lucide.createIcons(); };
 
         window.handleCreateCourse = async (e) => {
             e.preventDefault();
             const form = e.target;
-            const docId = Date.now().toString();
-            const newCourse = {
-                id: docId,
-                title: form.title.value,
-                image: form.image.value,
-                desc: form.desc.value,
-                timings: form.timings.value,
-                features: form.features.value.split(',').map(f => f.trim()),
-                facultyName: form.facultyName.value,
-                facultyImage: form.facultyImage.value,
-                price: form.price.value,
-                feeType: form.feeType.value,
-                type: form.type.value,
-                category: form.category.value,
-                location: form.location.value
+            const docId = state.editingCourse ? state.editingCourse.id : Date.now().toString();
+            
+            // Gather dynamic schedules & materials
+            const schedules = Array.from(document.querySelectorAll('.schedule-row')).map(row => ({
+                day: row.querySelector('.s-day').value, time: row.querySelector('.s-time').value, type: row.querySelector('.s-type').value
+            }));
+            const materials = Array.from(document.querySelectorAll('.material-row')).map(row => ({
+                title: row.querySelector('.m-title').value, type: row.querySelector('.m-type').value, url: row.querySelector('.m-url').value
+            }));
+
+            const courseData = {
+                id: docId, title: form.title.value, image: form.image.value, desc: form.desc.value,
+                features: form.features.value.split(',').map(f => f.trim()).filter(Boolean),
+                facultyName: form.facultyName.value, facultyImage: form.facultyImage.value,
+                price: form.price.value, feeType: form.feeType.value, type: form.type.value,
+                category: form.category.value, location: form.location.value,
+                schedule: schedules, materials: materials
             };
 
             if (state.isFirestoreOffline) {
-                state.dynamicCourses.push(newCourse);
+                if (state.editingCourse) { state.dynamicCourses = state.dynamicCourses.map(c => c.id === docId ? courseData : c); } 
+                else { state.dynamicCourses.push(courseData); }
                 localStorage.setItem('musicoul_local_courses', JSON.stringify(state.dynamicCourses));
-                window.showToast("Course published locally (Premium Offline Mode)!");
-                form.reset();
+                window.showToast("Course saved locally (Offline Mode)!");
                 window.setAdminTab('dashboard');
                 return;
             }
-
             try {
-                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', docId), newCourse);
-                window.showToast("Course published successfully!");
-                form.reset();
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', docId), courseData);
+                window.showToast(state.editingCourse ? "Course updated!" : "Course published successfully!");
                 window.setAdminTab('dashboard');
-            } catch(error) {
-                window.showToast("Error creating course.", true);
-                console.error(error);
-            }
+            } catch(error) { window.showToast("Error saving course.", true); console.error(error); }
         };
 
         window.deleteCourse = async (id) => {
              if (state.isFirestoreOffline) {
                  state.dynamicCourses = state.dynamicCourses.filter(c => c.id.toString() !== id.toString());
                  localStorage.setItem('musicoul_local_courses', JSON.stringify(state.dynamicCourses));
-                 window.showToast("Course deleted locally.");
-                 renderApp();
-                 return;
+                 window.showToast("Course deleted locally."); renderApp(); return;
              }
-             try {
-                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', id.toString()));
-                 window.showToast("Course deleted.");
-             } catch(e) { console.error(e); }
+             try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', id.toString())); window.showToast("Course deleted."); } catch(e) {}
         };
 
         // --- Filters & Render Logic For Classes ---
-        window.updateFilter = (filterKey, value) => {
-            state.filters[filterKey] = value;
-            renderClassesGrid();
-        };
+        window.updateFilter = (filterKey, value) => { state.filters[filterKey] = value; renderClassesGrid(); };
 
         window.renderClassesGrid = () => {
             const grid = document.getElementById('classes-grid');
             if (!grid) return;
-
-            // Use dynamic courses fetched from Firestore or local storage fallbacks
             const coursesToRender = state.dynamicCourses.length > 0 ? state.dynamicCourses : DATA.classesData;
-
             const filteredClasses = coursesToRender.filter(cls => {
-                const searchMatch = cls.title.toLowerCase().includes(state.filters.search.toLowerCase()) || 
-                                    cls.desc.toLowerCase().includes(state.filters.search.toLowerCase()) ||
-                                    (cls.location && cls.location.toLowerCase().includes(state.filters.search.toLowerCase()));
+                const searchMatch = cls.title.toLowerCase().includes(state.filters.search.toLowerCase()) || cls.desc.toLowerCase().includes(state.filters.search.toLowerCase()) || (cls.location && cls.location.toLowerCase().includes(state.filters.search.toLowerCase()));
                 const typeMatch = state.filters.type === 'All' || cls.type === state.filters.type;
                 const catMatch = state.filters.category === 'All' || cls.category === state.filters.category;
-                
                 return searchMatch && typeMatch && catMatch;
             });
 
             if (filteredClasses.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full flex flex-col items-center justify-center py-20 text-gray-500 glass-panel rounded-3xl">
-                        <i data-lucide="search-X" class="w-12 h-12 mb-4 text-gray-600"></i>
-                        <p class="text-lg">No courses found matching your criteria.</p>
-                        <button onclick="window.updateFilter('search', ''); window.updateFilter('type', 'All'); window.updateFilter('category', 'All'); document.getElementById('search-input').value=''; document.getElementById('type-select').value='All'; document.getElementById('cat-select').value='All';" class="mt-4 text-red-500 hover:text-white transition-colors underline text-sm">Clear Filters</button>
-                    </div>`;
+                grid.innerHTML = `<div class="col-span-full flex flex-col items-center justify-center py-20 text-gray-500 glass-panel rounded-3xl"><i data-lucide="search-X" class="w-12 h-12 mb-4 text-gray-600"></i><p class="text-lg">No courses found matching your criteria.</p></div>`;
             } else {
                 grid.innerHTML = filteredClasses.map(cls => `
                     <div class="glass-panel p-8 md:p-10 rounded-[2rem] hover:bg-neutral-900/60 transition-colors duration-500 flex flex-col h-full group relative overflow-hidden border border-white/5 hover:border-red-900/50">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-red-900/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-                        
                         <div class="flex justify-between items-start mb-10 relative z-10">
-                            <div class="p-4 rounded-full bg-white/5 border border-white/10 text-white group-hover:bg-red-600 group-hover:border-red-500 group-hover:text-white transition-all duration-500 shadow-lg">
-                                <i data-lucide="${cls.type === 'Online' ? 'video' : 'map-pin'}" class="w-6 h-6"></i>
-                            </div>
-                            <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 bg-black/50 border border-white/10 px-4 py-1.5 rounded-full group-hover:border-red-500/50 group-hover:text-red-400 transition-colors backdrop-blur-md">
-                                ${cls.type} ${cls.location ? '· ' + cls.location : ''}
-                            </span>
+                            <div class="p-4 rounded-full bg-white/5 border border-white/10 text-white group-hover:bg-red-600 group-hover:border-red-500 transition-all duration-500 shadow-lg"><i data-lucide="${cls.type === 'Online' ? 'video' : 'map-pin'}" class="w-6 h-6"></i></div>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 bg-black/50 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md">${cls.type} ${cls.location ? '· ' + cls.location : ''}</span>
                         </div>
-                        
                         <div class="mb-3 text-[10px] font-bold uppercase tracking-widest text-red-500 relative z-10">${cls.category}</div>
-                        
-                        ${cls.image ? `<img src="${cls.image}" class="w-full h-48 object-cover rounded-2xl mb-6 relative z-10 border border-white/10" alt="${cls.title}">` : ''}
-                        
+                        ${cls.image ? `<img src="${cls.image}" class="w-full h-48 object-cover rounded-2xl mb-6 relative z-10 border border-white/10">` : ''}
                         <h3 class="text-3xl font-light text-white mb-2 relative z-10 font-serif">${cls.title}</h3>
-                        
-                        ${cls.facultyName ? `<div class="flex items-center gap-3 mb-4 relative z-10">
-                            ${cls.facultyImage ? `<img src="${cls.facultyImage}" class="w-8 h-8 rounded-full object-cover">` : '<div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="user" class="w-4 h-4 text-gray-400"></i></div>'}
-                            <span class="text-xs text-gray-400">Instructor: <span class="text-white">${cls.facultyName}</span></span>
-                        </div>` : ''}
-
+                        ${cls.facultyName ? `<div class="flex items-center gap-3 mb-4 relative z-10">${cls.facultyImage ? `<img src="${cls.facultyImage}" class="w-8 h-8 rounded-full object-cover">` : '<div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="user" class="w-4 h-4 text-gray-400"></i></div>'}<span class="text-xs text-gray-400">Instructor: <span class="text-white">${cls.facultyName}</span></span></div>` : ''}
                         <p class="text-sm text-gray-400 font-light mb-6 leading-relaxed flex-grow relative z-10">${cls.desc}</p>
                         
-                        ${cls.timings ? `<div class="mb-6 flex items-center gap-2 text-xs text-blue-400 font-medium relative z-10"><i data-lucide="clock" class="w-4 h-4"></i> ${cls.timings}</div>` : ''}
-
-                        <ul class="mb-12 space-y-4 relative z-10">
-                            ${(cls.features || []).map(f => `
-                                <li class="flex items-center gap-4 text-sm text-gray-300 font-light">
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-red-600 flex-shrink-0"></i> ${f}
-                                </li>
-                            `).join('')}
-                        </ul>
-                        
-                        <div class="pt-8 border-t border-white/10 relative z-10 mt-auto">
-                            <div class="flex items-end gap-2 mb-8">
-                                <span class="text-4xl font-light text-white">${cls.price}</span>
-                                <span class="text-sm text-gray-500 font-medium tracking-wide mb-1">${cls.period || cls.feeType || ''}</span>
+                        <!-- Schedules -->
+                        ${cls.schedule && cls.schedule.length > 0 ? `
+                            <div class="mb-4 bg-white/5 rounded-xl p-3 border border-white/5 relative z-10">
+                                <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold mb-2">Schedule</p>
+                                ${cls.schedule.map(s => `<p class="text-xs text-white flex items-center gap-2 mb-1.5"><i data-lucide="calendar" class="w-3 h-3 text-red-500"></i> ${s.day}, ${s.time} - <span class="text-gray-400">${s.type}</span></p>`).join('')}
                             </div>
-                            <button onclick="window.bookSession('${cls.id}')" class="w-full bg-white text-black py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]">
-                                Enroll & Pay
-                            </button>
+                        ` : ''}
+                        
+                        <!-- Materials Preview -->
+                        ${cls.materials && cls.materials.length > 0 ? `
+                            <div class="mb-6 flex flex-wrap gap-2 relative z-10">
+                                ${cls.materials.map(m => `<a href="${m.url}" target="_blank" class="px-2 py-1 bg-black/50 hover:bg-red-900/40 border border-white/10 rounded-md text-[10px] text-gray-300 hover:text-white transition-colors flex items-center gap-1.5"><i data-lucide="link-2" class="w-3 h-3"></i> ${m.title}</a>`).join('')}
+                            </div>
+                        ` : ''}
+
+                        <ul class="mb-12 space-y-4 relative z-10 mt-4">
+                            ${(cls.features || []).map(f => `<li class="flex items-center gap-4 text-sm text-gray-300 font-light"><i data-lucide="check-circle-2" class="w-4 h-4 text-red-600 flex-shrink-0"></i> ${f}</li>`).join('')}
+                        </ul>
+                        <div class="pt-8 border-t border-white/10 relative z-10 mt-auto">
+                            <div class="flex items-end gap-2 mb-8"><span class="text-4xl font-light text-white">${cls.price}</span><span class="text-sm text-gray-500 font-medium tracking-wide mb-1">${cls.period || cls.feeType || ''}</span></div>
+                            <button onclick="window.bookSession('${cls.id}')" class="w-full bg-white text-black py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]">Enroll & Pay</button>
                         </div>
                     </div>
                 `).join('');
@@ -828,53 +662,26 @@
         };
 
         // --- Navigation & Rendering ---
-        const navLinksData = [
-            { id: 'home', label: 'Home' },
-            { id: 'classes', label: 'Courses' },
-            { id: 'library', label: 'Library' },
-            { id: 'store', label: 'Store' },
-        ];
+        const navLinksData = [ { id: 'home', label: 'Home' }, { id: 'classes', label: 'Courses' }, { id: 'library', label: 'Library' }, { id: 'store', label: 'Store' } ];
 
         window.navigate = (page) => {
-            if (page === 'admin' && (!state.user || state.user.email !== ADMIN_EMAIL)) {
-                return window.showToast("Access Denied. Administrator privileges required.", true);
-            }
-            state.currentPage = page;
-            window.closeMobileMenu();
-            renderApp();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (page === 'admin' && (!state.user || state.user.email !== ADMIN_EMAIL)) return window.showToast("Access Denied.", true);
+            state.currentPage = page; window.closeMobileMenu(); renderApp(); window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
         window.toggleMobileMenu = () => {
             state.mobileMenuOpen = !state.mobileMenuOpen;
-            const menu = document.getElementById('mobile-menu');
-            const authCont = document.getElementById('mobile-auth-container');
-            const icon = document.getElementById('mobile-menu-icon');
-            
-            if (state.mobileMenuOpen) {
-                menu.classList.remove('opacity-0', 'pointer-events-none');
-                authCont.classList.remove('translate-y-8', 'opacity-0');
-                icon.setAttribute('data-lucide', 'x');
-            } else {
-                menu.classList.add('opacity-0', 'pointer-events-none');
-                authCont.classList.add('translate-y-8', 'opacity-0');
-                icon.setAttribute('data-lucide', 'menu');
-            }
+            const menu = document.getElementById('mobile-menu'); const authCont = document.getElementById('mobile-auth-container'); const icon = document.getElementById('mobile-menu-icon');
+            if (state.mobileMenuOpen) { menu.classList.remove('opacity-0', 'pointer-events-none'); authCont.classList.remove('translate-y-8', 'opacity-0'); icon.setAttribute('data-lucide', 'x'); } 
+            else { menu.classList.add('opacity-0', 'pointer-events-none'); authCont.classList.add('translate-y-8', 'opacity-0'); icon.setAttribute('data-lucide', 'menu'); }
             lucide.createIcons();
         };
-        window.closeMobileMenu = () => {
-            if(state.mobileMenuOpen) window.toggleMobileMenu();
-        }
+        window.closeMobileMenu = () => { if(state.mobileMenuOpen) window.toggleMobileMenu(); }
 
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('bg-black/80', 'backdrop-blur-2xl', 'border-b', 'border-white/5', 'py-4');
-                nav.classList.remove('bg-transparent', 'py-6', 'md:py-8');
-            } else {
-                nav.classList.add('bg-transparent', 'py-6', 'md:py-8');
-                nav.classList.remove('bg-black/80', 'backdrop-blur-2xl', 'border-b', 'border-white/5', 'py-4');
-            }
+            if (window.scrollY > 50) { nav.classList.add('bg-black/80', 'backdrop-blur-2xl', 'border-b', 'border-white/5', 'py-4'); nav.classList.remove('bg-transparent', 'py-6', 'md:py-8'); } 
+            else { nav.classList.add('bg-transparent', 'py-6', 'md:py-8'); nav.classList.remove('bg-black/80', 'backdrop-blur-2xl', 'border-b', 'border-white/5', 'py-4'); }
         });
 
         const updateNavbarUI = () => {
@@ -882,87 +689,30 @@
             const currentNavLinks = [...navLinksData];
             if (isAdmin) currentNavLinks.push({ id: 'admin', label: 'Admin Panel' });
 
-            // Desktop Links
             const desktopLinks = document.getElementById('nav-links');
-            if (desktopLinks) {
-                desktopLinks.innerHTML = currentNavLinks.map(link => `
-                    <button onclick="window.navigate('${link.id}')" class="relative text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-500 py-2 ${state.currentPage === link.id ? 'text-white' : (link.id === 'admin' ? 'text-red-500 hover:text-red-400' : 'text-gray-500 hover:text-white')}">
-                        ${link.label}
-                        ${state.currentPage === link.id ? '<span class="absolute bottom-0 left-0 w-full h-[2px] rounded-full bg-red-600 shadow-[0_0_10px_rgba(220,38,38,0.8)]"></span>' : ''}
-                    </button>
-                `).join('');
-            }
+            if (desktopLinks) { desktopLinks.innerHTML = currentNavLinks.map(link => `<button onclick="window.navigate('${link.id}')" class="relative text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-500 py-2 ${state.currentPage === link.id ? 'text-white' : (link.id === 'admin' ? 'text-red-500 hover:text-red-400' : 'text-gray-500 hover:text-white')}">${link.label}${state.currentPage === link.id ? '<span class="absolute bottom-0 left-0 w-full h-[2px] rounded-full bg-red-600 shadow-[0_0_10px_rgba(220,38,38,0.8)]"></span>' : ''}</button>`).join(''); }
 
-            // Mobile Links
             const mobileLinks = document.getElementById('mobile-nav-links');
-            if (mobileLinks) {
-                mobileLinks.innerHTML = currentNavLinks.map((link, idx) => `
-                    <button onclick="window.navigate('${link.id}')" style="transition-delay: ${idx * 100}ms" class="text-4xl font-light tracking-[0.1em] uppercase text-left transition-all duration-500 transform ${state.mobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} ${state.currentPage === link.id ? 'text-red-500 font-medium' : 'text-white'}">
-                        ${link.label}
-                    </button>
-                `).join('');
-            }
+            if (mobileLinks) { mobileLinks.innerHTML = currentNavLinks.map((link, idx) => `<button onclick="window.navigate('${link.id}')" style="transition-delay: ${idx * 100}ms" class="text-4xl font-light tracking-[0.1em] uppercase text-left transition-all duration-500 transform ${state.mobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} ${state.currentPage === link.id ? 'text-red-500 font-medium' : 'text-white'}">${link.label}</button>`).join(''); }
 
-            // Auth UI Desktop
             const desktopAuth = document.getElementById('auth-container-desktop');
             const isRealUser = state.user && !state.user.isAnonymous;
-            
             if (desktopAuth) {
-                if (isRealUser) {
-                    const displayName = state.user.email ? state.user.email.split('@')[0] : 'Member';
-                    desktopAuth.innerHTML = `
-                        <div class="flex items-center gap-5">
-                            <div class="flex items-center gap-2.5 glass-panel px-4 py-2 rounded-full border border-white/10 ${isAdmin ? 'border-red-500/30' : ''}">
-                                <i data-lucide="${isAdmin ? 'shield-check' : 'user'}" class="w-3.5 h-3.5 ${isAdmin ? 'text-red-500' : 'text-gray-300'}"></i>
-                                <span class="text-[11px] font-bold tracking-widest uppercase text-white truncate max-w-[90px]">${isAdmin ? 'ADMIN' : displayName}</span>
-                            </div>
-                            <button onclick="window.handleSignOut()" class="text-xs text-gray-500 hover:text-red-500 uppercase tracking-widest font-bold transition-colors">Logout</button>
-                        </div>
-                    `;
-                } else {
-                    desktopAuth.innerHTML = `
-                        <button onclick="window.openAuthModal()" class="flex items-center gap-2 bg-white text-black hover:bg-gray-200 px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                            Sign In
-                        </button>
-                    `;
-                }
+                if (isRealUser) { desktopAuth.innerHTML = `<div class="flex items-center gap-5"><div class="flex items-center gap-2.5 glass-panel px-4 py-2 rounded-full border border-white/10 ${isAdmin ? 'border-red-500/30' : ''}"><i data-lucide="${isAdmin ? 'shield-check' : 'user'}" class="w-3.5 h-3.5 ${isAdmin ? 'text-red-500' : 'text-gray-300'}"></i><span class="text-[11px] font-bold tracking-widest uppercase text-white truncate max-w-[90px]">${isAdmin ? 'ADMIN' : state.user.email.split('@')[0]}</span></div><button onclick="window.handleSignOut()" class="text-xs text-gray-500 hover:text-red-500 uppercase tracking-widest font-bold transition-colors">Logout</button></div>`; } 
+                else { desktopAuth.innerHTML = `<button onclick="window.openAuthModal()" class="flex items-center gap-2 bg-white text-black hover:bg-gray-200 px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]">Sign In</button>`; }
             }
 
-            // Auth UI Mobile
             const mobileAuth = document.getElementById('mobile-auth-container');
             if (mobileAuth) {
-                if (isRealUser) {
-                    mobileAuth.innerHTML = `
-                        <div class="flex items-center justify-center gap-3 glass-panel px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full mb-4 ${isAdmin ? 'border border-red-500/50' : ''}">
-                            <i data-lucide="${isAdmin ? 'shield-check' : 'user'}" class="w-4 h-4 text-red-500"></i>
-                            <span class="text-white truncate font-medium">${state.user.email}</span>
-                        </div>
-                        <button onclick="window.handleSignOut()" class="flex items-center justify-center gap-3 text-red-500 border border-red-500/20 bg-red-500/10 hover:bg-red-500/20 px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest w-full mb-4 transition-colors">Logout</button>
-                        <button onclick="window.navigate('store')" class="flex items-center justify-center gap-3 text-white border border-white/20 hover:bg-white/10 px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full transition-colors"><i data-lucide="shopping-bag" class="w-4 h-4"></i> View Cart (${state.cartCount})</button>
-                    `;
-                } else {
-                    mobileAuth.innerHTML = `
-                        <button onclick="window.openAuthModal()" class="flex items-center justify-center gap-3 bg-white text-black hover:bg-gray-200 px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest w-full mb-4 transition-colors">Sign In / Register</button>
-                        <button onclick="window.navigate('store')" class="flex items-center justify-center gap-3 text-white border border-white/20 hover:bg-white/10 px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full transition-colors"><i data-lucide="shopping-bag" class="w-4 h-4"></i> View Cart (${state.cartCount})</button>
-                    `;
-                }
+                if (isRealUser) { mobileAuth.innerHTML = `<div class="flex items-center justify-center gap-3 glass-panel px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full mb-4 ${isAdmin ? 'border border-red-500/50' : ''}"><i data-lucide="${isAdmin ? 'shield-check' : 'user'}" class="w-4 h-4 text-red-500"></i><span class="text-white truncate font-medium">${state.user.email}</span></div><button onclick="window.handleSignOut()" class="flex items-center justify-center gap-3 text-red-500 border border-red-500/20 bg-red-500/10 hover:bg-red-500/20 px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest w-full mb-4 transition-colors">Logout</button><button onclick="window.navigate('store')" class="flex items-center justify-center gap-3 text-white border border-white/20 hover:bg-white/10 px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full transition-colors"><i data-lucide="shopping-bag" class="w-4 h-4"></i> View Cart (${state.cartCount})</button>`; } 
+                else { mobileAuth.innerHTML = `<button onclick="window.openAuthModal()" class="flex items-center justify-center gap-3 bg-white text-black hover:bg-gray-200 px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest w-full mb-4 transition-colors">Sign In / Register</button><button onclick="window.navigate('store')" class="flex items-center justify-center gap-3 text-white border border-white/20 hover:bg-white/10 px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full transition-colors"><i data-lucide="shopping-bag" class="w-4 h-4"></i> View Cart (${state.cartCount})</button>`; }
             }
-
             lucide.createIcons();
         };
 
         const updateCartBadge = () => {
             const badge = document.getElementById('cart-badge');
-            if (badge) {
-                if (state.cartCount > 0) {
-                    badge.innerText = state.cartCount;
-                    badge.classList.remove('hidden');
-                    badge.classList.add('flex');
-                } else {
-                    badge.classList.add('hidden');
-                    badge.classList.remove('flex');
-                }
-            }
+            if (badge) { if (state.cartCount > 0) { badge.innerText = state.cartCount; badge.classList.remove('hidden'); badge.classList.add('flex'); } else { badge.classList.add('hidden'); badge.classList.remove('flex'); } }
         };
 
         // --- Render Templates ---
@@ -1059,13 +809,9 @@
                                     <div onclick="window.showToast('Playing: ${item.title}')" class="min-w-[280px] md:min-w-[400px] aspect-[16/10] bg-neutral-900 rounded-2xl overflow-hidden snap-center group cursor-pointer relative border border-white/5 hover:border-white/20 transition-all duration-500 shadow-xl">
                                         <img src="${item.image}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100">
                                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                                        
                                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100">
-                                            <div class="w-16 h-16 rounded-full glass-panel flex items-center justify-center shadow-[0_0_30px_rgba(0,0,0,0.8)] border-white/30">
-                                                <i data-lucide="play" class="text-white w-6 h-6 fill-current ml-1"></i>
-                                            </div>
+                                            <div class="w-16 h-16 rounded-full glass-panel flex items-center justify-center shadow-[0_0_30px_rgba(0,0,0,0.8)] border-white/30"><i data-lucide="play" class="text-white w-6 h-6 fill-current ml-1"></i></div>
                                         </div>
-                                        
                                         <div class="absolute bottom-0 left-0 p-6 w-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                                             <h4 class="text-xl font-medium text-white mb-2 drop-shadow-lg font-serif">${item.title}</h4>
                                             <p class="text-xs text-gray-400 font-medium tracking-wider uppercase drop-shadow-md">${item.duration}</p>
@@ -1130,7 +876,6 @@
                             <div class="group">
                                 <div class="aspect-[4/5] bg-neutral-900 rounded-2xl overflow-hidden mb-6 relative border border-white/5 group-hover:border-white/20 transition-colors duration-500 shadow-2xl">
                                     <img src="${item.image}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-1000">
-                                    
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-8">
                                         <button onclick="window.addToCart('${item.name}')" class="bg-white text-black px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 hover:bg-red-600 hover:text-white shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                                             Add to Cart
@@ -1159,44 +904,36 @@
                     <div class="flex gap-4 mb-10 overflow-x-auto hide-scrollbar pb-2">
                         <button onclick="window.setAdminTab('dashboard')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'dashboard' ? 'bg-red-600 text-white' : 'glass-panel text-gray-400 hover:text-white'}">Overview</button>
                         <button onclick="window.setAdminTab('users')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'users' ? 'bg-red-600 text-white' : 'glass-panel text-gray-400 hover:text-white'}">Manage Users</button>
-                        <button onclick="window.setAdminTab('create_course')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'create_course' ? 'bg-red-600 text-white' : 'glass-panel text-gray-400 hover:text-white'}"><i data-lucide="plus" class="w-4 h-4 inline mb-0.5"></i> Create Course</button>
+                        <button onclick="window.setAdminTab('create_course')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'create_course' ? 'bg-red-600 text-white' : 'glass-panel text-gray-400 hover:text-white'}"><i data-lucide="plus" class="w-4 h-4 inline mb-0.5"></i> Add Course</button>
                     </div>
 
                     ${state.adminTab === 'dashboard' ? `
-                    <!-- Stats Row -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
                         <div class="glass-panel p-8 rounded-[2rem] border border-white/5 relative overflow-hidden group hover:border-red-500/30 transition-colors">
-                            <div class="w-12 h-12 rounded-full bg-red-900/20 flex items-center justify-center text-red-500 mb-6">
-                                <i data-lucide="users" class="w-5 h-5"></i>
-                            </div>
+                            <div class="w-12 h-12 rounded-full bg-red-900/20 flex items-center justify-center text-red-500 mb-6"><i data-lucide="users" class="w-5 h-5"></i></div>
                             <h4 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Total Users</h4>
                             <p class="text-4xl text-white font-light font-serif">${state.allUsers.length || DATA.mockAdminStats.totalStudents}</p>
                         </div>
                         <div class="glass-panel p-8 rounded-[2rem] border border-white/5 relative overflow-hidden group hover:border-red-500/30 transition-colors">
-                            <div class="w-12 h-12 rounded-full bg-blue-900/20 flex items-center justify-center text-blue-500 mb-6">
-                                <i data-lucide="calendar-check" class="w-5 h-5"></i>
-                            </div>
+                            <div class="w-12 h-12 rounded-full bg-blue-900/20 flex items-center justify-center text-blue-500 mb-6"><i data-lucide="calendar-check" class="w-5 h-5"></i></div>
                             <h4 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Active Courses</h4>
                             <p class="text-4xl text-white font-light font-serif">${state.dynamicCourses.length}</p>
                         </div>
                         <div class="glass-panel p-8 rounded-[2rem] border border-white/5 relative overflow-hidden group hover:border-red-500/30 transition-colors">
-                            <div class="w-12 h-12 rounded-full bg-green-900/20 flex items-center justify-center text-green-500 mb-6">
-                                <i data-lucide="shield-check" class="w-5 h-5"></i>
-                            </div>
+                            <div class="w-12 h-12 rounded-full bg-green-900/20 flex items-center justify-center text-green-500 mb-6"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
                             <h4 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Platform Status</h4>
                             <p class="text-sm text-green-400 font-medium">${state.isFirestoreOffline ? 'Premium Offline Mode' : 'Online & Syncing'}</p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 gap-12">
-                        <!-- Course Management -->
                         <div>
                             <div class="flex items-center justify-between mb-8">
                                 <h3 class="text-2xl font-light text-white font-serif">Active Courses Directory</h3>
                             </div>
                             <div class="glass-panel rounded-3xl overflow-hidden border border-white/5">
                                 <div class="overflow-x-auto">
-                                    <table class="w-full text-left text-sm text-gray-400">
+                                    <table class="w-full text-left text-sm text-gray-400 min-w-[600px]">
                                         <thead class="text-xs uppercase bg-white/5 text-gray-300 font-bold tracking-wider">
                                             <tr>
                                                 <th class="px-6 py-4 rounded-tl-3xl">Course Title</th>
@@ -1218,6 +955,7 @@
                                                         </span>
                                                     </td>
                                                     <td class="px-6 py-4 text-right">
+                                                        <button onclick="window.editCourse('${cls.id}')" class="text-gray-400 hover:text-white mx-2 transition-colors" title="Edit Course"><i data-lucide="edit" class="w-4 h-4"></i></button>
                                                         <button onclick="window.deleteCourse('${cls.id}')" class="text-gray-400 hover:text-red-500 mx-2 transition-colors" title="Delete Course"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                                                     </td>
                                                 </tr>
@@ -1236,7 +974,7 @@
                         <h3 class="text-2xl font-light text-white font-serif mb-8">Registered Users</h3>
                         <div class="glass-panel rounded-3xl overflow-hidden border border-white/5">
                             <div class="overflow-x-auto">
-                                <table class="w-full text-left text-sm text-gray-400">
+                                <table class="w-full text-left text-sm text-gray-400 min-w-[600px]">
                                     <thead class="text-xs uppercase bg-white/5 text-gray-300 font-bold tracking-wider">
                                         <tr>
                                             <th class="px-6 py-4 rounded-tl-3xl">Email Address</th>
@@ -1264,71 +1002,105 @@
                     ` : ''}
 
                     ${state.adminTab === 'create_course' ? `
-                    <div class="max-w-3xl">
-                        <h3 class="text-2xl font-light text-white font-serif mb-8">Create New Course</h3>
-                        <form onsubmit="window.handleCreateCourse(event)" class="glass-panel p-8 md:p-10 rounded-[2rem] border border-white/5 space-y-6">
+                    <div class="max-w-4xl">
+                        <div class="flex justify-between items-center mb-8">
+                            <h3 class="text-2xl font-light text-white font-serif">${state.editingCourse ? 'Edit Course: ' + state.editingCourse.title : 'Create New Course'}</h3>
+                            ${state.editingCourse ? `<button onclick="window.setAdminTab('dashboard')" class="text-xs text-gray-400 hover:text-white flex items-center gap-1 border border-white/10 px-3 py-1.5 rounded-full"><i data-lucide="x" class="w-3 h-3"></i> Cancel Edit</button>` : ''}
+                        </div>
+                        <form onsubmit="window.handleCreateCourse(event)" class="glass-panel p-6 md:p-10 rounded-[2rem] border border-white/5 space-y-8">
+                            <!-- Basic Info -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Course Title</label>
-                                    <input type="text" name="title" required class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Course Title *</label>
+                                    <input type="text" name="title" required value="${state.editingCourse?.title || ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Price (e.g. ₹4999)</label>
-                                    <input type="text" name="price" required class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Price (e.g. ₹4999) *</label>
+                                    <input type="text" name="price" required value="${state.editingCourse?.price || ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
                                 </div>
                                 <div class="md:col-span-2">
-                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Course Description</label>
-                                    <textarea name="desc" required rows="3" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors"></textarea>
+                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Course Description *</label>
+                                    <textarea name="desc" required rows="3" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">${state.editingCourse?.desc || ''}</textarea>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Course Image URL</label>
-                                    <input type="url" name="image" placeholder="https://..." class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Course Image URL</label>
+                                    <input type="url" name="image" placeholder="https://..." value="${state.editingCourse?.image || ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Timings (e.g. Mon & Wed, 6PM)</label>
-                                    <input type="text" name="timings" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
-                                </div>
-                                <div class="md:col-span-2">
-                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Features (Comma separated)</label>
-                                    <input type="text" name="features" placeholder="Feature 1, Feature 2, Feature 3" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Faculty Name</label>
-                                    <input type="text" name="facultyName" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Faculty Image URL</label>
-                                    <input type="url" name="facultyImage" placeholder="https://..." class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Location/City</label>
-                                    <input type="text" name="location" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Fee Type</label>
-                                    <select name="feeType" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors appearance-none">
-                                        <option value="/ month">Monthly Subscription</option>
-                                        <option value="/ session">Per Session</option>
-                                        <option value="One-time">One-time Payment</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Category</label>
-                                    <select name="category" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors appearance-none">
-                                        <option value="Singing">Singing / Vocals</option>
-                                        <option value="Instruments">Instruments</option>
-                                        <option value="Production">Music Production</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Class Type</label>
-                                    <select name="type" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors appearance-none">
-                                        <option value="Offline">Offline Studio</option>
-                                        <option value="Online">Online Class</option>
-                                    </select>
+                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Features (Comma separated)</label>
+                                    <input type="text" name="features" placeholder="Feature 1, Feature 2..." value="${state.editingCourse?.features ? state.editingCourse.features.join(', ') : ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
                                 </div>
                             </div>
-                            <button type="submit" class="w-full bg-red-600 text-white py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-red-700 transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)] mt-6">Publish Course</button>
+                            
+                            <!-- Classification -->
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Fee Type</label>
+                                    <select name="feeType" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors appearance-none">
+                                        <option value="/ month" ${state.editingCourse?.feeType==='/ month'?'selected':''}>Monthly</option>
+                                        <option value="/ session" ${state.editingCourse?.feeType==='/ session'?'selected':''}>Per Session</option>
+                                        <option value="One-time" ${state.editingCourse?.feeType==='One-time'?'selected':''}>One-time</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Category</label>
+                                    <select name="category" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors appearance-none">
+                                        <option value="Singing" ${state.editingCourse?.category==='Singing'?'selected':''}>Singing</option>
+                                        <option value="Instruments" ${state.editingCourse?.category==='Instruments'?'selected':''}>Instruments</option>
+                                        <option value="Production" ${state.editingCourse?.category==='Production'?'selected':''}>Production</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Class Type</label>
+                                    <select name="type" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors appearance-none">
+                                        <option value="Offline" ${state.editingCourse?.type==='Offline'?'selected':''}>Offline Studio</option>
+                                        <option value="Online" ${state.editingCourse?.type==='Online'?'selected':''}>Online Class</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Location/City</label>
+                                    <input type="text" name="location" value="${state.editingCourse?.location || ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                </div>
+                            </div>
+
+                            <!-- Faculty -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Faculty Name</label>
+                                    <input type="text" name="facultyName" value="${state.editingCourse?.facultyName || ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Faculty Image URL</label>
+                                    <input type="url" name="facultyImage" placeholder="https://..." value="${state.editingCourse?.facultyImage || ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Schedules -->
+                            <div class="border-t border-white/10 pt-6">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="text-lg text-white font-serif">Class Schedule</h4>
+                                    <button type="button" onclick="window.addScheduleRow()" class="text-[10px] text-red-500 hover:text-white font-bold uppercase tracking-widest flex items-center gap-1 border border-red-500/30 px-3 py-1.5 rounded-full"><i data-lucide="plus" class="w-3 h-3"></i> Add Session</button>
+                                </div>
+                                <div id="schedule-container" class="space-y-4">
+                                    ${(state.editingCourse?.schedule || []).map(s => window.getScheduleRowHTML(s)).join('')}
+                                </div>
+                                ${(state.editingCourse?.schedule || []).length === 0 ? '<script>setTimeout(()=>window.addScheduleRow(), 100);<\/script>' : ''}
+                            </div>
+
+                            <!-- Dynamic Materials -->
+                            <div class="border-t border-white/10 pt-6">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="text-lg text-white font-serif">Course Materials</h4>
+                                    <button type="button" onclick="window.addMaterialRow()" class="text-[10px] text-red-500 hover:text-white font-bold uppercase tracking-widest flex items-center gap-1 border border-red-500/30 px-3 py-1.5 rounded-full"><i data-lucide="plus" class="w-3 h-3"></i> Add Material</button>
+                                </div>
+                                <div id="material-container" class="space-y-4">
+                                    ${(state.editingCourse?.materials || []).map(m => window.getMaterialRowHTML(m)).join('')}
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full bg-red-600 text-white py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-red-700 transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)] mt-8">
+                                ${state.editingCourse ? 'Update Course' : 'Publish Course'}
+                            </button>
                         </form>
                     </div>
                     ` : ''}
@@ -1341,15 +1113,11 @@
             document.getElementById('app-root').innerHTML = typeof template === 'function' ? template() : template;
             updateNavbarUI(); 
             lucide.createIcons();
-            
-            if (state.currentPage === 'classes') {
-                renderClassesGrid();
-            }
+            if (state.currentPage === 'classes') { renderClassesGrid(); }
         };
 
         // Initialize App
         renderApp();
-
     </script>
 </body>
 </html>
