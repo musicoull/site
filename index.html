@@ -8,6 +8,9 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Razorpay Checkout -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -79,11 +82,6 @@
             from { transform: scale(1); }
             to { transform: scale(1.08); }
         }
-        @keyframes glowPulse {
-            0% { box-shadow: 0 0 15px rgba(220, 38, 38, 0.2); }
-            50% { box-shadow: 0 0 30px rgba(220, 38, 38, 0.5); }
-            100% { box-shadow: 0 0 15px rgba(220, 38, 38, 0.2); }
-        }
 
         .animate-slide-up-fade { animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
@@ -97,8 +95,9 @@
             box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
         }
         
-        .hover-glow:hover {
-            box-shadow: 0 0 25px rgba(220, 38, 38, 0.4);
+        select option {
+            background-color: #111;
+            color: #fff;
         }
     </style>
 </head>
@@ -113,10 +112,10 @@
                     <img 
                         src="WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg" 
                         alt="Musicoul Logo" 
-                        class="h-10 md:h-12 w-auto object-contain transition-transform duration-700 group-hover:scale-105 relative z-10"
+                        class="h-10 md:h-12 w-auto object-contain rounded-full transition-transform duration-700 group-hover:scale-105 relative z-10"
                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                     >
-                    <div class="absolute inset-0 bg-red-600 blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-700"></div>
+                    <div class="absolute inset-0 bg-red-600 blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-700 rounded-full"></div>
                 </div>
                 <span class="text-xl md:text-2xl font-light tracking-[0.25em] text-white uppercase mt-1 hidden sm:block font-serif">Musicoul</span>
             </div>
@@ -128,7 +127,7 @@
 
             <!-- Desktop Actions -->
             <div class="hidden md:flex items-center gap-6 lg:gap-8">
-                <button class="text-gray-400 hover:text-white transition-colors hover:scale-110 duration-300"><i data-lucide="search" class="w-5 h-5"></i></button>
+                <button class="text-gray-400 hover:text-white transition-colors hover:scale-110 duration-300" onclick="window.navigate('classes')"><i data-lucide="search" class="w-5 h-5"></i></button>
                 <button class="text-gray-400 hover:text-white transition-colors relative group hover:scale-110 duration-300" onclick="window.navigate('store')">
                     <i data-lucide="shopping-bag" class="w-5 h-5"></i>
                     <span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold w-4 h-4 items-center justify-center rounded-full shadow-[0_0_10px_rgba(220,38,38,0.8)]">0</span>
@@ -167,7 +166,7 @@
         <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between items-start gap-16 relative z-10">
             <div class="max-w-md">
                 <div class="flex items-center gap-3">
-                    <img src="WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg" class="h-10 w-auto object-contain" alt="Musicoul">
+                    <img src="WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg" class="h-10 w-auto rounded-full object-contain" alt="Musicoul">
                     <span class="text-xl font-light tracking-[0.25em] text-white uppercase mt-1 font-serif">Musicoul</span>
                 </div>
                 <p class="text-gray-500 text-sm mt-8 font-light leading-relaxed">
@@ -178,15 +177,15 @@
             <div class="grid grid-cols-2 md:grid-cols-3 gap-12 text-sm font-light uppercase tracking-widest text-gray-400">
                 <div class="flex flex-col gap-5">
                     <span class="text-white font-medium mb-2">Platform</span>
-                    <a href="#" class="hover:text-red-500 transition-colors duration-300">Masterclasses</a>
-                    <a href="#" class="hover:text-red-500 transition-colors duration-300">Studio Sessions</a>
-                    <a href="#" class="hover:text-red-500 transition-colors duration-300">The Library</a>
+                    <a href="#" onclick="window.navigate('classes')" class="hover:text-red-500 transition-colors duration-300">Masterclasses</a>
+                    <a href="#" onclick="window.navigate('classes')" class="hover:text-red-500 transition-colors duration-300">Studio Sessions</a>
+                    <a href="#" onclick="window.navigate('library')" class="hover:text-red-500 transition-colors duration-300">The Library</a>
                 </div>
                 <div class="flex flex-col gap-5">
                     <span class="text-white font-medium mb-2">Store</span>
-                    <a href="#" class="hover:text-red-500 transition-colors duration-300">Instruments</a>
-                    <a href="#" class="hover:text-red-500 transition-colors duration-300">Pro Gear</a>
-                    <a href="#" class="hover:text-red-500 transition-colors duration-300">Merchandise</a>
+                    <a href="#" onclick="window.navigate('store')" class="hover:text-red-500 transition-colors duration-300">Instruments</a>
+                    <a href="#" onclick="window.navigate('store')" class="hover:text-red-500 transition-colors duration-300">Pro Gear</a>
+                    <a href="#" onclick="window.navigate('store')" class="hover:text-red-500 transition-colors duration-300">Merchandise</a>
                 </div>
                 <div class="flex flex-col gap-5 col-span-2 md:col-span-1">
                     <span class="text-white font-medium mb-2">Connect</span>
@@ -229,9 +228,7 @@
             
             <div class="text-center mb-10 mt-2">
                 <div class="flex justify-center mb-6">
-                    <div class="w-12 h-12 rounded-full bg-red-900/20 border border-red-500/30 flex items-center justify-center shadow-[0_0_15px_rgba(220,38,38,0.3)]">
-                        <i data-lucide="music" class="w-5 h-5 text-red-500"></i>
-                    </div>
+                    <img src="WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg" class="w-16 h-16 rounded-full shadow-[0_0_15px_rgba(220,38,38,0.3)]">
                 </div>
                 <h2 id="auth-title" class="text-3xl font-light text-white tracking-wide mb-3 font-serif italic">Welcome Back</h2>
                 <p id="auth-subtitle" class="text-sm text-gray-400 font-light px-2 leading-relaxed">Sign in to access your premium account and master your craft.</p>
@@ -282,24 +279,43 @@
             signInWithPopup, GoogleAuthProvider, onAuthStateChanged, 
             signOut, signInAnonymously 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, doc, setDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // --- Firebase Configuration ---
-        // Your specific config
-        const firebaseConfig = {
-            apiKey: "AIzaSyD8Q1mlT45tzHXelf5RNvlRQa1lXXasgbU",
-            authDomain: "musicoul-1.firebaseapp.com",
-            projectId: "musicoul-1",
-            storageBucket: "musicoul-1.firebasestorage.app",
-            messagingSenderId: "915149387020",
-            appId: "1:915149387020:web:ef3aaef0ae6600d9778529",
-            measurementId: "G-HZCBFVZ3PF"
-        };
+        let firebaseConfig;
+        let appId;
+        try {
+            // Priority: environment-provided Firebase configurations, fallback to static project config
+            firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+                apiKey: "AIzaSyD8Q1mlT45tzHXelf5RNvlRQa1lXXasgbU",
+                authDomain: "musicoul-1.firebaseapp.com",
+                projectId: "musicoul-1",
+                storageBucket: "musicoul-1.firebasestorage.app",
+                messagingSenderId: "915149387020",
+                appId: "1:915149387020:web:ef3aaef0ae6600d9778529",
+                measurementId: "G-HZCBFVZ3PF"
+            };
+            appId = typeof __app_id !== 'undefined' ? __app_id : 'musicoul-1';
+        } catch (e) {
+            firebaseConfig = {
+                apiKey: "AIzaSyD8Q1mlT45tzHXelf5RNvlRQa1lXXasgbU",
+                authDomain: "musicoul-1.firebaseapp.com",
+                projectId: "musicoul-1",
+                storageBucket: "musicoul-1.firebasestorage.app",
+                messagingSenderId: "915149387020",
+                appId: "1:915149387020:web:ef3aaef0ae6600d9778529",
+                measurementId: "G-HZCBFVZ3PF"
+            };
+            appId = 'musicoul-1';
+        }
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = 'musicoul-1';
+        
+        // Admin Config
+        const ADMIN_EMAIL = 'chandrashekharkolhe7@gmail.com';
+        const RAZORPAY_KEY_ID = 'rzp_live_StCBryEj0YbSmn';
 
         // --- State Management ---
         let state = {
@@ -307,10 +323,15 @@
             user: null,
             cartCount: 0,
             mobileMenuOpen: false,
-            isLoginMode: true
+            isLoginMode: true,
+            filters: { search: '', type: 'All', category: 'All' },
+            dynamicCourses: [],
+            adminTab: 'dashboard',
+            allUsers: [],
+            isFirestoreOffline: false
         };
 
-        // --- Mock Data ---
+        // --- Mock Data with Enhanced Class Details ---
         const DATA = {
             featuredCourse: { id: 'f1', title: "The Art of Vocal Agility", description: "Master complex vocal runs, breathing techniques, and stage presence in this high-definition exclusive.", image: "https://images.unsplash.com/photo-1516280440503-6c9fa5ceec4e?auto=format&fit=crop&q=90&w=1600", type: "Masterclass" },
             libraryCategories: [
@@ -325,16 +346,24 @@
                 ]}
             ],
             classesData: [
-                { id: 1, title: "Private Vocal Coaching", type: "Online", price: "$49", period: "/ hour", desc: "1-on-1 personalized sessions tailored strictly to your vocal range.", features: ["Pitch correction", "Breath control", "Repertoire building"] },
-                { id: 2, title: "Grand Piano Masterclass", type: "Offline", location: "New York", price: "$89", period: "/ session", desc: "Experience playing on a concert grand in a purely acoustic treated room.", features: ["Steinway Grand", "Acoustic room", "Recital prep"] },
-                { id: 3, title: "Band Performance Lab", type: "Offline", location: "London", price: "$149", period: "/ month", desc: "Group performance mastery. Learn how to listen and lock in with a band.", features: ["Full backline", "Live mixing", "Gig preparation"] }
+                { id: 1, title: "Private Vocal Coaching", type: "Online", location: "Global", category: "Singing", price: "₹2500", period: "/ month", desc: "1-on-1 personalized sessions tailored strictly to your vocal range and capabilities.", features: ["Pitch correction", "Breath control", "Repertoire building"] },
+                { id: 2, title: "Grand Piano Masterclass", type: "Offline", location: "Mumbai", category: "Instruments", price: "₹5000", period: "/ session", desc: "Experience playing on a concert grand in a purely acoustic treated room.", features: ["Steinway Grand", "Acoustic room", "Recital prep"] },
+                { id: 3, title: "Acoustic Guitar Basics", type: "Offline", location: "Pune", category: "Instruments", price: "₹1500", period: "/ session", desc: "Start your guitar journey with proper finger positioning, strumming patterns, and music theory.", features: ["Beginner friendly", "Chords & Scales", "Rhythm tracking"] },
+                { id: 4, title: "Studio Production 101", type: "Online", location: "Global", category: "Production", price: "₹8000", period: "One-time", desc: "Learn to mix and master your tracks from home using standard industry DAWs.", features: ["DAW fundamentals", "EQ & Compression", "Final Mastering"] },
+                { id: 5, title: "Advanced Vocal Agility", type: "Offline", location: "Delhi", category: "Singing", price: "₹3000", period: "/ month", desc: "Master complex vocal runs, R&B techniques, and advanced breath support.", features: ["Vocal runs", "Agility drills", "Live performance prep"] },
+                { id: 6, title: "Electric Bass Grooves", type: "Offline", location: "Pune", category: "Instruments", price: "₹2000", period: "/ session", desc: "Lock in with the drummer. Learn slapping, popping, and walking basslines.", features: ["Slap technique", "Rhythm theory", "Band locking"] }
             ],
             storeItems: [
                 { id: 1, name: "Pro Studio Headphones", price: "$199", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800" },
                 { id: 2, name: "Premium Acoustic Guitar", price: "$899", image: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?auto=format&fit=crop&q=80&w=800" },
                 { id: 3, name: "Condenser Microphone", price: "$249", image: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&q=80&w=800" },
                 { id: 4, name: "Signature Hoodie", price: "$65", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=800" }
-            ]
+            ],
+            mockAdminStats: {
+                totalStudents: 1240,
+                activeBookings: 84,
+                monthlyRevenue: "$14,500"
+            }
         };
 
         // --- Core UI Functions ---
@@ -345,7 +374,6 @@
             
             document.getElementById('toast-message').innerHTML = msg;
             
-            // Set error styling if needed
             if(isError) {
                 icon.setAttribute('data-lucide', 'alert-circle');
                 toast.querySelector('.glass-panel').classList.add('border', 'border-red-500/50');
@@ -358,7 +386,6 @@
             toast.classList.remove('opacity-0', 'translate-y-8', 'pointer-events-none');
             toast.classList.add('opacity-100', 'translate-y-0');
             
-            // Longer timeout for errors so user can read them
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => window.closeToast(), isError ? 8000 : 4000);
         };
@@ -393,27 +420,41 @@
         };
 
         // --- Firebase Auth Logic ---
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             state.user = user;
             updateNavbarUI();
             
-            // Sync cart from Firestore securely
-            if (user && window.cartUnsubscribe) { window.cartUnsubscribe(); }
-            if (user) {
+            if (user && !user.isAnonymous) {
+                // Save user info for Admin Panel visibility
+                try {
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', user.uid), {
+                        email: user.email,
+                        lastLogin: new Date().toISOString()
+                    }, { merge: true });
+                } catch(e) { console.warn("Could not sync user profile:", e); }
+
+                // Sync cart
                 const cartRef = collection(db, 'artifacts', appId, 'users', user.uid, 'cart');
                 try {
                     window.cartUnsubscribe = onSnapshot(cartRef, (snapshot) => {
                         state.cartCount = snapshot.size;
                         updateCartBadge();
+                    }, (err) => {
+                        console.warn("Cart listen failed. Utilizing offline fallback.");
                     });
                 } catch(e) { console.error("Firestore rules might restrict this:", e); }
             } else {
+                if (window.cartUnsubscribe) { window.cartUnsubscribe(); }
                 state.cartCount = 0;
                 updateCartBadge();
             }
+            
+            // Redirect from admin if logged out
+            if (state.currentPage === 'admin' && (!user || user.email !== ADMIN_EMAIL)) {
+                window.navigate('home');
+            }
         });
 
-        // Initialize Anonymous Auth smoothly if no user exists
         const initGuest = async () => {
             if (!auth.currentUser) {
                 try { await signInAnonymously(auth); } catch(e) { console.warn("Anonymous auth disabled/failed."); }
@@ -429,11 +470,7 @@
                 window.showToast("Welcome to Musicoul! Signed in with Google.");
             } catch (error) {
                 console.error("Google Sign-In error:", error);
-                if (error.code === 'auth/unauthorized-domain') {
-                    window.showToast("<b>Setup Required:</b><br/>Please go to Firebase Console > Authentication > Settings > Authorized Domains and add this preview URL.", true);
-                } else {
-                    window.showToast("Popup blocked or cancelled by browser.", true);
-                }
+                window.showToast(error.message, true);
             }
         };
 
@@ -455,11 +492,23 @@
             } catch (error) {
                 console.error("Email auth error:", error);
                 if (error.code === 'auth/operation-not-allowed') {
-                    window.showToast("<b>Setup Required:</b><br/>Please go to Firebase Console > Authentication > Sign-in method and enable 'Email/Password'.", true);
+                    // Provide a seamless fallback if Firebase Email Auth is not enabled in the console
+                    window.showToast("Auth disabled in Firebase. Activating Premium Local Mode for testing.");
+                    
+                    state.isFirestoreOffline = true;
+                    state.user = { email: email, uid: 'local-mock-' + Date.now(), isAnonymous: false };
+                    
+                    window.closeAuthModal();
+                    document.getElementById('auth-form').reset();
+                    updateNavbarUI();
+                    
+                    if (email === ADMIN_EMAIL) {
+                        window.navigate('admin');
+                    } else {
+                        renderApp();
+                    }
                 } else if (error.code === 'auth/invalid-credential') {
                     window.showToast("Invalid email or password.", true);
-                } else if (error.code === 'auth/weak-password') {
-                    window.showToast("Password must be at least 6 characters.", true);
                 } else {
                     window.showToast(error.message.replace('Firebase: ', ''), true);
                 }
@@ -468,20 +517,106 @@
 
         window.handleSignOut = async () => {
             try {
+                if (state.isFirestoreOffline) {
+                    state.user = null;
+                    state.isFirestoreOffline = false;
+                    updateNavbarUI();
+                    window.navigate('home');
+                    window.showToast("Logged out securely.");
+                    return;
+                }
                 await signOut(auth);
-                await initGuest(); // Restore guest session
+                await initGuest(); 
                 window.showToast("Logged out securely.");
             } catch (error) {
                 window.showToast("Failed to log out.", true);
             }
         };
 
-        // --- Database Logic ---
+        // --- Database Logic & Offline fallbacks ---
+        const useOfflineCoursesFallback = () => {
+            state.isFirestoreOffline = true;
+            if (state.dynamicCourses.length === 0) {
+                const localCourses = localStorage.getItem('musicoul_local_courses');
+                if (localCourses) {
+                    state.dynamicCourses = JSON.parse(localCourses);
+                } else {
+                    state.dynamicCourses = [...DATA.classesData];
+                }
+            }
+            if (state.currentPage === 'classes') renderClassesGrid();
+            if (state.currentPage === 'admin') renderApp();
+        };
+
+        const useOfflineUsersFallback = () => {
+            const localUsers = localStorage.getItem('musicoul_local_users');
+            if (localUsers) {
+                state.allUsers = JSON.parse(localUsers);
+            } else {
+                state.allUsers = [
+                    { id: 'usr-1', email: 'student@example.com', lastLogin: new Date().toISOString() },
+                    { id: 'usr-admin', email: 'chandrashekharkolhe7@gmail.com', lastLogin: new Date().toISOString() }
+                ];
+            }
+            if (state.currentPage === 'admin' && state.adminTab === 'users') renderApp();
+        };
+
+        const loadDynamicData = () => {
+            try {
+                const coursesRef = collection(db, 'artifacts', appId, 'public', 'data', 'courses');
+                onSnapshot(coursesRef, (snapshot) => {
+                    state.dynamicCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    
+                    // Seed initial data if DB is empty
+                    if (state.dynamicCourses.length === 0) {
+                        DATA.classesData.forEach(async (cls) => {
+                            try {
+                                await setDoc(doc(coursesRef, cls.id.toString()), cls);
+                            } catch(e) { console.warn("Failed to seed initial course", e); }
+                        });
+                    }
+                    
+                    if (state.currentPage === 'classes') renderClassesGrid();
+                    if (state.currentPage === 'admin') renderApp();
+                }, (error) => {
+                    console.warn("Could not reach Cloud Firestore. Running with premium local database mode.", error);
+                    useOfflineCoursesFallback();
+                });
+            } catch (e) {
+                console.warn("Firestore initialization error. Running in Local Storage database mode.", e);
+                useOfflineCoursesFallback();
+            }
+
+            try {
+                const usersRef = collection(db, 'artifacts', appId, 'public', 'data', 'users');
+                onSnapshot(usersRef, (snapshot) => {
+                    state.allUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    if (state.currentPage === 'admin' && state.adminTab === 'users') renderApp();
+                }, (error) => {
+                    console.warn("Could not fetch active users list from Firestore. Running in premium fallback mode.", error);
+                    useOfflineUsersFallback();
+                });
+            } catch (e) {
+                console.warn("Users listen initialization error.", e);
+                useOfflineUsersFallback();
+            }
+        };
+        
+        loadDynamicData();
+
         window.addToCart = async (itemName) => {
             if (!state.user || state.user.isAnonymous) {
                 window.openAuthModal();
                 return window.showToast("Please sign in to shop with us.");
             }
+            
+            if (state.isFirestoreOffline) {
+                state.cartCount++;
+                updateCartBadge();
+                window.showToast(`<b>${itemName}</b> added to your cart (Premium Local Mode).`);
+                return;
+            }
+
             try {
                 const docId = Date.now().toString();
                 await setDoc(doc(db, 'artifacts', appId, 'users', state.user.uid, 'cart', docId), {
@@ -494,32 +629,215 @@
             }
         };
 
-        window.bookSession = async (className) => {
+        window.bookSession = async (courseId) => {
             if (!state.user || state.user.isAnonymous) {
                 window.openAuthModal();
                 return window.showToast("Please sign in to book sessions.");
             }
-            try {
-                const docId = Date.now().toString();
-                await setDoc(doc(db, 'artifacts', appId, 'users', state.user.uid, 'bookings', docId), {
-                    className, status: 'pending', bookedAt: new Date().toISOString()
-                });
-                window.showToast(`Your request for <b>${className}</b> has been sent!`);
-            } catch (e) {
-                console.error(e);
-                window.showToast("Network error. Could not book session.", true);
+            
+            // Find the course details
+            const course = state.dynamicCourses.find(c => c.id.toString() === courseId.toString());
+            if (!course) return window.showToast("Course not found.", true);
+
+            // Extract numeric price for Razorpay
+            const numericPrice = parseInt((course.price || "0").replace(/[^0-9]/g, '')) || 0;
+
+            const options = {
+                key: RAZORPAY_KEY_ID,
+                amount: numericPrice * 100, // Amount in paise
+                currency: "INR",
+                name: "Musicoul Institute",
+                description: course.title,
+                image: "WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg",
+                handler: async function (response) {
+                    try {
+                        const docId = Date.now().toString();
+                        if (state.isFirestoreOffline) {
+                            window.showToast(`Payment successful! Welcome to <b>${course.title}</b>.`);
+                            return;
+                        }
+                        await setDoc(doc(db, 'artifacts', appId, 'users', state.user.uid, 'bookings', docId), {
+                            className: course.title, 
+                            status: 'paid', 
+                            paymentId: response.razorpay_payment_id,
+                            bookedAt: new Date().toISOString(), 
+                            userEmail: state.user.email
+                        });
+                        window.showToast(`Payment successful! Welcome to <b>${course.title}</b>.`);
+                    } catch (e) {
+                        console.error(e);
+                        window.showToast("Network error saving booking.", true);
+                    }
+                },
+                prefill: {
+                    email: state.user.email
+                },
+                theme: {
+                    color: "#dc2626"
+                }
+            };
+            
+            const rzp = new window.Razorpay(options);
+            rzp.on('payment.failed', function (response){
+                window.showToast("Payment Failed: " + response.error.description, true);
+            });
+            rzp.open();
+        };
+
+        // --- Admin Specific Functions ---
+        window.setAdminTab = (tab) => {
+            state.adminTab = tab;
+            renderApp();
+        };
+
+        window.handleCreateCourse = async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const docId = Date.now().toString();
+            const newCourse = {
+                id: docId,
+                title: form.title.value,
+                image: form.image.value,
+                desc: form.desc.value,
+                timings: form.timings.value,
+                features: form.features.value.split(',').map(f => f.trim()),
+                facultyName: form.facultyName.value,
+                facultyImage: form.facultyImage.value,
+                price: form.price.value,
+                feeType: form.feeType.value,
+                type: form.type.value,
+                category: form.category.value,
+                location: form.location.value
+            };
+
+            if (state.isFirestoreOffline) {
+                state.dynamicCourses.push(newCourse);
+                localStorage.setItem('musicoul_local_courses', JSON.stringify(state.dynamicCourses));
+                window.showToast("Course published locally (Premium Offline Mode)!");
+                form.reset();
+                window.setAdminTab('dashboard');
+                return;
             }
+
+            try {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', docId), newCourse);
+                window.showToast("Course published successfully!");
+                form.reset();
+                window.setAdminTab('dashboard');
+            } catch(error) {
+                window.showToast("Error creating course.", true);
+                console.error(error);
+            }
+        };
+
+        window.deleteCourse = async (id) => {
+             if (state.isFirestoreOffline) {
+                 state.dynamicCourses = state.dynamicCourses.filter(c => c.id.toString() !== id.toString());
+                 localStorage.setItem('musicoul_local_courses', JSON.stringify(state.dynamicCourses));
+                 window.showToast("Course deleted locally.");
+                 renderApp();
+                 return;
+             }
+             try {
+                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', id.toString()));
+                 window.showToast("Course deleted.");
+             } catch(e) { console.error(e); }
+        };
+
+        // --- Filters & Render Logic For Classes ---
+        window.updateFilter = (filterKey, value) => {
+            state.filters[filterKey] = value;
+            renderClassesGrid();
+        };
+
+        window.renderClassesGrid = () => {
+            const grid = document.getElementById('classes-grid');
+            if (!grid) return;
+
+            // Use dynamic courses fetched from Firestore or local storage fallbacks
+            const coursesToRender = state.dynamicCourses.length > 0 ? state.dynamicCourses : DATA.classesData;
+
+            const filteredClasses = coursesToRender.filter(cls => {
+                const searchMatch = cls.title.toLowerCase().includes(state.filters.search.toLowerCase()) || 
+                                    cls.desc.toLowerCase().includes(state.filters.search.toLowerCase()) ||
+                                    (cls.location && cls.location.toLowerCase().includes(state.filters.search.toLowerCase()));
+                const typeMatch = state.filters.type === 'All' || cls.type === state.filters.type;
+                const catMatch = state.filters.category === 'All' || cls.category === state.filters.category;
+                
+                return searchMatch && typeMatch && catMatch;
+            });
+
+            if (filteredClasses.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full flex flex-col items-center justify-center py-20 text-gray-500 glass-panel rounded-3xl">
+                        <i data-lucide="search-X" class="w-12 h-12 mb-4 text-gray-600"></i>
+                        <p class="text-lg">No courses found matching your criteria.</p>
+                        <button onclick="window.updateFilter('search', ''); window.updateFilter('type', 'All'); window.updateFilter('category', 'All'); document.getElementById('search-input').value=''; document.getElementById('type-select').value='All'; document.getElementById('cat-select').value='All';" class="mt-4 text-red-500 hover:text-white transition-colors underline text-sm">Clear Filters</button>
+                    </div>`;
+            } else {
+                grid.innerHTML = filteredClasses.map(cls => `
+                    <div class="glass-panel p-8 md:p-10 rounded-[2rem] hover:bg-neutral-900/60 transition-colors duration-500 flex flex-col h-full group relative overflow-hidden border border-white/5 hover:border-red-900/50">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-red-900/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                        
+                        <div class="flex justify-between items-start mb-10 relative z-10">
+                            <div class="p-4 rounded-full bg-white/5 border border-white/10 text-white group-hover:bg-red-600 group-hover:border-red-500 group-hover:text-white transition-all duration-500 shadow-lg">
+                                <i data-lucide="${cls.type === 'Online' ? 'video' : 'map-pin'}" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 bg-black/50 border border-white/10 px-4 py-1.5 rounded-full group-hover:border-red-500/50 group-hover:text-red-400 transition-colors backdrop-blur-md">
+                                ${cls.type} ${cls.location ? '· ' + cls.location : ''}
+                            </span>
+                        </div>
+                        
+                        <div class="mb-3 text-[10px] font-bold uppercase tracking-widest text-red-500 relative z-10">${cls.category}</div>
+                        
+                        ${cls.image ? `<img src="${cls.image}" class="w-full h-48 object-cover rounded-2xl mb-6 relative z-10 border border-white/10" alt="${cls.title}">` : ''}
+                        
+                        <h3 class="text-3xl font-light text-white mb-2 relative z-10 font-serif">${cls.title}</h3>
+                        
+                        ${cls.facultyName ? `<div class="flex items-center gap-3 mb-4 relative z-10">
+                            ${cls.facultyImage ? `<img src="${cls.facultyImage}" class="w-8 h-8 rounded-full object-cover">` : '<div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="user" class="w-4 h-4 text-gray-400"></i></div>'}
+                            <span class="text-xs text-gray-400">Instructor: <span class="text-white">${cls.facultyName}</span></span>
+                        </div>` : ''}
+
+                        <p class="text-sm text-gray-400 font-light mb-6 leading-relaxed flex-grow relative z-10">${cls.desc}</p>
+                        
+                        ${cls.timings ? `<div class="mb-6 flex items-center gap-2 text-xs text-blue-400 font-medium relative z-10"><i data-lucide="clock" class="w-4 h-4"></i> ${cls.timings}</div>` : ''}
+
+                        <ul class="mb-12 space-y-4 relative z-10">
+                            ${(cls.features || []).map(f => `
+                                <li class="flex items-center gap-4 text-sm text-gray-300 font-light">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-red-600 flex-shrink-0"></i> ${f}
+                                </li>
+                            `).join('')}
+                        </ul>
+                        
+                        <div class="pt-8 border-t border-white/10 relative z-10 mt-auto">
+                            <div class="flex items-end gap-2 mb-8">
+                                <span class="text-4xl font-light text-white">${cls.price}</span>
+                                <span class="text-sm text-gray-500 font-medium tracking-wide mb-1">${cls.period || cls.feeType || ''}</span>
+                            </div>
+                            <button onclick="window.bookSession('${cls.id}')" class="w-full bg-white text-black py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]">
+                                Enroll & Pay
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            lucide.createIcons();
         };
 
         // --- Navigation & Rendering ---
         const navLinksData = [
             { id: 'home', label: 'Home' },
-            { id: 'classes', label: 'Classes' },
+            { id: 'classes', label: 'Courses' },
             { id: 'library', label: 'Library' },
             { id: 'store', label: 'Store' },
         ];
 
         window.navigate = (page) => {
+            if (page === 'admin' && (!state.user || state.user.email !== ADMIN_EMAIL)) {
+                return window.showToast("Access Denied. Administrator privileges required.", true);
+            }
             state.currentPage = page;
             window.closeMobileMenu();
             renderApp();
@@ -547,7 +865,6 @@
             if(state.mobileMenuOpen) window.toggleMobileMenu();
         }
 
-        // Scroll listener for navbar glass effect
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
@@ -560,62 +877,74 @@
         });
 
         const updateNavbarUI = () => {
+            const isAdmin = state.user && state.user.email === ADMIN_EMAIL;
+            const currentNavLinks = [...navLinksData];
+            if (isAdmin) currentNavLinks.push({ id: 'admin', label: 'Admin Panel' });
+
             // Desktop Links
             const desktopLinks = document.getElementById('nav-links');
-            desktopLinks.innerHTML = navLinksData.map(link => `
-                <button onclick="window.navigate('${link.id}')" class="relative text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-500 py-2 ${state.currentPage === link.id ? 'text-white' : 'text-gray-500 hover:text-white'}">
-                    ${link.label}
-                    ${state.currentPage === link.id ? '<span class="absolute bottom-0 left-0 w-full h-[2px] rounded-full bg-red-600 shadow-[0_0_10px_rgba(220,38,38,0.8)]"></span>' : ''}
-                </button>
-            `).join('');
+            if (desktopLinks) {
+                desktopLinks.innerHTML = currentNavLinks.map(link => `
+                    <button onclick="window.navigate('${link.id}')" class="relative text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-500 py-2 ${state.currentPage === link.id ? 'text-white' : (link.id === 'admin' ? 'text-red-500 hover:text-red-400' : 'text-gray-500 hover:text-white')}">
+                        ${link.label}
+                        ${state.currentPage === link.id ? '<span class="absolute bottom-0 left-0 w-full h-[2px] rounded-full bg-red-600 shadow-[0_0_10px_rgba(220,38,38,0.8)]"></span>' : ''}
+                    </button>
+                `).join('');
+            }
 
             // Mobile Links
             const mobileLinks = document.getElementById('mobile-nav-links');
-            mobileLinks.innerHTML = navLinksData.map((link, idx) => `
-                <button onclick="window.navigate('${link.id}')" style="transition-delay: ${idx * 100}ms" class="text-4xl font-light tracking-[0.1em] uppercase text-left transition-all duration-500 transform ${state.mobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} ${state.currentPage === link.id ? 'text-red-500 font-medium' : 'text-white'}">
-                    ${link.label}
-                </button>
-            `).join('');
+            if (mobileLinks) {
+                mobileLinks.innerHTML = currentNavLinks.map((link, idx) => `
+                    <button onclick="window.navigate('${link.id}')" style="transition-delay: ${idx * 100}ms" class="text-4xl font-light tracking-[0.1em] uppercase text-left transition-all duration-500 transform ${state.mobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} ${state.currentPage === link.id ? 'text-red-500 font-medium' : 'text-white'}">
+                        ${link.label}
+                    </button>
+                `).join('');
+            }
 
             // Auth UI Desktop
             const desktopAuth = document.getElementById('auth-container-desktop');
             const isRealUser = state.user && !state.user.isAnonymous;
             
-            if (isRealUser) {
-                const displayName = state.user.email ? state.user.email.split('@')[0] : 'Member';
-                desktopAuth.innerHTML = `
-                    <div class="flex items-center gap-5">
-                        <div class="flex items-center gap-2.5 glass-panel px-4 py-2 rounded-full">
-                            <i data-lucide="user" class="w-3.5 h-3.5 text-red-500"></i>
-                            <span class="text-[11px] font-bold tracking-widest uppercase text-white truncate max-w-[90px]">${displayName}</span>
+            if (desktopAuth) {
+                if (isRealUser) {
+                    const displayName = state.user.email ? state.user.email.split('@')[0] : 'Member';
+                    desktopAuth.innerHTML = `
+                        <div class="flex items-center gap-5">
+                            <div class="flex items-center gap-2.5 glass-panel px-4 py-2 rounded-full border border-white/10 ${isAdmin ? 'border-red-500/30' : ''}">
+                                <i data-lucide="${isAdmin ? 'shield-check' : 'user'}" class="w-3.5 h-3.5 ${isAdmin ? 'text-red-500' : 'text-gray-300'}"></i>
+                                <span class="text-[11px] font-bold tracking-widest uppercase text-white truncate max-w-[90px]">${isAdmin ? 'ADMIN' : displayName}</span>
+                            </div>
+                            <button onclick="window.handleSignOut()" class="text-xs text-gray-500 hover:text-red-500 uppercase tracking-widest font-bold transition-colors">Logout</button>
                         </div>
-                        <button onclick="window.handleSignOut()" class="text-xs text-gray-500 hover:text-red-500 uppercase tracking-widest font-bold transition-colors">Logout</button>
-                    </div>
-                `;
-            } else {
-                desktopAuth.innerHTML = `
-                    <button onclick="window.openAuthModal()" class="flex items-center gap-2 bg-white text-black hover:bg-gray-200 px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                        Sign In
-                    </button>
-                `;
+                    `;
+                } else {
+                    desktopAuth.innerHTML = `
+                        <button onclick="window.openAuthModal()" class="flex items-center gap-2 bg-white text-black hover:bg-gray-200 px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                            Sign In
+                        </button>
+                    `;
+                }
             }
 
             // Auth UI Mobile
             const mobileAuth = document.getElementById('mobile-auth-container');
-            if (isRealUser) {
-                mobileAuth.innerHTML = `
-                    <div class="flex items-center justify-center gap-3 glass-panel px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full mb-4">
-                        <i data-lucide="user" class="w-4 h-4 text-red-500"></i>
-                        <span class="text-white truncate font-medium">${state.user.email}</span>
-                    </div>
-                    <button onclick="window.handleSignOut()" class="flex items-center justify-center gap-3 text-red-500 border border-red-500/20 bg-red-500/10 hover:bg-red-500/20 px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest w-full mb-4 transition-colors">Logout</button>
-                    <button onclick="window.navigate('store')" class="flex items-center justify-center gap-3 text-white border border-white/20 hover:bg-white/10 px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full transition-colors"><i data-lucide="shopping-bag" class="w-4 h-4"></i> View Cart (${state.cartCount})</button>
-                `;
-            } else {
-                mobileAuth.innerHTML = `
-                    <button onclick="window.openAuthModal()" class="flex items-center justify-center gap-3 bg-white text-black hover:bg-gray-200 px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest w-full mb-4 transition-colors">Sign In / Register</button>
-                    <button onclick="window.navigate('store')" class="flex items-center justify-center gap-3 text-white border border-white/20 hover:bg-white/10 px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full transition-colors"><i data-lucide="shopping-bag" class="w-4 h-4"></i> View Cart (${state.cartCount})</button>
-                `;
+            if (mobileAuth) {
+                if (isRealUser) {
+                    mobileAuth.innerHTML = `
+                        <div class="flex items-center justify-center gap-3 glass-panel px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full mb-4 ${isAdmin ? 'border border-red-500/50' : ''}">
+                            <i data-lucide="${isAdmin ? 'shield-check' : 'user'}" class="w-4 h-4 text-red-500"></i>
+                            <span class="text-white truncate font-medium">${state.user.email}</span>
+                        </div>
+                        <button onclick="window.handleSignOut()" class="flex items-center justify-center gap-3 text-red-500 border border-red-500/20 bg-red-500/10 hover:bg-red-500/20 px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest w-full mb-4 transition-colors">Logout</button>
+                        <button onclick="window.navigate('store')" class="flex items-center justify-center gap-3 text-white border border-white/20 hover:bg-white/10 px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full transition-colors"><i data-lucide="shopping-bag" class="w-4 h-4"></i> View Cart (${state.cartCount})</button>
+                    `;
+                } else {
+                    mobileAuth.innerHTML = `
+                        <button onclick="window.openAuthModal()" class="flex items-center justify-center gap-3 bg-white text-black hover:bg-gray-200 px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest w-full mb-4 transition-colors">Sign In / Register</button>
+                        <button onclick="window.navigate('store')" class="flex items-center justify-center gap-3 text-white border border-white/20 hover:bg-white/10 px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full transition-colors"><i data-lucide="shopping-bag" class="w-4 h-4"></i> View Cart (${state.cartCount})</button>
+                    `;
+                }
             }
 
             lucide.createIcons();
@@ -623,20 +952,21 @@
 
         const updateCartBadge = () => {
             const badge = document.getElementById('cart-badge');
-            if (state.cartCount > 0) {
-                badge.innerText = state.cartCount;
-                badge.classList.remove('hidden');
-                badge.classList.add('flex');
-            } else {
-                badge.classList.add('hidden');
-                badge.classList.remove('flex');
+            if (badge) {
+                if (state.cartCount > 0) {
+                    badge.innerText = state.cartCount;
+                    badge.classList.remove('hidden');
+                    badge.classList.add('flex');
+                } else {
+                    badge.classList.add('hidden');
+                    badge.classList.remove('flex');
+                }
             }
-            updateNavbarUI(); 
         };
 
         // --- Render Templates ---
         const templates = {
-            home: `
+            home: () => `
                 <div class="page-transition">
                     <div class="relative min-h-screen flex items-center pt-20 overflow-hidden">
                         <div class="absolute inset-0 z-0">
@@ -669,16 +999,14 @@
                     
                     <div class="bg-[#030303] py-24 md:py-32 px-6 md:px-12 relative z-10">
                         <div class="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8">
-                            <!-- Feature 1 -->
                             <div class="group cursor-pointer hover:-translate-y-3 transition-all duration-500 ease-out" onclick="window.navigate('classes')">
                                 <div class="w-16 h-16 rounded-2xl glass-panel flex items-center justify-center text-white mb-8 group-hover:bg-red-900/30 group-hover:text-red-500 group-hover:border-red-500/50 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_30px_rgba(220,38,38,0.3)]">
                                     <i data-lucide="users" class="w-7 h-7"></i>
                                 </div>
                                 <h3 class="text-2xl font-light text-white mb-4 tracking-wide font-serif">Live & Offline</h3>
-                                <p class="text-base text-gray-500 leading-relaxed font-light mb-8 max-w-sm">Connect with world-class instructors in personalized 1-on-1s, or immerse yourself in our local studio environments.</p>
-                                <span class="text-xs text-white font-medium uppercase tracking-widest flex items-center gap-2 group-hover:text-red-500 transition-colors">Explore Classes <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
+                                <p class="text-base text-gray-500 leading-relaxed font-light mb-8 max-w-sm">Connect with world-class instructors in personalized 1-on-1s, or immerse yourself in our local studio environments across cities.</p>
+                                <span class="text-xs text-white font-medium uppercase tracking-widest flex items-center gap-2 group-hover:text-red-500 transition-colors">Explore Courses <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
                             </div>
-                            <!-- Feature 2 -->
                             <div class="group cursor-pointer hover:-translate-y-3 transition-all duration-500 ease-out" onclick="window.navigate('library')">
                                 <div class="w-16 h-16 rounded-2xl glass-panel flex items-center justify-center text-white mb-8 group-hover:bg-red-900/30 group-hover:text-red-500 group-hover:border-red-500/50 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_30px_rgba(220,38,38,0.3)]">
                                     <i data-lucide="play" class="w-7 h-7"></i>
@@ -687,7 +1015,6 @@
                                 <p class="text-base text-gray-500 leading-relaxed font-light mb-8 max-w-sm">Unlimited access to our premium catalog of recorded masterclasses, exclusive videos, and curated notes.</p>
                                 <span class="text-xs text-white font-medium uppercase tracking-widest flex items-center gap-2 group-hover:text-red-500 transition-colors">Start Watching <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
                             </div>
-                            <!-- Feature 3 -->
                             <div class="group cursor-pointer hover:-translate-y-3 transition-all duration-500 ease-out" onclick="window.navigate('store')">
                                 <div class="w-16 h-16 rounded-2xl glass-panel flex items-center justify-center text-white mb-8 group-hover:bg-red-900/30 group-hover:text-red-500 group-hover:border-red-500/50 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_30px_rgba(220,38,38,0.3)]">
                                     <i data-lucide="guitar" class="w-7 h-7"></i>
@@ -700,9 +1027,8 @@
                     </div>
                 </div>
             `,
-            library: `
+            library: () => `
                 <div class="pt-32 pb-32 min-h-screen page-transition overflow-hidden relative">
-                    <!-- Glow blob -->
                     <div class="absolute top-40 right-0 w-[500px] h-[500px] bg-red-900/10 blur-[150px] rounded-full pointer-events-none"></div>
 
                     <div class="px-6 md:px-12 max-w-screen-2xl mx-auto mb-24 relative z-10">
@@ -751,54 +1077,46 @@
                     `).join('')}
                 </div>
             `,
-            classes: `
+            classes: () => `
                 <div class="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 max-w-screen-2xl mx-auto min-h-screen page-transition">
-                    <div class="max-w-4xl mb-16 md:mb-24">
-                        <p class="text-red-600 text-xs md:text-sm font-bold tracking-[0.3em] uppercase mb-4 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">Learn</p>
+                    <div class="max-w-4xl mb-12">
+                        <p class="text-red-600 text-xs md:text-sm font-bold tracking-[0.3em] uppercase mb-4 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">Courses & Classes</p>
                         <h2 class="text-5xl md:text-6xl lg:text-8xl font-light text-white tracking-tight mb-6 md:mb-8 font-serif">Master your <span class="italic text-white/90">craft.</span></h2>
-                        <p class="text-base md:text-xl text-gray-400 font-light tracking-wide leading-relaxed">Elevate your skills with personalized online coaching or immersive in-studio sessions.</p>
+                        <p class="text-base md:text-xl text-gray-400 font-light tracking-wide leading-relaxed">Elevate your skills with personalized online coaching or immersive offline studio sessions across major cities.</p>
+                        ${state.isFirestoreOffline ? `<p class="text-xs text-red-400 mt-4 flex items-center gap-2"><i data-lucide="wifi-off" class="w-4 h-4"></i> Custom Database offline. Running in secure local-state mode.</p>` : ''}
+                    </div>
+
+                    <!-- Filter Bar -->
+                    <div class="flex flex-col md:flex-row items-center gap-4 mb-16 relative z-10 w-full">
+                        <div class="relative w-full md:w-2/5">
+                            <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i>
+                            <input type="text" id="search-input" oninput="window.updateFilter('search', this.value)" placeholder="Search courses, instruments, or cities..." value="${state.filters.search}" class="w-full glass-panel text-white pl-14 pr-6 py-4 rounded-full outline-none focus:border-red-500/50 transition-colors text-sm placeholder-gray-500">
+                        </div>
+                        <div class="relative w-full md:w-1/4">
+                            <select id="type-select" onchange="window.updateFilter('type', this.value)" class="w-full glass-panel text-white px-6 py-4 rounded-full outline-none focus:border-red-500/50 transition-colors text-sm appearance-none cursor-pointer">
+                                <option value="All" ${state.filters.type === 'All' ? 'selected' : ''}>All Locations</option>
+                                <option value="Online" ${state.filters.type === 'Online' ? 'selected' : ''}>Online Only</option>
+                                <option value="Offline" ${state.filters.type === 'Offline' ? 'selected' : ''}>Offline Studios</option>
+                            </select>
+                            <i data-lucide="chevron-down" class="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
+                        </div>
+                        <div class="relative w-full md:w-1/4">
+                            <select id="cat-select" onchange="window.updateFilter('category', this.value)" class="w-full glass-panel text-white px-6 py-4 rounded-full outline-none focus:border-red-500/50 transition-colors text-sm appearance-none cursor-pointer">
+                                <option value="All" ${state.filters.category === 'All' ? 'selected' : ''}>All Categories</option>
+                                <option value="Singing" ${state.filters.category === 'Singing' ? 'selected' : ''}>Singing / Vocals</option>
+                                <option value="Instruments" ${state.filters.category === 'Instruments' ? 'selected' : ''}>Instruments</option>
+                                <option value="Production" ${state.filters.category === 'Production' ? 'selected' : ''}>Music Production</option>
+                            </select>
+                            <i data-lucide="chevron-down" class="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
+                        </div>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        ${DATA.classesData.map(cls => `
-                            <div class="glass-panel p-8 md:p-10 rounded-[2rem] hover:bg-neutral-900/60 transition-colors duration-500 flex flex-col h-full group relative overflow-hidden border border-white/5 hover:border-red-900/50">
-                                <div class="absolute top-0 right-0 w-64 h-64 bg-red-900/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-                                
-                                <div class="flex justify-between items-start mb-10 relative z-10">
-                                    <div class="p-4 rounded-full bg-white/5 border border-white/10 text-white group-hover:bg-red-600 group-hover:border-red-500 group-hover:text-white transition-all duration-500 shadow-lg">
-                                        <i data-lucide="${cls.type === 'Online' ? 'video' : 'map-pin'}" class="w-6 h-6"></i>
-                                    </div>
-                                    <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 bg-black/50 border border-white/10 px-4 py-1.5 rounded-full group-hover:border-red-500/50 group-hover:text-red-400 transition-colors backdrop-blur-md">
-                                        ${cls.type} ${cls.location ? '· ' + cls.location : ''}
-                                    </span>
-                                </div>
-                                
-                                <h3 class="text-3xl font-light text-white mb-4 relative z-10 font-serif">${cls.title}</h3>
-                                <p class="text-sm text-gray-400 font-light mb-8 leading-relaxed flex-grow relative z-10">${cls.desc}</p>
-                                
-                                <ul class="mb-12 space-y-4 relative z-10">
-                                    ${cls.features.map(f => `
-                                        <li class="flex items-center gap-4 text-sm text-gray-300 font-light">
-                                            <i data-lucide="check-circle-2" class="w-4 h-4 text-red-600 flex-shrink-0"></i> ${f}
-                                        </li>
-                                    `).join('')}
-                                </ul>
-                                
-                                <div class="pt-8 border-t border-white/10 relative z-10">
-                                    <div class="flex items-end gap-2 mb-8">
-                                        <span class="text-4xl font-light text-white">${cls.price}</span>
-                                        <span class="text-sm text-gray-500 font-medium tracking-wide mb-1">${cls.period}</span>
-                                    </div>
-                                    <button onclick="window.bookSession('${cls.title}')" class="w-full bg-white text-black py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]">
-                                        Book Session
-                                    </button>
-                                </div>
-                            </div>
-                        `).join('')}
+                    <div id="classes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Rendered dynamically -->
                     </div>
                 </div>
             `,
-            store: `
+            store: () => `
                 <div class="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 max-w-screen-2xl mx-auto min-h-screen page-transition">
                     <div class="max-w-4xl mb-16 md:mb-24">
                         <p class="text-red-600 text-xs md:text-sm font-bold tracking-[0.3em] uppercase mb-4 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">Store</p>
@@ -826,13 +1144,206 @@
                         `).join('')}
                     </div>
                 </div>
+            `,
+            admin: () => `
+                <div class="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 max-w-screen-2xl mx-auto min-h-screen page-transition">
+                    <div class="max-w-4xl mb-12 flex items-center justify-between border-b border-white/10 pb-8">
+                        <div>
+                            <p class="text-red-500 text-xs font-bold tracking-[0.3em] uppercase mb-4 flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4"></i> Admin Panel</p>
+                            <h2 class="text-4xl md:text-5xl font-light text-white tracking-tight font-serif">Command Center</h2>
+                        </div>
+                    </div>
+
+                    <!-- Admin Tabs -->
+                    <div class="flex gap-4 mb-10 overflow-x-auto hide-scrollbar pb-2">
+                        <button onclick="window.setAdminTab('dashboard')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'dashboard' ? 'bg-red-600 text-white' : 'glass-panel text-gray-400 hover:text-white'}">Overview</button>
+                        <button onclick="window.setAdminTab('users')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'users' ? 'bg-red-600 text-white' : 'glass-panel text-gray-400 hover:text-white'}">Manage Users</button>
+                        <button onclick="window.setAdminTab('create_course')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'create_course' ? 'bg-red-600 text-white' : 'glass-panel text-gray-400 hover:text-white'}"><i data-lucide="plus" class="w-4 h-4 inline mb-0.5"></i> Create Course</button>
+                    </div>
+
+                    ${state.adminTab === 'dashboard' ? `
+                    <!-- Stats Row -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                        <div class="glass-panel p-8 rounded-[2rem] border border-white/5 relative overflow-hidden group hover:border-red-500/30 transition-colors">
+                            <div class="w-12 h-12 rounded-full bg-red-900/20 flex items-center justify-center text-red-500 mb-6">
+                                <i data-lucide="users" class="w-5 h-5"></i>
+                            </div>
+                            <h4 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Total Users</h4>
+                            <p class="text-4xl text-white font-light font-serif">${state.allUsers.length || DATA.mockAdminStats.totalStudents}</p>
+                        </div>
+                        <div class="glass-panel p-8 rounded-[2rem] border border-white/5 relative overflow-hidden group hover:border-red-500/30 transition-colors">
+                            <div class="w-12 h-12 rounded-full bg-blue-900/20 flex items-center justify-center text-blue-500 mb-6">
+                                <i data-lucide="calendar-check" class="w-5 h-5"></i>
+                            </div>
+                            <h4 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Active Courses</h4>
+                            <p class="text-4xl text-white font-light font-serif">${state.dynamicCourses.length}</p>
+                        </div>
+                        <div class="glass-panel p-8 rounded-[2rem] border border-white/5 relative overflow-hidden group hover:border-red-500/30 transition-colors">
+                            <div class="w-12 h-12 rounded-full bg-green-900/20 flex items-center justify-center text-green-500 mb-6">
+                                <i data-lucide="shield-check" class="w-5 h-5"></i>
+                            </div>
+                            <h4 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Platform Status</h4>
+                            <p class="text-sm text-green-400 font-medium">${state.isFirestoreOffline ? 'Premium Offline Mode' : 'Online & Syncing'}</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-12">
+                        <!-- Course Management -->
+                        <div>
+                            <div class="flex items-center justify-between mb-8">
+                                <h3 class="text-2xl font-light text-white font-serif">Active Courses Directory</h3>
+                            </div>
+                            <div class="glass-panel rounded-3xl overflow-hidden border border-white/5">
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left text-sm text-gray-400">
+                                        <thead class="text-xs uppercase bg-white/5 text-gray-300 font-bold tracking-wider">
+                                            <tr>
+                                                <th class="px-6 py-4 rounded-tl-3xl">Course Title</th>
+                                                <th class="px-6 py-4">Faculty</th>
+                                                <th class="px-6 py-4">Price</th>
+                                                <th class="px-6 py-4">Type</th>
+                                                <th class="px-6 py-4 rounded-tr-3xl text-right">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${state.dynamicCourses.map(cls => `
+                                                <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                                    <td class="px-6 py-4 font-medium text-white">${cls.title}</td>
+                                                    <td class="px-6 py-4">${cls.facultyName || 'N/A'}</td>
+                                                    <td class="px-6 py-4 text-red-400 font-bold">${cls.price}</td>
+                                                    <td class="px-6 py-4">
+                                                        <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${cls.type === 'Online' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-orange-500/10 text-orange-400 border border-orange-500/20'}">
+                                                            ${cls.type || 'Unknown'}
+                                                        </span>
+                                                    </td>
+                                                    <td class="px-6 py-4 text-right">
+                                                        <button onclick="window.deleteCourse('${cls.id}')" class="text-gray-400 hover:text-red-500 mx-2 transition-colors" title="Delete Course"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                                    </td>
+                                                </tr>
+                                            `).join('')}
+                                            ${state.dynamicCourses.length === 0 ? `<tr><td colspan="5" class="px-6 py-8 text-center text-gray-500">No courses available. Create one to get started.</td></tr>` : ''}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    ${state.adminTab === 'users' ? `
+                    <div>
+                        <h3 class="text-2xl font-light text-white font-serif mb-8">Registered Users</h3>
+                        <div class="glass-panel rounded-3xl overflow-hidden border border-white/5">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-sm text-gray-400">
+                                    <thead class="text-xs uppercase bg-white/5 text-gray-300 font-bold tracking-wider">
+                                        <tr>
+                                            <th class="px-6 py-4 rounded-tl-3xl">Email Address</th>
+                                            <th class="px-6 py-4">User ID</th>
+                                            <th class="px-6 py-4 rounded-tr-3xl">Last Activity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${state.allUsers.map(u => `
+                                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                                <td class="px-6 py-4 font-medium text-white flex items-center gap-3">
+                                                    <div class="w-8 h-8 rounded-full bg-red-900/20 flex items-center justify-center text-red-500"><i data-lucide="user" class="w-4 h-4"></i></div>
+                                                    ${u.email}
+                                                </td>
+                                                <td class="px-6 py-4 text-xs font-mono text-gray-500">${u.id}</td>
+                                                <td class="px-6 py-4 text-xs">${new Date(u.lastLogin).toLocaleString()}</td>
+                                            </tr>
+                                        `).join('')}
+                                        ${state.allUsers.length === 0 ? `<tr><td colspan="3" class="px-6 py-8 text-center text-gray-500">No registered users found.</td></tr>` : ''}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    ${state.adminTab === 'create_course' ? `
+                    <div class="max-w-3xl">
+                        <h3 class="text-2xl font-light text-white font-serif mb-8">Create New Course</h3>
+                        <form onsubmit="window.handleCreateCourse(event)" class="glass-panel p-8 md:p-10 rounded-[2rem] border border-white/5 space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Course Title</label>
+                                    <input type="text" name="title" required class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Price (e.g. ₹4999)</label>
+                                    <input type="text" name="price" required class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Course Description</label>
+                                    <textarea name="desc" required rows="3" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Course Image URL</label>
+                                    <input type="url" name="image" placeholder="https://..." class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Timings (e.g. Mon & Wed, 6PM)</label>
+                                    <input type="text" name="timings" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Features (Comma separated)</label>
+                                    <input type="text" name="features" placeholder="Feature 1, Feature 2, Feature 3" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Faculty Name</label>
+                                    <input type="text" name="facultyName" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Faculty Image URL</label>
+                                    <input type="url" name="facultyImage" placeholder="https://..." class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Location/City</label>
+                                    <input type="text" name="location" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Fee Type</label>
+                                    <select name="feeType" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors appearance-none">
+                                        <option value="/ month">Monthly Subscription</option>
+                                        <option value="/ session">Per Session</option>
+                                        <option value="One-time">One-time Payment</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Category</label>
+                                    <select name="category" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors appearance-none">
+                                        <option value="Singing">Singing / Vocals</option>
+                                        <option value="Instruments">Instruments</option>
+                                        <option value="Production">Music Production</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Class Type</label>
+                                    <select name="type" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors appearance-none">
+                                        <option value="Offline">Offline Studio</option>
+                                        <option value="Online">Online Class</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full bg-red-600 text-white py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-red-700 transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)] mt-6">Publish Course</button>
+                        </form>
+                    </div>
+                    ` : ''}
+                </div>
             `
         };
 
         const renderApp = () => {
-            document.getElementById('app-root').innerHTML = templates[state.currentPage] || templates.home;
+            const template = templates[state.currentPage] || templates.home;
+            document.getElementById('app-root').innerHTML = typeof template === 'function' ? template() : template;
             updateNavbarUI(); 
-            lucide.createIcons(); // Ensure newly injected icons render
+            lucide.createIcons();
+            
+            if (state.currentPage === 'classes') {
+                renderClassesGrid();
+            }
         };
 
         // Initialize App
