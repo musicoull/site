@@ -485,9 +485,33 @@
             try {
                 const coursesRef = collection(db, 'artifacts', appId, 'public', 'data', 'courses');
                 onSnapshot(coursesRef, (snapshot) => {
-                    state.dynamicCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    let cloudCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                    // Merge local edits with priority so client changes are persistent
+                    const localCoursesStr = localStorage.getItem('musicoul_local_courses');
+                    if (localCoursesStr) {
+                        try {
+                            const localCourses = JSON.parse(localCoursesStr);
+                            const localMap = new Map(localCourses.map(c => [c.id.toString(), c]));
+
+                            // Replace cloud courses with local modifications
+                            cloudCourses = cloudCourses.map(c => localMap.has(c.id.toString()) ? localMap.get(c.id.toString()) : c);
+
+                            // Append any newly created local courses that aren't on cloud yet
+                            const cloudIds = new Set(cloudCourses.map(c => c.id.toString()));
+                            localCourses.forEach(lc => {
+                                if (!cloudIds.has(lc.id.toString())) {
+                                    cloudCourses.push(lc);
+                                }
+                            });
+                        } catch (e) {
+                            console.error("Error merging offline local course edits", e);
+                        }
+                    }
+
+                    state.dynamicCourses = cloudCourses;
                     if (state.dynamicCourses.length === 0) {
-                        DATA.classesData.forEach(async (cls) => { try { await setDoc(doc(coursesRef, cls.id.toString()), cls); } catch(e) {} });
+                        DATA.classesData.forEach(async (cls) => { try { await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', cls.id.toString()), cls); } catch(e) {} });
                     }
                     if (state.currentPage === 'classes') renderClassesGrid();
                     if (state.currentPage === 'admin') renderApp();
@@ -603,11 +627,24 @@
                 schedule: schedules, materials: materials
             };
 
-            // If Firestore offline, or if write permissions prevent guest-authenticated writes, we immediately update locally
+            // Maintain local persistence list for dual sync merge
+            let localCoursesList = [];
+            const localCoursesStr = localStorage.getItem('musicoul_local_courses');
+            if (localCoursesStr) {
+                try { localCoursesList = JSON.parse(localCoursesStr); } catch(err) {}
+            }
+            localCoursesList = localCoursesList.filter(c => c.id.toString() !== docId);
+            localCoursesList.push(courseData);
+            localStorage.setItem('musicoul_local_courses', JSON.stringify(localCoursesList));
+
+            // Instant memory update to prevent layout replacement by snapshot triggers
+            if (state.editingCourse) {
+                state.dynamicCourses = state.dynamicCourses.map(c => c.id.toString() === docId ? courseData : c);
+            } else {
+                state.dynamicCourses.push(courseData);
+            }
+
             if (state.isFirestoreOffline) {
-                if (state.editingCourse) { state.dynamicCourses = state.dynamicCourses.map(c => c.id.toString() === docId ? courseData : c); } 
-                else { state.dynamicCourses.push(courseData); }
-                localStorage.setItem('musicoul_local_courses', JSON.stringify(state.dynamicCourses));
                 window.showToast("Course saved locally (Offline Mode)!");
                 window.setAdminTab('dashboard');
                 return;
@@ -618,28 +655,33 @@
                 window.setAdminTab('dashboard');
             } catch(error) {
                 console.warn("Cloud write restricted. Saving safely in local state fallback.", error);
-                // Guaranteed safety fallback write
-                if (state.editingCourse) { state.dynamicCourses = state.dynamicCourses.map(c => c.id.toString() === docId ? courseData : c); } 
-                else { state.dynamicCourses.push(courseData); }
-                localStorage.setItem('musicoul_local_courses', JSON.stringify(state.dynamicCourses));
                 window.showToast("Course saved locally!");
                 window.setAdminTab('dashboard');
             }
         };
 
         window.deleteCourse = async (id) => {
+             // Remove from local persistent overrides list
+             let localCoursesList = [];
+             const localCoursesStr = localStorage.getItem('musicoul_local_courses');
+             if (localCoursesStr) {
+                 try { localCoursesList = JSON.parse(localCoursesStr); } catch(e) {}
+             }
+             localCoursesList = localCoursesList.filter(c => c.id.toString() !== id.toString());
+             localStorage.setItem('musicoul_local_courses', JSON.stringify(localCoursesList));
+
+             // Clean from currently active memory state instantly
+             state.dynamicCourses = state.dynamicCourses.filter(c => c.id.toString() !== id.toString());
+
              if (state.isFirestoreOffline) {
-                 state.dynamicCourses = state.dynamicCourses.filter(c => c.id.toString() !== id.toString());
-                 localStorage.setItem('musicoul_local_courses', JSON.stringify(state.dynamicCourses));
-                 window.showToast("Course deleted locally."); renderApp(); return;
+                 window.showToast("Course deleted locally."); 
+                 renderApp(); 
+                 return;
              }
              try { 
                  await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', id.toString())); 
                  window.showToast("Course deleted."); 
              } catch(e) {
-                 // Offline fallback
-                 state.dynamicCourses = state.dynamicCourses.filter(c => c.id.toString() !== id.toString());
-                 localStorage.setItem('musicoul_local_courses', JSON.stringify(state.dynamicCourses));
                  window.showToast("Course deleted locally.");
                  renderApp();
              }
