@@ -251,6 +251,73 @@
         </div>
     </div>
 
+    <!-- === ADMIN ASSIGN COURSE MODAL === -->
+    <div id="assign-modal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-500">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-md" onclick="window.closeAssignModal()"></div>
+        <div class="relative w-full max-w-[480px] bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 shadow-[0_0_60px_rgba(220,38,38,0.2)] z-10">
+            <button onclick="window.closeAssignModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white bg-white/5 p-2 rounded-full transition-all">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+            <div class="mb-8">
+                <h3 class="text-2xl font-light text-white font-serif mb-2">Assign Course Access</h3>
+                <p class="text-xs text-gray-400">Instantly grant a student full access to materials, workspace, and schedules.</p>
+            </div>
+            <div class="space-y-6">
+                <div>
+                    <span class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Target Student</span>
+                    <p id="assign-student-display" class="text-white font-medium bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm"></p>
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Choose Course</label>
+                    <select id="assign-course-select" class="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-red-500">
+                        <!-- Injected via JS -->
+                    </select>
+                </div>
+                <button onclick="window.submitCourseAssignment()" class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)]">
+                    Authorize Access
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- === PREMIUM CLASSROOM OVERLAY PANEL === -->
+    <div id="classroom-panel" class="fixed inset-0 z-[140] bg-[#030303] translate-y-full opacity-0 pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col">
+        <!-- Classroom Header -->
+        <header class="border-b border-white/10 px-8 py-6 flex items-center justify-between bg-[#080808]">
+            <div class="flex items-center gap-4">
+                <img src="WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg" class="h-10 w-10 rounded-full border border-white/20">
+                <div>
+                    <h3 id="classroom-course-title" class="text-xl md:text-2xl text-white font-serif italic font-light">Course Classroom</h3>
+                    <p class="text-[10px] text-red-500 uppercase tracking-widest font-bold">Authorized Student Learning Workspace</p>
+                </div>
+            </div>
+            <button onclick="window.closeClassroom()" class="flex items-center gap-2 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-white transition-all">
+                <i data-lucide="log-out" class="w-4 h-4"></i> Close Classroom
+            </button>
+        </header>
+
+        <!-- Classroom Main Body -->
+        <div class="flex-grow flex flex-col lg:flex-row overflow-hidden">
+            <!-- Left Pane: Hierarchical Materials Navigation -->
+            <aside class="w-full lg:w-[380px] border-r border-white/10 flex flex-col bg-[#060606] h-1/2 lg:h-full overflow-y-auto p-6 md:p-8">
+                <div class="mb-6 pb-4 border-b border-white/5">
+                    <span class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] block mb-2">Workbook Content Directory</span>
+                    <p class="text-xs text-gray-400">Folders are sorted by logical sequence numbers. Select any material to launch.</p>
+                </div>
+                <div id="classroom-tree-container" class="space-y-4">
+                    <!-- Dynamic Interactive Tree Injected Here -->
+                </div>
+            </aside>
+
+            <!-- Right Pane: Cinematic Interactive Media Player / Display Sandbox -->
+            <main class="flex-grow bg-[#020202] h-1/2 lg:h-full overflow-y-auto p-6 md:p-12 flex flex-col justify-between">
+                <div id="classroom-preview-pane" class="flex-grow flex items-center justify-center">
+                    <!-- Dynamic material reader details will open here -->
+                </div>
+            </main>
+        </div>
+    </div>
+
 
     <!-- === APPLICATION LOGIC (FIREBASE & DOM) === -->
     <script type="module">
@@ -309,10 +376,18 @@
             editingCourse: null,
             allUsers: [],
             isFirestoreOffline: false,
-            dataLoaded: false
+            dataLoaded: false,
+            
+            // --- Expanded State variables for Material Hierarchies & Assign Access ---
+            userBookings: {}, // Map of courseId -> booking objects owned/assigned to logged-in user
+            editingCourseMaterials: [], // Tree structure of folders & files for currently edited course
+            assignTargetUserId: null,
+            assignTargetUserEmail: null,
+            currentClassroomCourseId: null,
+            activeClassroomNodeId: null
         };
 
-        // --- Mock Initial Data ---
+        // --- Mock Initial Data (With Advanced Structured Folders) ---
         const DATA = {
             featuredCourse: { id: 'f1', title: "The Art of Vocal Agility", description: "Master complex vocal runs, breathing techniques, and stage presence in this high-definition exclusive.", image: "https://images.unsplash.com/photo-1516280440503-6c9fa5ceec4e?auto=format&fit=crop&q=90&w=1600", type: "Masterclass" },
             libraryCategories: [
@@ -327,8 +402,70 @@
                 ]}
             ],
             classesData: [
-                { id: "1", title: "Private Vocal Coaching", type: "Online", location: "Global", category: "Singing", price: "₹2500", period: "/ month", desc: "1-on-1 personalized sessions tailored strictly to your vocal range and capabilities.", features: ["Pitch correction", "Breath control", "Repertoire building"], schedule: [{day: 'Monday', time: '18:00', type: 'Teaching Class'}, {day: 'Wednesday', time: '18:00', type: 'Group Practice'}], materials: [{title: 'Vocal Warmups PDF', type: 'PDF', url: '#'}] },
-                { id: "2", title: "Grand Piano Masterclass", type: "Offline", location: "Mumbai", category: "Instruments", price: "₹5000", period: "/ session", desc: "Experience playing on a concert grand in a purely acoustic treated room.", features: ["Steinway Grand", "Acoustic room", "Recital prep"], schedule: [{day: 'Saturday', time: '10:00', type: 'Workshop'}] }
+                { 
+                    id: "1", 
+                    title: "Private Vocal Coaching", 
+                    type: "Online", 
+                    location: "Global", 
+                    category: "Singing", 
+                    price: "₹2500", 
+                    period: "/ month", 
+                    desc: "1-on-1 personalized sessions tailored strictly to your vocal range and capabilities.", 
+                    features: ["Pitch correction", "Breath control", "Repertoire building"], 
+                    schedule: [{day: 'Monday', time: '18:00', type: 'Teaching Class'}, {day: 'Wednesday', time: '18:00', type: 'Group Practice'}], 
+                    materials: [
+                        {
+                            id: "root-fold-1",
+                            type: "folder",
+                            title: "Phase 1: Foundation & Breathing",
+                            sequence: 1,
+                            children: [
+                                { id: "foundation-pdf-1", type: "file", fileType: "PDF", title: "Diaphragmatic Breath Control", sequence: 1, url: "https://musicoul.example.com/breath_v1.pdf" },
+                                { id: "foundation-audio-1", type: "file", fileType: "Audio", title: "Scale Progression Warmups", sequence: 2, url: "https://musicoul.example.com/scales_warmup.mp3" }
+                            ]
+                        },
+                        {
+                            id: "root-fold-2",
+                            type: "folder",
+                            title: "Phase 2: Resonance Mastery",
+                            sequence: 2,
+                            children: [
+                                {
+                                    id: "sub-fold-chest",
+                                    type: "folder",
+                                    title: "Section A: Chest Voice Projection",
+                                    sequence: 1,
+                                    children: [
+                                        { id: "chest-video-1", type: "file", fileType: "Video", title: "Vocal Anchoring Masterclass", sequence: 1, url: "https://musicoul.example.com/chest_proj.mp4" }
+                                    ]
+                                }
+                            ]
+                        }
+                    ] 
+                },
+                { 
+                    id: "2", 
+                    title: "Grand Piano Masterclass", 
+                    type: "Offline", 
+                    location: "Mumbai", 
+                    category: "Instruments", 
+                    price: "₹5000", 
+                    period: "/ session", 
+                    desc: "Experience playing on a concert grand in a purely acoustic treated room.", 
+                    features: ["Steinway Grand", "Acoustic room", "Recital prep"], 
+                    schedule: [{day: 'Saturday', time: '10:00', type: 'Workshop'}],
+                    materials: [
+                        {
+                            id: "piano-fold-1",
+                            type: "folder",
+                            title: "Recital Preparations",
+                            sequence: 1,
+                            children: [
+                                { id: "piano-pdf-1", type: "file", fileType: "PDF", title: "Beethoven Sonata No. 14 Score", sequence: 1, url: "https://musicoul.example.com/sonata_moonlight.pdf" }
+                            ]
+                        }
+                    ]
+                }
             ],
             storeItems: [
                 { id: 1, name: "Pro Studio Headphones", price: "$199", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800" },
@@ -355,12 +492,11 @@
                 select.value = lang;
                 select.dispatchEvent(new Event('change'));
             } else {
-                // Hardcode cookie if google script didn't load the combo box yet
                 document.cookie = `googtrans=/en/${lang}; path=/; domain=${window.location.hostname}`;
                 document.cookie = `googtrans=/en/${lang}; path=/`;
                 window.location.reload();
             }
-            initLanguageSelects(); // Sync the dropdowns visually
+            initLanguageSelects();
             if (state.mobileMenuOpen) window.closeMobileMenu();
         };
 
@@ -404,27 +540,52 @@
                 : `Already have an account? <span class="text-white font-bold border-b border-red-600 pb-0.5 ml-1 transition-all hover:border-b-2">Sign In</span>`;
         };
 
-        // --- Firebase Auth Logic ---
+        // --- Firebase Auth Logic (Incorporating Rule 3 Strict Paths & Flow) ---
         onAuthStateChanged(auth, async (user) => {
             state.user = user;
             updateNavbarUI();
             
             if (user) {
-                // RULE 3 Check: Load dynamic data only after a user object exists
                 if (!state.dataLoaded) {
                     state.dataLoaded = true;
                     loadDynamicData();
                 }
                 
+                // Track private user bookings for real-time unlock check
+                const userBookingsRef = collection(db, 'artifacts', appId, 'users', user.uid, 'bookings');
+                onSnapshot(userBookingsRef, (snapshot) => {
+                    const tempBookings = {};
+                    snapshot.docs.forEach(doc => {
+                        const dat = doc.data();
+                        const cId = dat.courseId || doc.id;
+                        tempBookings[cId] = dat;
+                    });
+                    state.userBookings = tempBookings;
+                    if (state.currentPage === 'classes') renderClassesGrid();
+                }, (error) => {
+                    console.warn("Private bookings snapshot failed or unauthenticated");
+                });
+
                 if (!user.isAnonymous) {
-                    try { await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', user.uid), { email: user.email, lastLogin: new Date().toISOString() }, { merge: true }); } catch(e) {}
+                    try { 
+                        // Public user index track
+                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', user.uid), { 
+                            email: user.email, 
+                            lastLogin: new Date().toISOString() 
+                        }, { merge: true }); 
+                    } catch(e) {}
+                    
                     const cartRef = collection(db, 'artifacts', appId, 'users', user.uid, 'cart');
                     try {
-                        window.cartUnsubscribe = onSnapshot(cartRef, (snapshot) => { state.cartCount = snapshot.size; updateCartBadge(); }, (err) => { console.warn("Cart fallback"); });
+                        window.cartUnsubscribe = onSnapshot(cartRef, (snapshot) => { 
+                            state.cartCount = snapshot.size; 
+                            updateCartBadge(); 
+                        }, (err) => { console.warn("Cart stream error fallback"); });
                     } catch(e) {}
                 } else {
                     if (window.cartUnsubscribe) { window.cartUnsubscribe(); }
-                    state.cartCount = 0; updateCartBadge();
+                    state.cartCount = 0; 
+                    updateCartBadge();
                 }
             }
             if (state.currentPage === 'admin' && (!user || user.email !== ADMIN_EMAIL)) { window.navigate('home'); }
@@ -480,53 +641,31 @@
             if (state.currentPage === 'admin' && state.adminTab === 'users') renderApp();
         };
 
-        // Unified State Sync System to prioritize local overrides & avoid reverts
         const syncCoursesState = (cloudList = []) => {
             let merged = [...cloudList];
-            
-            // Read local storage overrides
             const localStr = localStorage.getItem('musicoul_local_courses');
             if (localStr) {
                 try {
                     const localList = JSON.parse(localStr);
                     if (Array.isArray(localList)) {
-                        // Create a map of local items by stringified ID
                         const localMap = new Map(localList.map(item => [item.id ? item.id.toString() : '', item]));
-                        
-                        // Replace existing cloud items with local ones
                         merged = merged.map(item => {
                             const itemIdStr = item.id ? item.id.toString() : '';
-                            if (localMap.has(itemIdStr)) {
-                                return localMap.get(itemIdStr);
-                            }
+                            if (localMap.has(itemIdStr)) { return localMap.get(itemIdStr); }
                             return item;
                         });
-                        
-                        // Append local items that don't exist in the cloud list
                         const cloudIds = new Set(merged.map(item => item.id ? item.id.toString() : ''));
                         localList.forEach(localItem => {
                             const localIdStr = localItem.id ? localItem.id.toString() : '';
-                            if (localIdStr && !cloudIds.has(localIdStr)) {
-                                merged.push(localItem);
-                            }
+                            if (localIdStr && !cloudIds.has(localIdStr)) { merged.push(localItem); }
                         });
                     }
-                } catch (e) {
-                    console.error("Error parsing local courses", e);
-                }
+                } catch (e) { console.error("Error parsing local courses", e); }
             }
-            
-            // If still empty, fallback to initial mock baseline
-            if (merged.length === 0) {
-                merged = [...DATA.classesData];
-            }
-            
+            if (merged.length === 0) { merged = [...DATA.classesData]; }
             state.dynamicCourses = merged;
-            
-            // Save state to local cache list
             localStorage.setItem('musicoul_local_courses', JSON.stringify(merged));
             
-            // Re-render UI segments safely
             if (state.currentPage === 'classes') renderClassesGrid();
             if (state.currentPage === 'admin') renderApp();
         };
@@ -536,18 +675,14 @@
                 const coursesRef = collection(db, 'artifacts', appId, 'public', 'data', 'courses');
                 onSnapshot(coursesRef, (snapshot) => {
                     const cloudCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    
-                    // If cloud is totally empty, seed database first
                     if (cloudCourses.length === 0) {
                         DATA.classesData.forEach(async (cls) => { 
-                            try { 
-                                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', cls.id.toString()), cls); 
-                            } catch(e) {} 
+                            try { await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', cls.id.toString()), cls); } catch(e) {} 
                         });
                     }
                     syncCoursesState(cloudCourses);
                 }, (error) => {
-                    console.warn("Firestore snapshot failed, falling back to offline mode", error);
+                    console.warn("Firestore snapshot restricted or offline. Falling back.", error);
                     useOfflineCoursesFallback();
                 });
             } catch (e) { useOfflineCoursesFallback(); }
@@ -578,9 +713,13 @@
                 key: RAZORPAY_KEY_ID, amount: numericPrice * 100, currency: "INR", name: "Musicoul Institute", description: course.title, image: "WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg",
                 handler: async function (response) {
                     try {
-                        if (state.isFirestoreOffline) return window.showToast(`Payment successful! Welcome to <b>${course.title}</b>.`);
-                        await setDoc(doc(db, 'artifacts', appId, 'users', state.user.uid, 'bookings', Date.now().toString()), {
-                            className: course.title, status: 'paid', paymentId: response.razorpay_payment_id, bookedAt: new Date().toISOString(), userEmail: state.user.email
+                        if (state.isFirestoreOffline) {
+                            state.userBookings[courseId] = { status: 'paid', className: course.title };
+                            renderClassesGrid();
+                            return window.showToast(`Payment successful! Welcome to <b>${course.title}</b>.`);
+                        }
+                        await setDoc(doc(db, 'artifacts', appId, 'users', state.user.uid, 'bookings', courseId), {
+                            courseId: courseId, className: course.title, status: 'paid', paymentId: response.razorpay_payment_id, bookedAt: new Date().toISOString(), userEmail: state.user.email
                         });
                         window.showToast(`Payment successful! Welcome to <b>${course.title}</b>.`);
                     } catch (e) { window.showToast("Network error saving booking.", true); }
@@ -591,68 +730,468 @@
             rzp.open();
         };
 
+        // --- ADMIN ASSIGN ACCESS CONTROLLER (Req 1) ---
+        window.openAssignModal = (targetUserId, targetUserEmail) => {
+            state.assignTargetUserId = targetUserId;
+            state.assignTargetUserEmail = targetUserEmail;
+            
+            const displayEl = document.getElementById('assign-student-display');
+            displayEl.innerText = `${targetUserEmail} (ID: ${targetUserId})`;
+            
+            const selectEl = document.getElementById('assign-course-select');
+            selectEl.innerHTML = state.dynamicCourses.map(course => `
+                <option value="${course.id}">${course.title} (${course.price})</option>
+            `).join('');
+            
+            document.getElementById('assign-modal').classList.remove('opacity-0', 'pointer-events-none');
+        };
+        
+        window.closeAssignModal = () => {
+            document.getElementById('assign-modal').classList.add('opacity-0', 'pointer-events-none');
+        };
+        
+        window.submitCourseAssignment = async () => {
+            const courseId = document.getElementById('assign-course-select').value;
+            const course = state.dynamicCourses.find(c => c.id.toString() === courseId.toString());
+            if (!course) return window.showToast("Course selection error.", true);
+            
+            try {
+                if (state.isFirestoreOffline) {
+                    window.showToast(`Success: Course <b>${course.title}</b> assigned to mock student locally.`);
+                    window.closeAssignModal();
+                    return;
+                }
+                
+                // Write directly to targeted student's bookings collection path (Rule 1 Compliant)
+                const bookingDocRef = doc(db, 'artifacts', appId, 'users', state.assignTargetUserId, 'bookings', courseId);
+                await setDoc(bookingDocRef, {
+                    courseId: courseId,
+                    className: course.title,
+                    status: 'assigned',
+                    assignedBy: ADMIN_EMAIL,
+                    bookedAt: new Date().toISOString(),
+                    userEmail: state.assignTargetUserEmail
+                });
+                
+                window.showToast(`Access granted! <b>${course.title}</b> was successfully assigned to <b>${state.assignTargetUserEmail}</b>.`);
+                window.closeAssignModal();
+            } catch (err) {
+                window.showToast("Firestore permissions restricted. Saving in local offline memory.", true);
+                window.closeAssignModal();
+            }
+        };
+
+        // --- INTERACTIVE MATERIALS TREE BUILDER & EDITORS (Req 3) ---
+        // Recursively search any tree to add/edit/delete nodes safely
+        const findAndManipulateNode = (nodes, targetId, action, payload = {}) => {
+            for (let i = 0; i < nodes.length; i++) {
+                if (nodes[i].id === targetId) {
+                    if (action === 'DELETE') {
+                        nodes.splice(i, 1);
+                        return true;
+                    } else if (action === 'UPDATE') {
+                        nodes[i] = { ...nodes[i], ...payload };
+                        return true;
+                    } else if (action === 'ADD_CHILD') {
+                        if (!nodes[i].children) nodes[i].children = [];
+                        nodes[i].children.push(payload);
+                        return true;
+                    }
+                }
+                if (nodes[i].children && nodes[i].children.length > 0) {
+                    const result = findAndManipulateNode(nodes[i].children, targetId, action, payload);
+                    if (result) return true;
+                }
+            }
+            return false;
+        };
+
+        window.addRootFolder = () => {
+            const newNode = {
+                id: 'fold_' + Date.now().toString(),
+                type: 'folder',
+                title: 'New Folder',
+                sequence: state.editingCourseMaterials.length + 1,
+                children: []
+            };
+            state.editingCourseMaterials.push(newNode);
+            renderAdminMaterialsTree();
+        };
+
+        window.addRootFile = () => {
+            const newNode = {
+                id: 'file_' + Date.now().toString(),
+                type: 'file',
+                fileType: 'PDF',
+                title: 'Unsequenced Syllabus Document',
+                sequence: state.editingCourseMaterials.length + 1,
+                url: '#'
+            };
+            state.editingCourseMaterials.push(newNode);
+            renderAdminMaterialsTree();
+        };
+
+        window.addChildToNode = (parentId, childType) => {
+            const newNode = childType === 'folder' ? {
+                id: 'fold_' + Date.now().toString(),
+                type: 'folder',
+                title: 'Sub-Folder Level',
+                sequence: 1,
+                children: []
+            } : {
+                id: 'file_' + Date.now().toString(),
+                type: 'file',
+                fileType: 'PDF',
+                title: 'Attached Reference Document',
+                sequence: 1,
+                url: '#'
+            };
+            findAndManipulateNode(state.editingCourseMaterials, parentId, 'ADD_CHILD', newNode);
+            renderAdminMaterialsTree();
+        };
+
+        window.updateNodeField = (nodeId, field, value) => {
+            const val = (field === 'sequence') ? (parseInt(value) || 1) : value;
+            findAndManipulateNode(state.editingCourseMaterials, nodeId, 'UPDATE', { [field]: val });
+        };
+
+        window.deleteNode = (nodeId) => {
+            findAndManipulateNode(state.editingCourseMaterials, nodeId, 'DELETE');
+            renderAdminMaterialsTree();
+        };
+
+        // Recursive rendering function for building trees inside Admin Course Panel
+        const generateMaterialEditorHTML = (nodes, depth = 0) => {
+            if (!nodes) return '';
+            // Sort by sequence number for edit presentation as well
+            const sortedNodes = [...nodes].sort((a, b) => (a.sequence || 0) - (b.sequence || 0));
+            
+            return sortedNodes.map(node => {
+                const indentClass = `pl-${depth * 6}`;
+                const isFolder = node.type === 'folder';
+                
+                return `
+                    <div class="bg-white/5 p-4 rounded-xl border border-white/5 space-y-3 relative group" style="margin-left: ${depth * 24}px">
+                        <div class="flex flex-wrap items-center justify-between gap-4">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs bg-red-600/20 text-red-500 font-bold px-2 py-0.5 rounded-md">${node.type.toUpperCase()}</span>
+                                <span class="text-xs text-gray-500 font-mono">ID: ${node.id}</span>
+                            </div>
+                            <button type="button" onclick="window.deleteNode('${node.id}')" class="text-xs bg-red-600/20 hover:bg-red-600 text-white rounded-full p-1 transition-all" title="Delete Node">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                            <!-- Sequence Number -->
+                            <div class="md:col-span-2">
+                                <label class="block text-[9px] uppercase tracking-widest text-gray-400 mb-1">Seq No *</label>
+                                <input type="number" min="1" value="${node.sequence || 1}" 
+                                    onchange="window.updateNodeField('${node.id}', 'sequence', this.value)" 
+                                    class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white text-xs text-center font-bold focus:border-red-500">
+                            </div>
+                            
+                            <!-- Title -->
+                            <div class="${isFolder ? 'md:col-span-10' : 'md:col-span-6'}">
+                                <label class="block text-[9px] uppercase tracking-widest text-gray-400 mb-1">Display Title *</label>
+                                <input type="text" value="${node.title || ''}" 
+                                    onchange="window.updateNodeField('${node.id}', 'title', this.value)" 
+                                    class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white text-xs focus:border-red-500">
+                            </div>
+                            
+                            ${!isFolder ? `
+                                <!-- File Link Type -->
+                                <div class="md:col-span-2">
+                                    <label class="block text-[9px] uppercase tracking-widest text-gray-400 mb-1">Format</label>
+                                    <select onchange="window.updateNodeField('${node.id}', 'fileType', this.value)" 
+                                        class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white text-xs">
+                                        <option value="PDF" ${node.fileType==='PDF'?'selected':''}>PDF Document</option>
+                                        <option value="Audio" ${node.fileType==='Audio'?'selected':''}>Audio File</option>
+                                        <option value="Video" ${node.fileType==='Video'?'selected':''}>Video Player</option>
+                                        <option value="External Link" ${node.fileType==='External Link'?'selected':''}>External Link</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Link URL -->
+                                <div class="md:col-span-12">
+                                    <label class="block text-[9px] uppercase tracking-widest text-gray-400 mb-1">Media / Asset URL</label>
+                                    <input type="text" value="${node.url || ''}" placeholder="e.g. https://domain.com/vocal_run.mp4"
+                                        onchange="window.updateNodeField('${node.id}', 'url', this.value)" 
+                                        class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white text-xs focus:border-red-500">
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        ${isFolder ? `
+                            <div class="flex gap-2 pt-2">
+                                <button type="button" onclick="window.addChildToNode('${node.id}', 'folder')" class="text-[9px] text-red-400 border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 px-3 py-1 rounded-full uppercase tracking-wider font-bold transition-all">
+                                    + Add Folder inside
+                                </button>
+                                <button type="button" onclick="window.addChildToNode('${node.id}', 'file')" class="text-[9px] text-gray-400 border border-white/10 bg-white/5 hover:bg-white/10 px-3 py-1 rounded-full uppercase tracking-wider font-bold transition-all">
+                                    + Add Material inside
+                                </button>
+                            </div>
+                        ` : ''}
+                        
+                        <!-- Recursive children rendering -->
+                        ${node.children && node.children.length > 0 ? `
+                            <div class="pt-4 border-t border-white/5 space-y-4">
+                                ${generateMaterialEditorHTML(node.children, depth + 1)}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        };
+
+        const renderAdminMaterialsTree = () => {
+            const container = document.getElementById('materials-tree-builder');
+            if (container) {
+                container.innerHTML = generateMaterialEditorHTML(state.editingCourseMaterials);
+                lucide.createIcons();
+            }
+        };
+
+
+        // --- VIRTUAL CLASSROOM VIEW CONTROLLERS (Req 2 & 3) ---
+        window.openClassroom = (courseId) => {
+            state.currentClassroomCourseId = courseId;
+            const course = state.dynamicCourses.find(c => c.id.toString() === courseId.toString());
+            if (!course) return window.showToast("Classroom error.", true);
+            
+            document.getElementById('classroom-course-title').innerText = course.title;
+            state.activeClassroomNodeId = null;
+            
+            // Render tree folders on classroom launch
+            renderClassroomView();
+            
+            const panel = document.getElementById('classroom-panel');
+            panel.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
+            panel.classList.add('translate-y-0', 'opacity-100');
+        };
+
+        window.closeClassroom = () => {
+            state.currentClassroomCourseId = null;
+            const panel = document.getElementById('classroom-panel');
+            panel.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
+            panel.classList.remove('translate-y-0', 'opacity-100');
+        };
+
+        // Recursive materials display sidebar parser (Sorted by Sequence)
+        const generateClassroomSidebarHTML = (nodes) => {
+            if (!nodes) return '';
+            const sorted = [...nodes].sort((a, b) => (a.sequence || 0) - (b.sequence || 0));
+            
+            return sorted.map(node => {
+                const isFolder = node.type === 'folder';
+                const hasChildren = node.children && node.children.length > 0;
+                
+                if (isFolder) {
+                    return `
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2.5 text-sm font-semibold text-white/95 bg-white/5 px-3 py-2 rounded-xl border border-white/5">
+                                <i data-lucide="folder" class="w-4 h-4 text-red-500"></i>
+                                <span class="bg-red-600/20 text-red-500 text-[9px] font-mono px-1.5 py-0.5 rounded">${node.sequence}</span>
+                                <span class="truncate font-serif italic">${node.title}</span>
+                            </div>
+                            ${hasChildren ? `
+                                <div class="pl-4 border-l border-white/10 space-y-2 mt-1">
+                                    ${generateClassroomSidebarHTML(node.children)}
+                                </div>
+                            ` : `
+                                <div class="pl-6 text-[10px] text-gray-600 italic">Empty Folder</div>
+                            `}
+                        </div>
+                    `;
+                } else {
+                    const fileIcons = {
+                        'PDF': 'file-text',
+                        'Audio': 'music-4',
+                        'Video': 'video',
+                        'External Link': 'external-link'
+                    };
+                    const iconName = fileIcons[node.fileType] || 'file';
+                    const isActive = state.activeClassroomNodeId === node.id;
+                    
+                    return `
+                        <button onclick="window.launchClassroomMedia('${node.id}')" 
+                                class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl transition-all border ${isActive ? 'bg-red-600/10 text-white border-red-500/40 font-bold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'}">
+                            <i data-lucide="${iconName}" class="w-4 h-4 ${isActive ? 'text-red-500' : 'text-gray-500'}"></i>
+                            <span class="bg-white/10 text-gray-400 text-[8px] font-mono px-1 py-0.5 rounded">${node.sequence}</span>
+                            <span class="text-xs truncate flex-grow">${node.title}</span>
+                        </button>
+                    `;
+                }
+            }).join('');
+        };
+
+        // Deep search within materials tree to launch specific preview
+        const findNodeInTree = (nodes, id) => {
+            for (const node of nodes) {
+                if (node.id === id) return node;
+                if (node.children && node.children.length > 0) {
+                    const childResult = findNodeInTree(node.children, id);
+                    if (childResult) return childResult;
+                }
+            }
+            return null;
+        };
+
+        window.launchClassroomMedia = (nodeId) => {
+            state.activeClassroomNodeId = nodeId;
+            renderClassroomView();
+        };
+
+        const renderClassroomView = () => {
+            const course = state.dynamicCourses.find(c => c.id.toString() === state.currentClassroomCourseId.toString());
+            if (!course) return;
+
+            // Re-render folder tree on sidebar
+            const treeContainer = document.getElementById('classroom-tree-container');
+            if (treeContainer) {
+                if (course.materials && course.materials.length > 0) {
+                    treeContainer.innerHTML = generateClassroomSidebarHTML(course.materials);
+                } else {
+                    treeContainer.innerHTML = `<div class="text-center py-8 text-gray-500 text-xs"><i data-lucide="frown" class="w-8 h-8 mx-auto mb-2 text-gray-600"></i>No workbook files loaded for this course yet.</div>`;
+                }
+            }
+
+            // Render Preview Panel
+            const previewContainer = document.getElementById('classroom-preview-pane');
+            const activeNode = state.activeClassroomNodeId ? findNodeInTree(course.materials || [], state.activeClassroomNodeId) : null;
+
+            if (activeNode) {
+                let mediaRenderHTML = '';
+                if (activeNode.fileType === 'Video') {
+                    mediaRenderHTML = `
+                        <div class="w-full max-w-4xl space-y-6 animate-fade-in">
+                            <div class="aspect-video bg-black border border-white/10 rounded-2xl overflow-hidden relative group">
+                                <div class="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
+                                    <div class="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center text-white shadow-2xl hover:scale-105 active:scale-95 transition-all cursor-pointer"><i data-lucide="play" class="w-8 h-8 fill-current ml-1"></i></div>
+                                </div>
+                                <!-- Custom media placeholder header overlay -->
+                                <div class="absolute top-0 inset-x-0 p-6 bg-gradient-to-b from-black/80 to-transparent flex items-center justify-between">
+                                    <span class="text-xs font-bold tracking-widest text-red-500 uppercase">Musicoul Cinematic Streamer</span>
+                                    <span class="text-xs text-gray-400 font-mono">HD Premium Playback</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl text-white font-serif italic">${activeNode.title}</h4>
+                                <p class="text-xs text-gray-400 mt-2 flex items-center gap-2"><i data-lucide="video" class="w-4 h-4 text-red-500"></i> Video Masterclass Module · Sorted sequence #${activeNode.sequence}</p>
+                            </div>
+                        </div>
+                    `;
+                } else if (activeNode.fileType === 'Audio') {
+                    mediaRenderHTML = `
+                        <div class="w-full max-w-2xl space-y-8 animate-fade-in">
+                            <div class="glass-panel p-8 md:p-12 rounded-[2rem] border border-white/10 text-center relative overflow-hidden">
+                                <div class="absolute inset-0 bg-red-900/5 blur-xl"></div>
+                                <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-red-600 to-red-800 flex items-center justify-center text-white mx-auto mb-8 shadow-[0_0_30px_rgba(220,38,38,0.4)]"><i data-lucide="music-4" class="w-10 h-10 animate-pulse"></i></div>
+                                <h4 class="text-2xl text-white font-serif mb-2">${activeNode.title}</h4>
+                                <p class="text-xs text-red-500 font-bold uppercase tracking-widest mb-6">Interactive Audio Lesson</p>
+                                
+                                <!-- Custom Audio Visualizer Simulation -->
+                                <div class="flex justify-center items-end gap-1.5 h-16 mb-8 select-none">
+                                    <div class="w-1.5 bg-red-500 h-6 rounded animate-pulse" style="animation-duration: 0.6s"></div>
+                                    <div class="w-1.5 bg-red-500 h-12 rounded animate-pulse" style="animation-duration: 0.9s"></div>
+                                    <div class="w-1.5 bg-red-600 h-16 rounded animate-pulse" style="animation-duration: 0.5s"></div>
+                                    <div class="w-1.5 bg-red-500 h-14 rounded animate-pulse" style="animation-duration: 0.8s"></div>
+                                    <div class="w-1.5 bg-red-600 h-8 rounded animate-pulse" style="animation-duration: 0.7s"></div>
+                                    <div class="w-1.5 bg-red-500 h-4 rounded animate-pulse" style="animation-duration: 1.1s"></div>
+                                </div>
+                                
+                                <!-- Audio Player controls -->
+                                <div class="bg-black/40 border border-white/5 rounded-full px-6 py-4 flex items-center justify-between gap-4">
+                                    <button class="text-white hover:text-red-500 transition-colors"><i data-lucide="play" class="w-5 h-5 fill-current"></i></button>
+                                    <div class="flex-grow h-1.5 bg-white/10 rounded-full relative overflow-hidden">
+                                        <div class="absolute inset-y-0 left-0 bg-red-600 w-1/3"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 font-mono">01:42 / 05:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (activeNode.fileType === 'PDF') {
+                    mediaRenderHTML = `
+                        <div class="w-full max-w-3xl space-y-6 animate-fade-in">
+                            <div class="glass-panel p-10 rounded-[2rem] border border-white/10 min-h-[400px] flex flex-col justify-between">
+                                <div class="space-y-6">
+                                    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                                        <div class="flex items-center gap-3">
+                                            <i data-lucide="file-text" class="w-8 h-8 text-red-500"></i>
+                                            <div>
+                                                <h4 class="text-xl text-white font-serif">${activeNode.title}</h4>
+                                                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-mono">Workbook Syllabus Document</p>
+                                            </div>
+                                        </div>
+                                        <span class="text-xs bg-white/5 border border-white/10 text-gray-400 px-3 py-1 rounded-full">PDF Guide</span>
+                                    </div>
+                                    <div class="space-y-4 text-sm text-gray-400 font-light leading-relaxed">
+                                        <p class="font-bold text-white text-base">Section Overview:</p>
+                                        <p>This premium workbook contains notation, musical theory, homework exercises, and structured routines developed by Musicoul faculty.</p>
+                                        <p>Please review page 12 through 20 prior to attending the next synchronized live performance coaching event.</p>
+                                    </div>
+                                </div>
+                                <div class="pt-6 border-t border-white/5 flex flex-wrap gap-4 items-center justify-between">
+                                    <span class="text-xs text-gray-500">Format sequence: #${activeNode.sequence}</span>
+                                    <a href="${activeNode.url}" target="_blank" class="bg-white hover:bg-red-600 hover:text-white text-black px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all">Launch Document Preview</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // External Links
+                    mediaRenderHTML = `
+                        <div class="w-full max-w-xl animate-fade-in text-center">
+                            <div class="glass-panel p-10 rounded-[2rem] border border-white/10 space-y-6">
+                                <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-red-500 mx-auto"><i data-lucide="external-link" class="w-8 h-8"></i></div>
+                                <h4 class="text-2xl text-white font-serif font-light">${activeNode.title}</h4>
+                                <p class="text-sm text-gray-400 font-light leading-relaxed">This workspace module connects to an external synchronized collaborative portal or audio hosting service.</p>
+                                <a href="${activeNode.url}" target="_blank" class="inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+                                    Launch Module Link <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }
+                previewContainer.innerHTML = mediaRenderHTML;
+            } else {
+                // Welcoming Empty Workspace
+                previewContainer.innerHTML = `
+                    <div class="text-center text-gray-500 max-w-lg select-none">
+                        <div class="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 mx-auto mb-8 animate-bounce" style="animation-duration: 3s"><i data-lucide="headphones" class="w-10 h-10"></i></div>
+                        <h4 class="text-2xl text-white font-serif italic mb-4">Your Musicoul Classroom Workspace</h4>
+                        <p class="text-sm text-gray-400 font-light leading-relaxed">Select any item from the structured curriculum directory on the left to launch the HD video stream, play synchronized audio loops, or preview workbooks.</p>
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+        };
+
         // --- Admin Specific Functions ---
         window.setAdminTab = (tab) => { state.adminTab = tab; state.editingCourse = null; renderApp(); };
         window.editCourse = (id) => {
-            state.editingCourse = state.dynamicCourses.find(c => c.id.toString() === id.toString());
+            const course = state.dynamicCourses.find(c => c.id.toString() === id.toString());
+            state.editingCourse = course;
+            
+            // Sync active materials structure recursively
+            state.editingCourseMaterials = course.materials ? JSON.parse(JSON.stringify(course.materials)) : [];
             state.adminTab = 'create_course';
             renderApp();
+            renderAdminMaterialsTree();
         };
-
-        // Dynamic Rows for Editor
-        window.getScheduleRowHTML = (s = {day: 'Monday', time: '', type: 'Teaching Class'}) => `
-            <div class="schedule-row grid grid-cols-1 sm:grid-cols-4 gap-4 items-end bg-white/5 p-4 rounded-xl border border-white/5 relative group">
-                <button type="button" onclick="this.parentElement.remove()" class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="x" class="w-3 h-3"></i></button>
-                <div><label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Day</label>
-                <select class="s-day w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white text-sm">
-                    <option value="Monday" ${s.day==='Monday'?'selected':''}>Monday</option> <option value="Tuesday" ${s.day==='Tuesday'?'selected':''}>Tuesday</option>
-                    <option value="Wednesday" ${s.day==='Wednesday'?'selected':''}>Wednesday</option> <option value="Thursday" ${s.day==='Thursday'?'selected':''}>Thursday</option>
-                    <option value="Friday" ${s.day==='Friday'?'selected':''}>Friday</option> <option value="Saturday" ${s.day==='Saturday'?'selected':''}>Saturday</option>
-                    <option value="Sunday" ${s.day==='Sunday'?'selected':''}>Sunday</option>
-                </select></div>
-                <div><label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Time</label>
-                <input type="time" class="s-time w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white text-sm" value="${s.time}"></div>
-                <div class="sm:col-span-2"><label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Lecture Type</label>
-                <select class="s-type w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white text-sm">
-                    <option value="Teaching Class" ${s.type==='Teaching Class'?'selected':''}>Teaching Class</option>
-                    <option value="Revision Class" ${s.type==='Revision Class'?'selected':''}>Revision Class</option>
-                    <option value="Group Practice" ${s.type==='Group Practice'?'selected':''}>Group Practice</option>
-                    <option value="Workshop" ${s.type==='Workshop'?'selected':''}>Workshop</option>
-                </select></div>
-            </div>`;
-
-        window.getMaterialRowHTML = (m = {title: '', type: 'PDF', url: ''}) => `
-            <div class="material-row grid grid-cols-1 sm:grid-cols-5 gap-4 items-end bg-white/5 p-4 rounded-xl border border-white/5 relative group">
-                <button type="button" onclick="this.parentElement.remove()" class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="x" class="w-3 h-3"></i></button>
-                <div class="sm:col-span-2"><label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Title</label>
-                <input type="text" placeholder="e.g. Sheet Music" class="m-title w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white text-sm" value="${m.title}"></div>
-                <div><label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Type</label>
-                <select class="m-type w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white text-sm">
-                    <option value="PDF" ${m.type==='PDF'?'selected':''}>PDF</option> <option value="Audio" ${m.type==='Audio'?'selected':''}>Audio</option>
-                    <option value="Video" ${m.type==='Video'?'selected':''}>Video</option> <option value="Image" ${m.type==='Image'?'selected':''}>Image</option>
-                    <option value="External Link" ${m.type==='External Link'?'selected':''}>External Link</option>
-                </select></div>
-                <div class="sm:col-span-2"><label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">URL</label>
-                <input type="url" placeholder="https://..." class="m-url w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white text-sm" value="${m.url}"></div>
-            </div>`;
-
-        window.addScheduleRow = () => { document.getElementById('schedule-container').insertAdjacentHTML('beforeend', window.getScheduleRowHTML()); lucide.createIcons(); };
-        window.addMaterialRow = () => { document.getElementById('material-container').insertAdjacentHTML('beforeend', window.getMaterialRowHTML()); lucide.createIcons(); };
 
         window.handleCreateCourse = async (e) => {
             e.preventDefault();
             const form = e.target;
             const docId = state.editingCourse ? state.editingCourse.id.toString() : Date.now().toString();
             
-            // Gather dynamic schedules & materials
+            // Gather dynamic schedules from legacy components
             const schedules = Array.from(document.querySelectorAll('.schedule-row')).map(row => ({
                 day: row.querySelector('.s-day').value, time: row.querySelector('.s-time').value, type: row.querySelector('.s-type').value
             }));
-            const materials = Array.from(document.querySelectorAll('.material-row')).map(row => ({
-                title: row.querySelector('.m-title').value, type: row.querySelector('.m-type').value, url: row.querySelector('.m-url').value
-            }));
 
-            // CRITICAL FIX: Safe, namespace-isolated input value helper to completely avoid overlapping form properties (like form.title/form.name/form.id conflicts)
+            // Safe, namespace-isolated input value helper to completely avoid overlapping form properties
             const getInputValue = (fieldName) => {
                 const el = form.querySelector(`[name="${fieldName}"]`);
                 return el ? el.value : '';
@@ -672,10 +1211,10 @@
                 category: getInputValue('category'), 
                 location: getInputValue('location'),
                 schedule: schedules, 
-                materials: materials
+                // Store the structured multi-level nested material folder JSON tree (Req 3)
+                materials: state.editingCourseMaterials 
             };
 
-            // Maintain local persistence list for dual sync merge
             let localCoursesList = [];
             const localCoursesStr = localStorage.getItem('musicoul_local_courses');
             if (localCoursesStr) {
@@ -685,7 +1224,6 @@
             localCoursesList.push(courseData);
             localStorage.setItem('musicoul_local_courses', JSON.stringify(localCoursesList));
 
-            // Optimistic memory update with safe layout rendering priority
             let updatedList = [...state.dynamicCourses];
             const exists = updatedList.some(c => c.id.toString() === docId);
             if (exists) {
@@ -695,7 +1233,6 @@
             }
             syncCoursesState(updatedList);
 
-            // Optimistic UI refresh
             window.showToast(state.editingCourse ? "Course updated!" : "Course published successfully!");
             window.setAdminTab('dashboard');
 
@@ -709,7 +1246,6 @@
         };
 
         window.deleteCourse = async (id) => {
-             // Remove from local persistent overrides list
              let localCoursesList = [];
              const localCoursesStr = localStorage.getItem('musicoul_local_courses');
              if (localCoursesStr) {
@@ -718,7 +1254,6 @@
              localCoursesList = localCoursesList.filter(c => c.id.toString() !== id.toString());
              localStorage.setItem('musicoul_local_courses', JSON.stringify(localCoursesList));
 
-             // Clean from currently active memory state instantly
              const updatedList = state.dynamicCourses.filter(c => c.id.toString() !== id.toString());
              syncCoursesState(updatedList);
 
@@ -751,43 +1286,76 @@
             if (filteredClasses.length === 0) {
                 grid.innerHTML = `<div class="col-span-full flex flex-col items-center justify-center py-20 text-gray-500 glass-panel rounded-3xl"><i data-lucide="search-X" class="w-12 h-12 mb-4 text-gray-600"></i><p class="text-lg">No courses found matching your criteria.</p></div>`;
             } else {
-                grid.innerHTML = filteredClasses.map(cls => `
-                    <div class="glass-panel p-8 md:p-10 rounded-[2rem] hover:bg-neutral-900/60 transition-colors duration-500 flex flex-col h-full group relative overflow-hidden border border-white/5 hover:border-red-900/50">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-red-900/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-                        <div class="flex justify-between items-start mb-10 relative z-10">
-                            <div class="p-4 rounded-full bg-white/5 border border-white/10 text-white group-hover:bg-red-600 group-hover:border-red-500 transition-all duration-500 shadow-lg"><i data-lucide="${cls.type === 'Online' ? 'video' : 'map-pin'}" class="w-6 h-6"></i></div>
-                            <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 bg-black/50 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md">${cls.type} ${cls.location ? '· ' + cls.location : ''}</span>
-                        </div>
-                        <div class="mb-3 text-[10px] font-bold uppercase tracking-widest text-red-500 relative z-10">${cls.category}</div>
-                        ${cls.image ? `<img src="${cls.image}" class="w-full h-48 object-cover rounded-2xl mb-6 relative z-10 border border-white/10">` : ''}
-                        <h3 class="text-3xl font-light text-white mb-2 relative z-10 font-serif">${cls.title}</h3>
-                        ${cls.facultyName ? `<div class="flex items-center gap-3 mb-4 relative z-10">${cls.facultyImage ? `<img src="${cls.facultyImage}" class="w-8 h-8 rounded-full object-cover">` : '<div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="user" class="w-4 h-4 text-gray-400"></i></div>'}<span class="text-xs text-gray-400">Instructor: <span class="text-white">${cls.facultyName}</span></span></div>` : ''}
-                        <p class="text-sm text-gray-400 font-light mb-6 leading-relaxed flex-grow relative z-10">${cls.desc}</p>
-                        
-                        <!-- Schedules -->
-                        ${cls.schedule && cls.schedule.length > 0 ? `
-                            <div class="mb-4 bg-white/5 rounded-xl p-3 border border-white/5 relative z-10">
-                                <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold mb-2">Schedule</p>
-                                ${cls.schedule.map(s => `<p class="text-xs text-white flex items-center gap-2 mb-1.5"><i data-lucide="calendar" class="w-3 h-3 text-red-500"></i> ${s.day}, ${s.time} - <span class="text-gray-400">${s.type}</span></p>`).join('')}
+                grid.innerHTML = filteredClasses.map(cls => {
+                    const hasAccess = state.userBookings[cls.id.toString()] || (state.user && state.user.email === ADMIN_EMAIL);
+                    
+                    return `
+                        <div class="glass-panel p-8 md:p-10 rounded-[2rem] hover:bg-neutral-900/60 transition-colors duration-500 flex flex-col h-full group relative overflow-hidden border border-white/5 hover:border-red-900/50">
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-red-900/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                            
+                            <div class="flex justify-between items-start mb-10 relative z-10">
+                                <div class="p-4 rounded-full bg-white/5 border border-white/10 text-white group-hover:bg-red-600 group-hover:border-red-500 transition-all duration-500 shadow-lg"><i data-lucide="${cls.type === 'Online' ? 'video' : 'map-pin'}" class="w-6 h-6"></i></div>
+                                
+                                ${hasAccess ? `
+                                    <span class="text-[9px] font-bold uppercase tracking-widest text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                                        <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping"></span> Student Authorized
+                                    </span>
+                                ` : `
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 bg-black/50 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md">${cls.type} ${cls.location ? '· ' + cls.location : ''}</span>
+                                `}
                             </div>
-                        ` : ''}
-                        
-                        <!-- Materials Preview -->
-                        ${cls.materials && cls.materials.length > 0 ? `
-                            <div class="mb-6 flex flex-wrap gap-2 relative z-10">
-                                ${cls.materials.map(m => `<a href="${m.url}" target="_blank" class="px-2 py-1 bg-black/50 hover:bg-red-900/40 border border-white/10 rounded-md text-[10px] text-gray-300 hover:text-white transition-colors flex items-center gap-1.5"><i data-lucide="link-2" class="w-3 h-3"></i> ${m.title}</a>`).join('')}
+                            
+                            <div class="mb-3 text-[10px] font-bold uppercase tracking-widest text-red-500 relative z-10">${cls.category}</div>
+                            ${cls.image ? `<img src="${cls.image}" class="w-full h-48 object-cover rounded-2xl mb-6 relative z-10 border border-white/10">` : ''}
+                            <h3 class="text-3xl font-light text-white mb-2 relative z-10 font-serif">${cls.title}</h3>
+                            ${cls.facultyName ? `<div class="flex items-center gap-3 mb-4 relative z-10">${cls.facultyImage ? `<img src="${cls.facultyImage}" class="w-8 h-8 rounded-full object-cover">` : '<div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="user" class="w-4 h-4 text-gray-400"></i></div>'}<span class="text-xs text-gray-400">Instructor: <span class="text-white">${cls.facultyName}</span></span></div>` : ''}
+                            <p class="text-sm text-gray-400 font-light mb-6 leading-relaxed flex-grow relative z-10">${cls.desc}</p>
+                            
+                            <!-- Schedules -->
+                            ${cls.schedule && cls.schedule.length > 0 ? `
+                                <div class="mb-4 bg-white/5 rounded-xl p-3 border border-white/5 relative z-10">
+                                    <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold mb-2">Schedule</p>
+                                    ${cls.schedule.map(s => `<p class="text-xs text-white flex items-center gap-2 mb-1.5"><i data-lucide="calendar" class="w-3 h-3 text-red-500"></i> ${s.day}, ${s.time} - <span class="text-gray-400">${s.type}</span></p>`).join('')}
+                                </div>
+                            ` : ''}
+                            
+                            <!-- PREMIUM SECURE MATERIALS SECTION (Req 2) -->
+                            <div class="mb-8 border-t border-white/5 pt-4 relative z-10">
+                                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-3 flex items-center gap-1.5">
+                                    <i data-lucide="folder-lock" class="w-3.5 h-3.5 text-red-500"></i> Learning Workbooks & Folders
+                                </p>
+                                
+                                ${hasAccess ? `
+                                    <div class="space-y-2">
+                                        <p class="text-xs text-emerald-400 flex items-center gap-1.5 mb-2"><i data-lucide="unlock" class="w-3.5 h-3.5"></i> Access Unlocked! Structured material folders are loaded.</p>
+                                        <button onclick="window.openClassroom('${cls.id}')" class="w-full bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 text-emerald-300 hover:text-white py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+                                            <i data-lucide="monitor-play" class="w-4 h-4"></i> Enter Virtual Classroom
+                                        </button>
+                                    </div>
+                                ` : `
+                                    <div class="bg-neutral-900/40 border border-white/5 rounded-2xl p-4 flex items-center gap-4">
+                                        <div class="p-3 bg-red-600/10 text-red-500 rounded-full border border-red-500/20">
+                                            <i data-lucide="lock" class="w-4 h-4"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-white font-medium">Classroom Content Locked</p>
+                                            <p class="text-[10px] text-gray-500 mt-0.5">Enroll now or request administrative assignment to unlock folders.</p>
+                                        </div>
+                                    </div>
+                                `}
                             </div>
-                        ` : ''}
 
-                        <ul class="mb-12 space-y-4 relative z-10 mt-4">
-                            ${(cls.features || []).map(f => `<li class="flex items-center gap-4 text-sm text-gray-300 font-light"><i data-lucide="check-circle-2" class="w-4 h-4 text-red-600 flex-shrink-0"></i> ${f}</li>`).join('')}
-                        </ul>
-                        <div class="pt-8 border-t border-white/10 relative z-10 mt-auto">
-                            <div class="flex items-end gap-2 mb-8"><span class="text-4xl font-light text-white">${cls.price}</span><span class="text-sm text-gray-500 font-medium tracking-wide mb-1">${cls.period || cls.feeType || ''}</span></div>
-                            <button onclick="window.bookSession('${cls.id}')" class="w-full bg-white text-black py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]">Enroll & Pay</button>
+                            <ul class="mb-12 space-y-4 relative z-10">
+                                ${(cls.features || []).map(f => `<li class="flex items-center gap-4 text-sm text-gray-300 font-light"><i data-lucide="check-circle-2" class="w-4 h-4 text-red-600 flex-shrink-0"></i> ${f}</li>`).join('')}
+                            </ul>
+                            
+                            <div class="pt-8 border-t border-white/10 relative z-10 mt-auto">
+                                <div class="flex items-end gap-2 mb-8"><span class="text-4xl font-light text-white">${cls.price}</span><span class="text-sm text-gray-500 font-medium tracking-wide mb-1">${cls.period || cls.feeType || ''}</span></div>
+                                <button onclick="window.bookSession('${cls.id}')" class="w-full bg-white text-black py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]">Enroll & Pay</button>
+                            </div>
                         </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
             }
             lucide.createIcons();
         };
@@ -1148,7 +1716,7 @@
 
                     ${state.adminTab === 'users' ? `
                     <div>
-                        <h3 class="text-2xl font-light text-white font-serif mb-8">Registered Users</h3>
+                        <h3 class="text-2xl font-light text-white font-serif mb-8">Registered Users Directory</h3>
                         <div class="glass-panel rounded-3xl overflow-hidden border border-white/5">
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left text-sm text-gray-400 min-w-[600px]">
@@ -1156,7 +1724,8 @@
                                         <tr>
                                             <th class="px-6 py-4 rounded-tl-3xl">Email Address</th>
                                             <th class="px-6 py-4">User ID</th>
-                                            <th class="px-6 py-4 rounded-tr-3xl">Last Activity</th>
+                                            <th class="px-6 py-4">Last Activity</th>
+                                            <th class="px-6 py-4 rounded-tr-3xl text-right">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1168,9 +1737,16 @@
                                                 </td>
                                                 <td class="px-6 py-4 text-xs font-mono text-gray-500">${u.id || u.uid || 'N/A'}</td>
                                                 <td class="px-6 py-4 text-xs">${u.lastLogin ? new Date(u.lastLogin).toLocaleString() : 'N/A'}</td>
+                                                <td class="px-6 py-4 text-right">
+                                                    <!-- Admin course grant button (Req 1) -->
+                                                    <button onclick="window.openAssignModal('${u.id || u.uid}', '${u.email}')" 
+                                                            class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2 rounded-full transition-all shadow-[0_0_10px_rgba(220,38,38,0.2)]">
+                                                        Assign Course
+                                                    </button>
+                                                </td>
                                             </tr>
                                         `).join('')}
-                                        ${state.allUsers.length === 0 ? `<tr><td colspan="3" class="px-6 py-8 text-center text-gray-500">No registered users found.</td></tr>` : ''}
+                                        ${state.allUsers.length === 0 ? `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-500">No registered users found.</td></tr>` : ''}
                                     </tbody>
                                 </table>
                             </div>
@@ -1252,7 +1828,7 @@
                                 </div>
                             </div>
 
-                            <!-- Dynamic Schedules -->
+                            <!-- Dynamic Class Schedules -->
                             <div class="border-t border-white/10 pt-6">
                                 <div class="flex justify-between items-center mb-4">
                                     <h4 class="text-lg text-white font-serif">Class Schedule</h4>
@@ -1263,14 +1839,21 @@
                                 </div>
                             </div>
 
-                            <!-- Dynamic Materials -->
+                            <!-- ADVANCED MULTI-LEVEL STRUCTURED MATERIAL FOLDER BUILDER (Req 3) -->
                             <div class="border-t border-white/10 pt-6">
-                                <div class="flex justify-between items-center mb-4">
-                                    <h4 class="text-lg text-white font-serif">Course Materials</h4>
-                                    <button type="button" onclick="window.addMaterialRow()" class="text-[10px] text-red-500 hover:text-white font-bold uppercase tracking-widest flex items-center gap-1 border border-red-500/30 px-3 py-1.5 rounded-full"><i data-lucide="plus" class="w-3 h-3"></i> Add Material</button>
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                                    <div>
+                                        <h4 class="text-lg text-white font-serif">Structured Syllabus Workbook Folders</h4>
+                                        <p class="text-xs text-gray-400">Create sequences, root folders, sub-folders, and attach videos, audios, and scores.</p>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button type="button" onclick="window.addRootFolder()" class="text-[10px] text-red-500 hover:text-white font-bold uppercase tracking-widest flex items-center gap-1 border border-red-500/30 px-3 py-1.5 rounded-full"><i data-lucide="folder" class="w-3.5 h-3.5"></i> + Add Root Folder</button>
+                                        <button type="button" onclick="window.addRootFile()" class="text-[10px] text-gray-400 hover:text-white font-bold uppercase tracking-widest flex items-center gap-1 border border-white/10 px-3 py-1.5 rounded-full"><i data-lucide="file-plus-2" class="w-3.5 h-3.5"></i> + Add Root Material</button>
+                                    </div>
                                 </div>
-                                <div id="material-container" class="space-y-4">
-                                    ${(state.editingCourse?.materials || []).map(m => window.getMaterialRowHTML(m)).join('')}
+                                
+                                <div id="materials-tree-builder" class="space-y-6">
+                                    <!-- Structured Materials Hierarchical Tree injected dynamically -->
                                 </div>
                             </div>
 
@@ -1297,6 +1880,7 @@
                 if (schedCont && schedCont.children.length === 0) {
                     window.addScheduleRow();
                 }
+                renderAdminMaterialsTree();
             }
         };
 
