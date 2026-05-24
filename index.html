@@ -17,7 +17,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400;1,600&display=swap" rel="stylesheet">
 
     <!-- Google Translate Script -->
     <script type="text/javascript">
@@ -113,21 +113,24 @@
         </div>
     </nav>
 
-    <!-- === FULLSCREEN MOBILE MENU === -->
-    <div id="mobile-menu" class="fixed inset-0 bg-black/95 backdrop-blur-3xl z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-center px-12 opacity-0 pointer-events-none">
-        <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-red-900/20 to-transparent pointer-events-none"></div>
+    <!-- === PREMIUM SIDE NAVIGATION OVERLAY === -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-700 opacity-0 pointer-events-none" onclick="window.closeMobileMenu()"></div>
+
+    <!-- === PREMIUM SIDE NAVIGATION DRAWER === -->
+    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-full sm:max-w-md bg-[#050505]/98 border-l border-white/10 backdrop-blur-3xl z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-between py-24 px-8 md:px-12 opacity-0 translate-x-full pointer-events-none">
+        <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-red-900/10 to-transparent pointer-events-none"></div>
         
-        <!-- Translate Dropdown Mobile -->
+        <!-- Translate Dropdown Mobile (Drawer Premium Layout) -->
         <div class="absolute top-8 left-8 flex items-center gap-3 z-20">
-            <i data-lucide="globe" class="w-5 h-5 text-red-500"></i>
-            <select id="mobile-lang-select" onchange="window.changeLanguage(this.value)" class="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-white text-xs font-bold uppercase tracking-widest outline-none cursor-pointer">
+            <i data-lucide="globe" class="w-4 h-4 text-red-500"></i>
+            <select id="mobile-lang-select" onchange="window.changeLanguage(this.value)" class="bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-white text-xs font-bold uppercase tracking-widest outline-none cursor-pointer hover:bg-white/10 transition-colors">
                 <option value="en" class="bg-black">English</option>
                 <option value="hi" class="bg-black">हिन्दी (Hindi)</option>
                 <option value="mr" class="bg-black">मराठी (Marathi)</option>
             </select>
         </div>
 
-        <div class="flex flex-col gap-8 relative z-10" id="mobile-nav-links">
+        <div class="flex flex-col gap-10 relative z-10" id="mobile-nav-links">
             <!-- Injected via JS -->
         </div>
         <div class="mt-10 pt-10 border-t border-white/10 transition-all duration-500 transform translate-y-8 opacity-0 relative z-10" id="mobile-auth-container">
@@ -301,7 +304,8 @@
             adminTab: 'dashboard',
             editingCourse: null,
             allUsers: [],
-            isFirestoreOffline: false
+            isFirestoreOffline: false,
+            dataLoaded: false
         };
 
         // --- Mock Initial Data ---
@@ -401,15 +405,23 @@
             state.user = user;
             updateNavbarUI();
             
-            if (user && !user.isAnonymous) {
-                try { await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', user.uid), { email: user.email, lastLogin: new Date().toISOString() }, { merge: true }); } catch(e) {}
-                const cartRef = collection(db, 'artifacts', appId, 'users', user.uid, 'cart');
-                try {
-                    window.cartUnsubscribe = onSnapshot(cartRef, (snapshot) => { state.cartCount = snapshot.size; updateCartBadge(); }, (err) => { console.warn("Cart fallback"); });
-                } catch(e) {}
-            } else {
-                if (window.cartUnsubscribe) { window.cartUnsubscribe(); }
-                state.cartCount = 0; updateCartBadge();
+            if (user) {
+                // RULE 3 Check: Load dynamic data only after a user object exists
+                if (!state.dataLoaded) {
+                    state.dataLoaded = true;
+                    loadDynamicData();
+                }
+                
+                if (!user.isAnonymous) {
+                    try { await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', user.uid), { email: user.email, lastLogin: new Date().toISOString() }, { merge: true }); } catch(e) {}
+                    const cartRef = collection(db, 'artifacts', appId, 'users', user.uid, 'cart');
+                    try {
+                        window.cartUnsubscribe = onSnapshot(cartRef, (snapshot) => { state.cartCount = snapshot.size; updateCartBadge(); }, (err) => { console.warn("Cart fallback"); });
+                    } catch(e) {}
+                } else {
+                    if (window.cartUnsubscribe) { window.cartUnsubscribe(); }
+                    state.cartCount = 0; updateCartBadge();
+                }
             }
             if (state.currentPage === 'admin' && (!user || user.email !== ADMIN_EMAIL)) { window.navigate('home'); }
         });
@@ -490,7 +502,6 @@
                 }, () => useOfflineUsersFallback());
             } catch (e) { useOfflineUsersFallback(); }
         };
-        loadDynamicData();
 
         window.addToCart = async (itemName) => {
             if (!state.user || state.user.isAnonymous) return window.openAuthModal();
@@ -592,6 +603,7 @@
                 schedule: schedules, materials: materials
             };
 
+            // If Firestore offline, or if write permissions prevent guest-authenticated writes, we immediately update locally
             if (state.isFirestoreOffline) {
                 if (state.editingCourse) { state.dynamicCourses = state.dynamicCourses.map(c => c.id.toString() === docId ? courseData : c); } 
                 else { state.dynamicCourses.push(courseData); }
@@ -602,9 +614,17 @@
             }
             try {
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', docId), courseData);
-                window.showToast(state.editingCourse ? "Course updated!" : "Course published successfully!");
+                window.showToast(state.editingCourse ? "Course updated in cloud!" : "Course published successfully!");
                 window.setAdminTab('dashboard');
-            } catch(error) { window.showToast("Error saving course.", true); console.error(error); }
+            } catch(error) {
+                console.warn("Cloud write restricted. Saving safely in local state fallback.", error);
+                // Guaranteed safety fallback write
+                if (state.editingCourse) { state.dynamicCourses = state.dynamicCourses.map(c => c.id.toString() === docId ? courseData : c); } 
+                else { state.dynamicCourses.push(courseData); }
+                localStorage.setItem('musicoul_local_courses', JSON.stringify(state.dynamicCourses));
+                window.showToast("Course saved locally!");
+                window.setAdminTab('dashboard');
+            }
         };
 
         window.deleteCourse = async (id) => {
@@ -613,7 +633,16 @@
                  localStorage.setItem('musicoul_local_courses', JSON.stringify(state.dynamicCourses));
                  window.showToast("Course deleted locally."); renderApp(); return;
              }
-             try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', id.toString())); window.showToast("Course deleted."); } catch(e) {}
+             try { 
+                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', id.toString())); 
+                 window.showToast("Course deleted."); 
+             } catch(e) {
+                 // Offline fallback
+                 state.dynamicCourses = state.dynamicCourses.filter(c => c.id.toString() !== id.toString());
+                 localStorage.setItem('musicoul_local_courses', JSON.stringify(state.dynamicCourses));
+                 window.showToast("Course deleted locally.");
+                 renderApp();
+             }
         };
 
         // --- Filters & Render Logic For Classes ---
@@ -684,12 +713,32 @@
 
         window.toggleMobileMenu = () => {
             state.mobileMenuOpen = !state.mobileMenuOpen;
-            const menu = document.getElementById('mobile-menu'); const authCont = document.getElementById('mobile-auth-container'); const icon = document.getElementById('mobile-menu-icon');
+            const menu = document.getElementById('mobile-menu'); 
+            const overlay = document.getElementById('mobile-menu-overlay');
+            const authCont = document.getElementById('mobile-auth-container'); 
+            const icon = document.getElementById('mobile-menu-icon');
             
-            updateNavbarUI(); // Fix applied: UI rendered before classes transition to visible
+            updateNavbarUI();
 
-            if (state.mobileMenuOpen) { menu.classList.remove('opacity-0', 'pointer-events-none'); authCont.classList.remove('translate-y-8', 'opacity-0'); icon.setAttribute('data-lucide', 'x'); } 
-            else { menu.classList.add('opacity-0', 'pointer-events-none'); authCont.classList.add('translate-y-8', 'opacity-0'); icon.setAttribute('data-lucide', 'menu'); }
+            if (state.mobileMenuOpen) { 
+                menu.classList.remove('opacity-0', 'translate-x-full', 'pointer-events-none'); 
+                menu.classList.add('opacity-100', 'translate-x-0');
+                if (overlay) {
+                    overlay.classList.remove('opacity-0', 'pointer-events-none');
+                    overlay.classList.add('opacity-100');
+                }
+                authCont.classList.remove('translate-y-8', 'opacity-0'); 
+                icon.setAttribute('data-lucide', 'x'); 
+            } else { 
+                menu.classList.add('opacity-0', 'translate-x-full', 'pointer-events-none'); 
+                menu.classList.remove('opacity-100', 'translate-x-0');
+                if (overlay) {
+                    overlay.classList.add('opacity-0', 'pointer-events-none');
+                    overlay.classList.remove('opacity-100');
+                }
+                authCont.classList.add('translate-y-8', 'opacity-0'); 
+                icon.setAttribute('data-lucide', 'menu'); 
+            }
             lucide.createIcons();
         };
         window.closeMobileMenu = () => { if(state.mobileMenuOpen) window.toggleMobileMenu(); }
@@ -708,8 +757,31 @@
             const desktopLinks = document.getElementById('nav-links');
             if (desktopLinks) { desktopLinks.innerHTML = currentNavLinks.map(link => `<button onclick="window.navigate('${link.id}')" class="relative text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-500 py-2 ${state.currentPage === link.id ? 'text-white' : (link.id === 'admin' ? 'text-red-500 hover:text-red-400' : 'text-gray-500 hover:text-white')}">${link.label}${state.currentPage === link.id ? '<span class="absolute bottom-0 left-0 w-full h-[2px] rounded-full bg-red-600 shadow-[0_0_10px_rgba(220,38,38,0.8)]"></span>' : ''}</button>`).join(''); }
 
+            // Premium Styled Drawer Links
             const mobileLinks = document.getElementById('mobile-nav-links');
-            if (mobileLinks) { mobileLinks.innerHTML = currentNavLinks.map((link, idx) => `<button onclick="window.navigate('${link.id}')" style="transition-delay: ${idx * 100}ms" class="text-4xl font-light tracking-[0.1em] uppercase text-left transition-all duration-500 transform ${state.mobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} ${state.currentPage === link.id ? 'text-red-500 font-medium' : 'text-white'}">${link.label}</button>`).join(''); }
+            if (mobileLinks) { 
+                mobileLinks.innerHTML = `
+                    <div class="flex flex-col gap-1 text-gray-500 text-[10px] font-bold tracking-[0.3em] uppercase mb-4 select-none">
+                        <span>Navigation</span>
+                        <div class="h-[1px] w-8 bg-red-600 mt-2"></div>
+                    </div>
+                    <div class="flex flex-col gap-6">
+                        ${currentNavLinks.map((link, idx) => `
+                            <button onclick="window.navigate('${link.id}')" 
+                                    style="transition-delay: ${idx * 60}ms" 
+                                    class="group text-left flex items-baseline gap-4 transition-all duration-500 transform ${state.mobileMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'}">
+                                <span class="text-[10px] font-mono font-bold tracking-widest text-red-600/80 select-none">0${idx + 1}</span>
+                                <span class="text-4xl md:text-5xl font-serif italic font-light tracking-wide text-white/80 group-hover:text-white group-hover:translate-x-3 transition-all duration-300 relative">
+                                    ${link.label}
+                                    ${state.currentPage === link.id ? `
+                                        <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-gradient-to-r from-red-600 to-transparent"></span>
+                                    ` : ''}
+                                </span>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
 
             const desktopAuth = document.getElementById('auth-container-desktop');
             const isRealUser = state.user && !state.user.isAnonymous;
@@ -919,9 +991,9 @@
 
                     <!-- Admin Tabs -->
                     <div class="flex gap-4 mb-10 overflow-x-auto hide-scrollbar pb-2">
-                        <button onclick="window.setAdminTab('dashboard')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'dashboard' ? 'bg-red-600 text-white' : 'glass-panel text-gray-400 hover:text-white'}">Overview</button>
-                        <button onclick="window.setAdminTab('users')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'users' ? 'bg-red-600 text-white' : 'glass-panel text-gray-400 hover:text-white'}">Manage Users</button>
-                        <button onclick="window.setAdminTab('create_course')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'create_course' ? 'bg-red-600 text-white' : 'glass-panel text-gray-400 hover:text-white'}"><i data-lucide="plus" class="w-4 h-4 inline mb-0.5"></i> Add Course</button>
+                        <button onclick="window.setAdminTab('dashboard')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'dashboard' ? 'bg-red-600 text-white font-medium' : 'glass-panel text-gray-400 hover:text-white'}">Overview</button>
+                        <button onclick="window.setAdminTab('users')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'users' ? 'bg-red-600 text-white font-medium' : 'glass-panel text-gray-400 hover:text-white'}">Manage Users</button>
+                        <button onclick="window.setAdminTab('create_course')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'create_course' ? 'bg-red-600 text-white font-medium' : 'glass-panel text-gray-400 hover:text-white'}"><i data-lucide="plus" class="w-4 h-4 inline mb-0.5"></i> ${state.editingCourse ? 'Edit Course' : 'Add Course'}</button>
                     </div>
 
                     ${state.adminTab === 'dashboard' ? `
@@ -972,8 +1044,8 @@
                                                         </span>
                                                     </td>
                                                     <td class="px-6 py-4 text-right">
-                                                        <button onclick="window.editCourse('${cls.id}')" class="text-gray-400 hover:text-white mx-2 transition-colors" title="Edit Course"><i data-lucide="edit" class="w-4 h-4"></i></button>
-                                                        <button onclick="window.deleteCourse('${cls.id}')" class="text-gray-400 hover:text-red-500 mx-2 transition-colors" title="Delete Course"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                                        <button onclick="window.editCourse('${cls.id}')" class="text-gray-400 hover:text-white mx-2 transition-colors hover:scale-110 duration-200" title="Edit Course"><i data-lucide="edit" class="w-4 h-4"></i></button>
+                                                        <button onclick="window.deleteCourse('${cls.id}')" class="text-gray-400 hover:text-red-500 mx-2 transition-colors hover:scale-110 duration-200" title="Delete Course"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                                                     </td>
                                                 </tr>
                                             `).join('')}
@@ -1004,10 +1076,10 @@
                                             <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
                                                 <td class="px-6 py-4 font-medium text-white flex items-center gap-3">
                                                     <div class="w-8 h-8 rounded-full bg-red-900/20 flex items-center justify-center text-red-500"><i data-lucide="user" class="w-4 h-4"></i></div>
-                                                    ${u.email}
+                                                    ${u.email || 'Anonymous Guest'}
                                                 </td>
-                                                <td class="px-6 py-4 text-xs font-mono text-gray-500">${u.id}</td>
-                                                <td class="px-6 py-4 text-xs">${new Date(u.lastLogin).toLocaleString()}</td>
+                                                <td class="px-6 py-4 text-xs font-mono text-gray-500">${u.id || u.uid || 'N/A'}</td>
+                                                <td class="px-6 py-4 text-xs">${u.lastLogin ? new Date(u.lastLogin).toLocaleString() : 'N/A'}</td>
                                             </tr>
                                         `).join('')}
                                         ${state.allUsers.length === 0 ? `<tr><td colspan="3" class="px-6 py-8 text-center text-gray-500">No registered users found.</td></tr>` : ''}
@@ -1101,7 +1173,6 @@
                                 <div id="schedule-container" class="space-y-4">
                                     ${(state.editingCourse?.schedule || []).map(s => window.getScheduleRowHTML(s)).join('')}
                                 </div>
-                                ${(state.editingCourse?.schedule || []).length === 0 ? '<script>setTimeout(()=>window.addScheduleRow(), 100);<\/script>' : ''}
                             </div>
 
                             <!-- Dynamic Materials -->
@@ -1131,6 +1202,14 @@
             updateNavbarUI(); 
             lucide.createIcons();
             if (state.currentPage === 'classes') { renderClassesGrid(); }
+
+            // Ensure default rows exist for Admin Course Form if empty, bypassing inline injected script limits
+            if (state.currentPage === 'admin' && state.adminTab === 'create_course') {
+                const schedCont = document.getElementById('schedule-container');
+                if (schedCont && schedCont.children.length === 0) {
+                    window.addScheduleRow();
+                }
+            }
         };
 
         // Initialize App
