@@ -5,88 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Musicoul | Premium Music Institute</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Razorpay Checkout -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400;1,600&display=swap" rel="stylesheet">
 
-    <!-- Google Translate Script -->
+    <link rel="stylesheet" href="style.css">
+
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,hi,mr', autoDisplay: false}, 'google_translate_element');
         }
     </script>
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <style>
-        /* === Premium Scrollbar Design === */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #030303; border-left: 1px solid #111; }
-        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; transition: background 0.3s ease; }
-        ::-webkit-scrollbar-thumb:hover { background: #dc2626; }
-        ::-webkit-scrollbar-corner { background: #030303; }
-
-        /* Hide Scrollbar for specific horizontal rows */
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-
-        /* === Typography & Base === */
-        body { font-family: 'Inter', sans-serif; background-color: #030303; color: #ffffff; overflow-x: hidden; -webkit-font-smoothing: antialiased; top: 0 !important; }
-        h1, h2, .font-serif { font-family: 'Playfair Display', serif; }
-
-        /* === Animations & Effects === */
-        .glass-panel { background: rgba(15, 15, 15, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.08); } }
-
-        .animate-slide-up-fade { animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
-        .animate-slow-zoom { animation: slowZoom 25s ease-out forwards infinite alternate; }
-        .page-transition { animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-
-        /* Custom Input Styling */
-        .premium-input:focus ~ .input-border { width: 100%; opacity: 1; box-shadow: 0 0 10px rgba(220, 38, 38, 0.5); }
-        select option { background-color: #111; color: #fff; }
-
-        /* Hidden Google Translate Default UI */
-        #google_translate_element { display: none !important; }
-        .skiptranslate { display: none !important; }
-        .VIpgJd-ZVi9od-ORHb-OEVmcd { display: none !important; } /* Hide google popup */
-    </style>
 </head>
 <body>
 
-    <!-- === NAVBAR === -->
     <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-700 bg-transparent py-6 md:py-8">
         <div class="max-w-screen-2xl mx-auto px-6 md:px-12 flex items-center justify-between">
-            <!-- Logo -->
             <div class="cursor-pointer flex items-center gap-4 group" onclick="window.navigate('home')">
-                <div class="relative">
-                    <img src="WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg" alt="Musicoul Logo" class="h-10 md:h-12 w-auto object-contain rounded-full transition-transform duration-700 group-hover:scale-105 relative z-10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/20">
+                    <i data-lucide="music" class="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-red-500 transition-colors"></i>
                     <div class="absolute inset-0 bg-red-600 blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-700 rounded-full"></div>
                 </div>
                 <span class="text-xl md:text-2xl font-light tracking-[0.25em] text-white uppercase mt-1 hidden sm:block font-serif">Musicoul</span>
             </div>
 
-            <!-- Desktop Links -->
-            <div class="hidden lg:flex items-center gap-8 xl:gap-14" id="nav-links">
-                <!-- Injected via JS -->
-            </div>
+            <div class="hidden lg:flex items-center gap-8 xl:gap-14" id="nav-links"></div>
 
-            <!-- Desktop Actions -->
             <div class="hidden lg:flex items-center gap-5 xl:gap-6">
-                <!-- Translate Dropdown Desktop -->
                 <div class="relative flex items-center gap-2 border-r border-white/10 pr-5 group">
                     <i data-lucide="globe" class="w-4 h-4 text-gray-400 group-hover:text-white transition-colors"></i>
                     <select id="desktop-lang-select" onchange="window.changeLanguage(this.value)" class="bg-transparent text-gray-300 hover:text-white text-xs font-bold uppercase tracking-widest outline-none cursor-pointer appearance-none transition-colors">
@@ -101,26 +53,18 @@
                     <i data-lucide="shopping-bag" class="w-5 h-5"></i>
                     <span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold w-4 h-4 items-center justify-center rounded-full shadow-[0_0_10px_rgba(220,38,38,0.8)]">0</span>
                 </button>
-                <div id="auth-container-desktop">
-                    <!-- Auth UI injected via JS -->
-                </div>
+                <div id="auth-container-desktop"></div>
             </div>
 
-            <!-- Mobile Menu Toggle -->
             <button class="lg:hidden text-white z-[60] relative p-2 transition-transform hover:scale-110" onclick="window.toggleMobileMenu()">
                 <i data-lucide="menu" id="mobile-menu-icon" class="w-7 h-7"></i>
             </button>
         </div>
     </nav>
 
-    <!-- === PREMIUM SIDE NAVIGATION OVERLAY === -->
     <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-700 opacity-0 pointer-events-none" onclick="window.closeMobileMenu()"></div>
-
-    <!-- === PREMIUM SIDE NAVIGATION DRAWER === -->
     <div id="mobile-menu" class="fixed inset-y-0 right-0 w-full sm:max-w-md bg-[#050505]/98 border-l border-white/10 backdrop-blur-3xl z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-between py-24 px-8 md:px-12 opacity-0 translate-x-full pointer-events-none">
         <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-red-900/10 to-transparent pointer-events-none"></div>
-        
-        <!-- Translate Dropdown Mobile (Drawer Premium Layout) -->
         <div class="absolute top-8 left-8 flex items-center gap-3 z-20">
             <i data-lucide="globe" class="w-4 h-4 text-red-500"></i>
             <select id="mobile-lang-select" onchange="window.changeLanguage(this.value)" class="bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-white text-xs font-bold uppercase tracking-widest outline-none cursor-pointer hover:bg-white/10 transition-colors">
@@ -129,36 +73,24 @@
                 <option value="mr" class="bg-black">मराठी (Marathi)</option>
             </select>
         </div>
-
         <button onclick="window.closeMobileMenu()" class="absolute top-8 right-8 text-gray-400 hover:text-white transition-colors z-50 p-2 bg-white/5 hover:bg-red-600/80 rounded-full">
             <i data-lucide="x" class="w-5 h-5"></i>
         </button>
-
-        <div class="flex flex-col gap-10 relative z-10" id="mobile-nav-links">
-            <!-- Injected via JS -->
-        </div>
-        <div class="mt-10 pt-10 border-t border-white/10 transition-all duration-500 transform translate-y-8 opacity-0 relative z-10" id="mobile-auth-container">
-             <!-- Auth UI injected via JS -->
-        </div>
+        <div class="flex flex-col gap-10 relative z-10" id="mobile-nav-links"></div>
+        <div class="mt-10 pt-10 border-t border-white/10 transition-all duration-500 transform translate-y-8 opacity-0 relative z-10" id="mobile-auth-container"></div>
     </div>
 
-    <!-- === MAIN APP CONTENT === -->
-    <main id="app-root" class="min-h-screen">
-        <!-- Pages injected here via JS -->
-    </main>
+    <main id="app-root" class="min-h-screen"></main>
 
-    <!-- === FOOTER === -->
     <footer class="bg-[#050505] border-t border-white/5 py-16 md:py-24 px-6 md:px-12 relative overflow-hidden mt-20">
         <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-red-900/10 blur-[150px] pointer-events-none"></div>
         <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between items-start gap-16 relative z-10">
             <div class="max-w-md">
                 <div class="flex items-center gap-3">
-                    <img src="WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg" class="h-10 w-auto rounded-full object-contain" alt="Musicoul">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 border border-white/20"><i data-lucide="music" class="w-5 h-5 text-white"></i></div>
                     <span class="text-xl font-light tracking-[0.25em] text-white uppercase mt-1 font-serif">Musicoul</span>
                 </div>
-                <p class="text-gray-500 text-sm mt-8 font-light leading-relaxed">
-                    The ultimate destination for musical excellence. Whether you're mastering an instrument, perfecting your vocals, or sourcing premium gear, Musicoul is your foundation.
-                </p>
+                <p class="text-gray-500 text-sm mt-8 font-light leading-relaxed">The ultimate destination for musical excellence. Whether you're mastering an instrument, perfecting your vocals, or sourcing premium gear, Musicoul is your foundation.</p>
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-3 gap-12 text-sm font-light uppercase tracking-widest text-gray-400">
@@ -191,7 +123,6 @@
         </div>
     </footer>
 
-    <!-- === TOAST NOTIFICATION === -->
     <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[150] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 translate-y-8 pointer-events-none w-max max-w-[90vw]">
         <div class="glass-panel text-white px-6 py-4 rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.5)] flex items-center gap-4">
             <i data-lucide="info" id="toast-icon" class="text-red-500 w-5 h-5 flex-shrink-0"></i>
@@ -200,1597 +131,92 @@
         </div>
     </div>
 
-    <!-- === PREMIUM AUTH MODAL === -->
     <div id="auth-modal" class="fixed inset-0 z-[110] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-500">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="window.closeAuthModal()"></div>
-        
         <div class="relative w-full max-w-[420px] bg-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(220,38,38,0.15)] z-10 p-8 sm:p-10 transform scale-95 transition-transform duration-500" id="auth-modal-content">
             <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-50"></div>
-            
-            <button onclick="window.closeAuthModal()" class="absolute top-5 right-5 text-gray-500 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-2 rounded-full duration-300">
-                <i data-lucide="x" class="w-4 h-4"></i>
-            </button>
-            
+            <button onclick="window.closeAuthModal()" class="absolute top-5 right-5 text-gray-500 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-2 rounded-full duration-300"><i data-lucide="x" class="w-4 h-4"></i></button>
             <div class="text-center mb-10 mt-2">
-                <div class="flex justify-center mb-6">
-                    <img src="WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg" class="w-16 h-16 rounded-full shadow-[0_0_15px_rgba(220,38,38,0.3)]">
-                </div>
+                <div class="flex justify-center mb-6"><div class="w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center shadow-[0_0_15px_rgba(220,38,38,0.3)]"><i data-lucide="music" class="w-8 h-8 text-white"></i></div></div>
                 <h2 id="auth-title" class="text-3xl font-light text-white tracking-wide mb-3 font-serif italic">Welcome Back</h2>
                 <p id="auth-subtitle" class="text-sm text-gray-400 font-light px-2 leading-relaxed">Sign in to access your premium account and master your craft.</p>
             </div>
-
             <form id="auth-form" onsubmit="window.handleEmailAuth(event)" class="flex flex-col gap-6 mb-8">
-                <div class="relative">
-                    <input type="email" id="auth-email" placeholder="Email Address" required class="premium-input w-full bg-transparent border-b border-white/10 pb-3 text-white text-sm focus:outline-none placeholder-gray-600 transition-colors">
-                    <div class="input-border absolute bottom-0 left-0 h-[1px] bg-red-600 w-0 opacity-0 transition-all duration-500"></div>
-                </div>
-                <div class="relative">
-                    <input type="password" id="auth-password" placeholder="Password" required class="premium-input w-full bg-transparent border-b border-white/10 pb-3 text-white text-sm focus:outline-none placeholder-gray-600 transition-colors">
-                    <div class="input-border absolute bottom-0 left-0 h-[1px] bg-red-600 w-0 opacity-0 transition-all duration-500"></div>
-                </div>
-                <button type="submit" id="auth-submit-btn" class="w-full bg-red-700 text-white hover:bg-red-600 rounded-full px-4 py-4 text-xs font-bold uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-[0.98] mt-4 shadow-[0_0_20px_rgba(220,38,38,0.3)] duration-300">
-                    Sign In
-                </button>
+                <div class="relative"><input type="email" id="auth-email" placeholder="Email Address" required class="premium-input w-full bg-transparent border-b border-white/10 pb-3 text-white text-sm focus:outline-none placeholder-gray-600 transition-colors"><div class="input-border absolute bottom-0 left-0 h-[1px] bg-red-600 w-0 opacity-0 transition-all duration-500"></div></div>
+                <div class="relative"><input type="password" id="auth-password" placeholder="Password" required class="premium-input w-full bg-transparent border-b border-white/10 pb-3 text-white text-sm focus:outline-none placeholder-gray-600 transition-colors"><div class="input-border absolute bottom-0 left-0 h-[1px] bg-red-600 w-0 opacity-0 transition-all duration-500"></div></div>
+                <button type="submit" id="auth-submit-btn" class="w-full bg-red-700 text-white hover:bg-red-600 rounded-full px-4 py-4 text-xs font-bold uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-[0.98] mt-4 shadow-[0_0_20px_rgba(220,38,38,0.3)] duration-300">Sign In</button>
             </form>
-
-            <div class="relative flex items-center justify-center mb-8">
-                <div class="absolute w-full h-[1px] bg-white/5"></div>
-                <span class="relative bg-[#0a0a0a] px-4 text-xs text-gray-500 uppercase tracking-widest font-medium">Or continue with</span>
-            </div>
-
+            <div class="relative flex items-center justify-center mb-8"><div class="absolute w-full h-[1px] bg-white/5"></div><span class="relative bg-[#0a0a0a] px-4 text-xs text-gray-500 uppercase tracking-widest font-medium">Or continue with</span></div>
             <button onclick="window.handleGoogleSignIn()" type="button" class="w-full flex items-center justify-center gap-3 bg-white text-black hover:bg-gray-200 rounded-full px-4 py-4 text-xs font-bold uppercase tracking-widest transition-all mb-8 duration-300 hover:scale-[1.02]">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-                Google
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google
             </button>
-
-            <div class="text-center">
-                <button onclick="window.toggleAuthMode()" id="auth-toggle-btn" class="text-xs text-gray-400 hover:text-white transition-colors tracking-wide">
-                    Don't have an account? <span class="text-white font-bold border-b border-red-600 pb-0.5 ml-1 transition-all hover:border-b-2">Sign Up</span>
-                </button>
-            </div>
+            <div class="text-center"><button onclick="window.toggleAuthMode()" id="auth-toggle-btn" class="text-xs text-gray-400 hover:text-white transition-colors tracking-wide">Don't have an account? <span class="text-white font-bold border-b border-red-600 pb-0.5 ml-1 transition-all hover:border-b-2">Sign Up</span></button></div>
         </div>
     </div>
 
-    <!-- === ADMIN ASSIGN COURSE MODAL === -->
-    <div id="assign-modal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-500">
-        <div class="absolute inset-0 bg-black/95 backdrop-blur-md" onclick="window.closeAssignModal()"></div>
-        <div class="relative w-full max-w-[480px] bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 shadow-[0_0_60px_rgba(220,38,38,0.2)] z-10">
-            <button onclick="window.closeAssignModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white bg-white/5 p-2 rounded-full transition-all">
-                <i data-lucide="x" class="w-4 h-4"></i>
-            </button>
-            <div class="mb-8">
-                <h3 class="text-2xl font-light text-white font-serif mb-2">Assign Course Access</h3>
-                <p class="text-xs text-gray-400">Instantly grant a student full access to materials, workspace, and schedules.</p>
+    <div id="manage-access-modal" class="fixed inset-0 z-[120] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-500">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-md" onclick="window.closeManageAccessModal()"></div>
+        <div class="relative w-full max-w-[600px] max-h-[85vh] bg-[#0a0a0a] border border-white/10 rounded-3xl shadow-[0_0_60px_rgba(220,38,38,0.2)] z-10 flex flex-col">
+            <div class="p-6 md:p-8 border-b border-white/10 flex-shrink-0 relative">
+                <button onclick="window.closeManageAccessModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white bg-white/5 p-2 rounded-full transition-all"><i data-lucide="x" class="w-4 h-4"></i></button>
+                <h3 class="text-2xl font-light text-white font-serif mb-2">Manage Student Access</h3>
+                <p id="manage-access-email" class="text-xs text-gray-400 font-mono bg-white/5 inline-block px-3 py-1 rounded-md">Loading...</p>
             </div>
-            <div class="space-y-6">
-                <div>
-                    <span class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Target Student</span>
-                    <p id="assign-student-display" class="text-white font-medium bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm"></p>
-                </div>
-                <div>
-                    <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1">Choose Course</label>
-                    <select id="assign-course-select" class="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-red-500">
-                        <!-- Injected via JS -->
-                    </select>
-                </div>
-                <button onclick="window.submitCourseAssignment()" class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)]">
-                    Authorize Access
-                </button>
-            </div>
+            <div class="flex-grow overflow-y-auto p-6 md:p-8 space-y-4" id="manage-access-list"></div>
         </div>
     </div>
 
-    <!-- === PREMIUM CLASSROOM OVERLAY PANEL === -->
     <div id="classroom-panel" class="fixed inset-0 z-[140] bg-[#030303] translate-y-full opacity-0 pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col">
-        <!-- Classroom Header -->
-        <header class="border-b border-white/10 px-8 py-6 flex items-center justify-between bg-[#080808]">
-            <div class="flex items-center gap-4">
-                <img src="WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg" class="h-10 w-10 rounded-full border border-white/20">
+        <header class="border-b border-white/10 px-4 md:px-8 py-3 md:py-4 flex items-center justify-between bg-[#080808] z-20 flex-shrink-0">
+            <div class="flex items-center gap-3 md:gap-4">
+                <div class="w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/20 bg-white/10 flex items-center justify-center overflow-hidden">
+                    <img id="classroom-header-faculty-img" src="" class="w-full h-full object-cover hidden">
+                    <i data-lucide="music" class="w-4 h-4 text-white"></i>
+                </div>
                 <div>
-                    <h3 id="classroom-course-title" class="text-xl md:text-2xl text-white font-serif italic font-light">Course Classroom</h3>
-                    <p class="text-[10px] text-red-500 uppercase tracking-widest font-bold">Authorized Student Learning Workspace</p>
+                    <h3 id="classroom-course-title" class="text-sm md:text-xl text-white font-serif italic font-light truncate max-w-[180px] md:max-w-md">Classroom Workspace</h3>
+                    <p class="text-[8px] md:text-[10px] text-red-500 uppercase tracking-widest font-bold">Authorized Session</p>
                 </div>
             </div>
-            <button onclick="window.closeClassroom()" class="flex items-center gap-2 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-white transition-all">
-                <i data-lucide="log-out" class="w-4 h-4"></i> Close Classroom
-            </button>
+            <div class="flex items-center gap-3">
+                <a id="classroom-join-btn" href="#" target="_blank" class="hidden text-[10px] bg-red-600/20 text-red-500 hover:bg-red-600 hover:text-white border border-red-500/30 px-3 md:px-4 py-2 rounded-full uppercase tracking-widest font-bold transition-all items-center gap-2">
+                    <i data-lucide="video" class="w-3.5 h-3.5 animate-pulse"></i> <span class="hidden sm:inline">Join Live</span>
+                </a>
+                <button onclick="window.closeClassroom()" class="flex items-center gap-2 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 px-3 md:px-4 py-2 rounded-full text-[10px] md:text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-white transition-all">
+                    <i data-lucide="log-out" class="w-3.5 h-3.5 md:w-4 md:h-4"></i> <span class="hidden md:inline">Exit</span>
+                </button>
+            </div>
         </header>
 
-        <!-- Classroom Main Body -->
-        <div class="flex-grow flex flex-col lg:flex-row overflow-hidden">
-            <!-- Left Pane: Hierarchical Materials Navigation -->
-            <aside class="w-full lg:w-[380px] border-r border-white/10 flex flex-col bg-[#060606] h-1/2 lg:h-full overflow-y-auto p-6 md:p-8">
-                <div class="mb-6 pb-4 border-b border-white/5">
-                    <span class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] block mb-2">Workbook Content Directory</span>
-                    <p class="text-xs text-gray-400">Folders are sorted by logical sequence numbers. Select any material to launch.</p>
+        <div class="flex-grow flex flex-col lg:flex-row overflow-hidden relative">
+            <main class="w-full lg:flex-1 h-[40vh] lg:h-full bg-black relative lg:order-2 flex flex-col z-10 border-b lg:border-b-0 border-white/10">
+                <div id="classroom-preview-pane" class="w-full h-full overflow-y-auto p-4 md:p-8 flex items-center justify-center bg-[#020202]"></div>
+            </main>
+            <aside class="w-full lg:w-96 bg-[#060606] h-[60vh] lg:h-full overflow-y-auto lg:order-1 flex flex-col flex-shrink-0 border-r border-white/5 relative z-20 shadow-2xl">
+                <div class="p-6 border-b border-white/5 space-y-5 bg-[#080808]">
+                    <div class="flex items-center gap-4">
+                        <img id="classroom-faculty-img" src="" class="w-10 h-10 rounded-full object-cover border border-white/10 bg-white/5" onerror="this.style.display='none';">
+                        <div>
+                            <p class="text-[9px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">Instructor</p>
+                            <p id="classroom-faculty-name" class="text-sm text-white font-medium">N/A</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-[9px] text-gray-500 uppercase tracking-widest font-bold flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5 text-gray-400"></i> Schedule</p>
+                        <div id="classroom-schedule-container" class="space-y-1.5 max-h-[100px] overflow-y-auto pr-2 custom-scrollbar"></div>
+                    </div>
                 </div>
-                <div id="classroom-tree-container" class="space-y-4">
-                    <!-- Dynamic Interactive Tree Injected Here -->
+                <div class="p-6 flex-grow">
+                    <div class="mb-5 pb-3 border-b border-white/5">
+                        <span class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] block mb-1">Workbook Directory</span>
+                        <p class="text-[11px] text-gray-400">Select any material to view.</p>
+                    </div>
+                    <div id="classroom-tree-container" class="space-y-3 pb-10"></div>
                 </div>
             </aside>
-
-            <!-- Right Pane: Cinematic Interactive Media Player / Display Sandbox -->
-            <main class="flex-grow bg-[#020202] h-1/2 lg:h-full overflow-y-auto p-6 md:p-12 flex flex-col justify-between">
-                <div id="classroom-preview-pane" class="flex-grow flex items-center justify-center">
-                    <!-- Dynamic material reader details will open here -->
-                </div>
-            </main>
         </div>
     </div>
 
-
-    <!-- === APPLICATION LOGIC (FIREBASE & DOM) === -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { 
-            getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, 
-            signInWithPopup, GoogleAuthProvider, onAuthStateChanged, 
-            signOut, signInAnonymously, signInWithCustomToken
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc, onSnapshot, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // --- Firebase Configuration & RULE 3 Implementation ---
-        let firebaseConfig, appId;
-        if (typeof __firebase_config !== 'undefined') {
-            firebaseConfig = JSON.parse(__firebase_config);
-            appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        } else {
-            firebaseConfig = { apiKey: "mock", projectId: "mock" };
-            appId = 'musicoul-1';
-        }
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        
-        const ADMIN_EMAIL = 'chandrashekharkolhe7@gmail.com';
-        const RAZORPAY_KEY_ID = 'rzp_live_StCBryEj0YbSmn';
-
-        // --- State Management ---
-        let state = {
-            currentPage: 'home',
-            user: null,
-            cartCount: 0,
-            mobileMenuOpen: false,
-            isLoginMode: true,
-            filters: { search: '', type: 'All', category: 'All' },
-            dynamicCourses: [],
-            adminTab: 'dashboard',
-            editingCourse: null,
-            allUsers: [],
-            dataLoaded: false,
-            
-            // --- Expanded State variables for Material Hierarchies & Assign Access ---
-            userBookings: {},
-            editingCourseMaterials: [],
-            assignTargetUserId: null,
-            assignTargetUserEmail: null,
-            currentClassroomCourseId: null,
-            activeClassroomNodeId: null
-        };
-
-        // --- Mock Initial Data (With Advanced Structured Folders) ---
-        const DATA = {
-            featuredCourse: { id: 'f1', title: "The Art of Vocal Agility", description: "Master complex vocal runs, breathing techniques, and stage presence in this high-definition exclusive.", image: "https://images.unsplash.com/photo-1516280440503-6c9fa5ceec4e?auto=format&fit=crop&q=90&w=1600", type: "Masterclass" },
-            libraryCategories: [
-                { title: "Trending Masterclasses", items: [
-                    { id: 1, title: "Acoustic Fingerpicking", duration: "2h 15m", image: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&q=80&w=800" },
-                    { id: 2, title: "Studio Mixing Secrets", duration: "4h 30m", image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=800" },
-                    { id: 3, title: "Advanced Drum Grooves", duration: "1h 45m", image: "https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&q=80&w=800" }
-                ]},
-                { title: "Exclusive Notes & Scores", items: [
-                    { id: 5, title: "Classical Piano Repertoire", duration: "PDF + Audio", image: "https://images.unsplash.com/photo-1552422535-c45813c61732?auto=format&fit=crop&q=80&w=800" },
-                    { id: 6, title: "Jazz Standards Vol 1", duration: "Interactive Sheet", image: "https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&q=80&w=800" }
-                ]}
-            ],
-            classesData: [
-                { 
-                    id: "1", 
-                    title: "Private Vocal Coaching", 
-                    type: "Online", 
-                    location: "Global", 
-                    category: "Singing", 
-                    price: "₹2500", 
-                    period: "/ month", 
-                    desc: "1-on-1 personalized sessions tailored strictly to your vocal range and capabilities.", 
-                    features: ["Pitch correction", "Breath control", "Repertoire building"], 
-                    schedule: [{day: 'Monday', time: '18:00', type: 'Teaching Class'}, {day: 'Wednesday', time: '18:00', type: 'Group Practice'}], 
-                    materials: [
-                        {
-                            id: "root-fold-1",
-                            type: "folder",
-                            title: "Phase 1: Foundation & Breathing",
-                            sequence: 1,
-                            children: [
-                                { id: "foundation-pdf-1", type: "file", fileType: "PDF", title: "Diaphragmatic Breath Control", sequence: 1, url: "https://musicoul.example.com/breath_v1.pdf" },
-                                { id: "foundation-audio-1", type: "file", fileType: "Audio", title: "Scale Progression Warmups", sequence: 2, url: "https://musicoul.example.com/scales_warmup.mp3" }
-                            ]
-                        },
-                        {
-                            id: "root-fold-2",
-                            type: "folder",
-                            title: "Phase 2: Resonance Mastery",
-                            sequence: 2,
-                            children: [
-                                {
-                                    id: "sub-fold-chest",
-                                    type: "folder",
-                                    title: "Section A: Chest Voice Projection",
-                                    sequence: 1,
-                                    children: [
-                                        { id: "chest-video-1", type: "file", fileType: "Video", title: "Vocal Anchoring Masterclass", sequence: 1, url: "https://musicoul.example.com/chest_proj.mp4" }
-                                    ]
-                                }
-                            ]
-                        }
-                    ] 
-                },
-                { 
-                    id: "2", 
-                    title: "Grand Piano Masterclass", 
-                    type: "Offline", 
-                    location: "Mumbai", 
-                    category: "Instruments", 
-                    price: "₹5000", 
-                    period: "/ session", 
-                    desc: "Experience playing on a concert grand in a purely acoustic treated room.", 
-                    features: ["Steinway Grand", "Acoustic room", "Recital prep"], 
-                    schedule: [{day: 'Saturday', time: '10:00', type: 'Workshop'}],
-                    materials: [
-                        {
-                            id: "piano-fold-1",
-                            type: "folder",
-                            title: "Recital Preparations",
-                            sequence: 1,
-                            children: [
-                                { id: "piano-pdf-1", type: "file", fileType: "PDF", title: "Beethoven Sonata No. 14 Score", sequence: 1, url: "https://musicoul.example.com/sonata_moonlight.pdf" }
-                            ]
-                        }
-                    ]
-                }
-            ],
-            storeItems: [
-                { id: 1, name: "Pro Studio Headphones", price: "$199", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800" },
-                { id: 2, name: "Premium Acoustic Guitar", price: "$899", image: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?auto=format&fit=crop&q=80&w=800" },
-                { id: 3, name: "Condenser Microphone", price: "$249", image: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&q=80&w=800" },
-                { id: 4, name: "Signature Hoodie", price: "$65", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=800" }
-            ],
-            mockAdminStats: { totalStudents: 1240, activeBookings: 84, monthlyRevenue: "$14,500" }
-        };
-
-        // --- Core UI & Translate Functions ---
-        const initLanguageSelects = () => {
-            const match = document.cookie.match(/googtrans=\/en\/([a-z]{2})/);
-            const lang = match ? match[1] : 'en';
-            const desktopSelect = document.getElementById('desktop-lang-select');
-            const mobileSelect = document.getElementById('mobile-lang-select');
-            if (desktopSelect) desktopSelect.value = lang;
-            if (mobileSelect) mobileSelect.value = lang;
-        };
-
-        window.changeLanguage = (lang) => {
-            const select = document.querySelector('.goog-te-combo');
-            if (select) {
-                select.value = lang;
-                select.dispatchEvent(new Event('change'));
-            } else {
-                document.cookie = `googtrans=/en/${lang}; path=/; domain=${window.location.hostname}`;
-                document.cookie = `googtrans=/en/${lang}; path=/`;
-                window.location.reload();
-            }
-            initLanguageSelects();
-            if (state.mobileMenuOpen) window.closeMobileMenu();
-        };
-
-        let toastTimeout;
-        window.showToast = (msg, isError = false) => {
-            const toast = document.getElementById('toast');
-            const icon = document.getElementById('toast-icon');
-            
-            document.getElementById('toast-message').innerHTML = msg;
-            
-            if(isError) {
-                icon.setAttribute('data-lucide', 'alert-circle');
-                toast.querySelector('.glass-panel').classList.add('border', 'border-red-500/50');
-            } else {
-                icon.setAttribute('data-lucide', 'check-circle-2');
-                toast.querySelector('.glass-panel').classList.remove('border', 'border-red-500/50');
-            }
-            lucide.createIcons();
-
-            toast.classList.remove('opacity-0', 'translate-y-8', 'pointer-events-none');
-            toast.classList.add('opacity-100', 'translate-y-0');
-            
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => window.closeToast(), isError ? 8000 : 4000);
-        };
-        window.closeToast = () => {
-            const toast = document.getElementById('toast');
-            toast.classList.add('opacity-0', 'translate-y-8', 'pointer-events-none');
-            toast.classList.remove('opacity-100', 'translate-y-0');
-        };
-
-        window.openAuthModal = () => { window.closeMobileMenu(); document.getElementById('auth-modal').classList.remove('opacity-0', 'pointer-events-none'); document.getElementById('auth-modal-content').classList.remove('scale-95'); };
-        window.closeAuthModal = () => { document.getElementById('auth-modal').classList.add('opacity-0', 'pointer-events-none'); document.getElementById('auth-modal-content').classList.add('scale-95'); };
-        window.toggleAuthMode = () => {
-            state.isLoginMode = !state.isLoginMode;
-            document.getElementById('auth-title').innerText = state.isLoginMode ? 'Welcome Back' : 'Join Musicoul';
-            document.getElementById('auth-subtitle').innerText = state.isLoginMode ? 'Sign in to access your premium account and master your craft.' : 'Create an account to unlock your musical potential.';
-            document.getElementById('auth-submit-btn').innerText = state.isLoginMode ? 'Sign In' : 'Create Account';
-            document.getElementById('auth-toggle-btn').innerHTML = state.isLoginMode 
-                ? `Don't have an account? <span class="text-white font-bold border-b border-red-600 pb-0.5 ml-1 transition-all hover:border-b-2">Sign Up</span>`
-                : `Already have an account? <span class="text-white font-bold border-b border-red-600 pb-0.5 ml-1 transition-all hover:border-b-2">Sign In</span>`;
-        };
-
-        // --- Firebase Auth Logic (Incorporating Rule 3 Strict Paths & Flow) ---
-        let unsubCourses, unsubUsers, unsubBookings, unsubCart;
-
-        const syncCoursesState = (cloudList = []) => {
-            if (cloudList.length === 0) { cloudList = [...DATA.classesData]; }
-            state.dynamicCourses = cloudList;
-            
-            if (state.currentPage === 'classes') renderClassesGrid();
-            if (state.currentPage === 'admin') renderApp();
-        };
-
-        const setupStreams = (user) => {
-            if (!user) return; // Strict Guard
-
-            if (unsubCourses) unsubCourses();
-            if (unsubUsers) unsubUsers();
-            if (unsubBookings) unsubBookings();
-            if (unsubCart) unsubCart();
-
-            // Public Data Streams
-            const coursesRef = collection(db, 'artifacts', appId, 'public', 'data', 'courses');
-            unsubCourses = onSnapshot(coursesRef, (snapshot) => {
-                const cloudCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                if (cloudCourses.length === 0) {
-                    DATA.classesData.forEach(async (cls) => { 
-                        try { await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', cls.id.toString()), cls); } catch(e) {} 
-                    });
-                }
-                syncCoursesState(cloudCourses);
-            }, (error) => { console.error("Sync Error:", error); });
-
-            const usersRef = collection(db, 'artifacts', appId, 'public', 'data', 'users');
-            unsubUsers = onSnapshot(usersRef, (snapshot) => {
-                state.allUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                if (state.currentPage === 'admin' && state.adminTab === 'users') renderApp();
-            }, (error) => { console.error("User Sync Error:", error); });
-
-            // Private Data Streams
-            const bookingsRef = collection(db, 'artifacts', appId, 'users', user.uid, 'bookings');
-            unsubBookings = onSnapshot(bookingsRef, (snapshot) => {
-                const tempBookings = {};
-                snapshot.docs.forEach(doc => { tempBookings[doc.data().courseId || doc.id] = doc.data(); });
-                state.userBookings = tempBookings;
-                if (state.currentPage === 'classes') renderClassesGrid();
-            }, (error) => { console.warn("Private bookings snapshot failed"); });
-
-            if (!user.isAnonymous) {
-                const cartRef = collection(db, 'artifacts', appId, 'users', user.uid, 'cart');
-                unsubCart = onSnapshot(cartRef, (snapshot) => { 
-                    state.cartCount = snapshot.size; updateCartBadge(); 
-                }, (err) => { console.warn("Cart stream error fallback"); });
-            } else {
-                state.cartCount = 0; updateCartBadge();
-            }
-        };
-
-        const startApp = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (err) { console.error("Auth Init Error:", err); }
-
-            onAuthStateChanged(auth, async (user) => {
-                if (!user) return; // Guard every operation
-                
-                state.user = user;
-                updateNavbarUI();
-
-                if (!user.isAnonymous) {
-                    try { 
-                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', user.uid), { 
-                            email: user.email, 
-                            lastLogin: new Date().toISOString() 
-                        }, { merge: true }); 
-                    } catch(e) {}
-                }
-                
-                setupStreams(user);
-                
-                if (state.currentPage === 'admin' && user.email !== ADMIN_EMAIL) { window.navigate('home'); }
-            });
-        };
-        
-        startApp();
-
-        window.handleGoogleSignIn = async () => {
-            try { await signInWithPopup(auth, new GoogleAuthProvider()); window.closeAuthModal(); window.showToast("Welcome to Musicoul!"); } 
-            catch (error) { window.showToast(error.message, true); }
-        };
-
-        window.handleEmailAuth = async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('auth-email').value;
-            const password = document.getElementById('auth-password').value;
-            
-            try {
-                if (!state.isLoginMode) { await createUserWithEmailAndPassword(auth, email, password); window.showToast("Account created successfully."); } 
-                else { await signInWithEmailAndPassword(auth, email, password); window.showToast("Welcome back!"); }
-                window.closeAuthModal(); document.getElementById('auth-form').reset();
-            } catch (error) {
-                if (error.code === 'auth/operation-not-allowed') {
-                    window.showToast("Authentication is not enabled in Firebase. Please check your cloud configuration.", true);
-                } else if (error.code === 'auth/invalid-credential') {
-                    window.showToast("Invalid email or password.", true);
-                } else { window.showToast(error.message.replace('Firebase: ', ''), true); }
-            }
-        };
-
-        window.handleSignOut = async () => {
-            try {
-                await signOut(auth); await signInAnonymously(auth); window.showToast("Logged out securely.");
-            } catch (error) { window.showToast("Failed to log out.", true); }
-        };
-
-        window.addToCart = async (itemName) => {
-            if (!state.user || state.user.isAnonymous) return window.openAuthModal();
-            try { await setDoc(doc(db, 'artifacts', appId, 'users', state.user.uid, 'cart', Date.now().toString()), { itemName, addedAt: new Date().toISOString() }); window.showToast(`<b>${itemName}</b> added to your cart.`); } 
-            catch (e) { window.showToast("Network error saving to cloud.", true); }
-        };
-
-        window.bookSession = async (courseId) => {
-            if (!state.user || state.user.isAnonymous) return window.openAuthModal();
-            const course = state.dynamicCourses.find(c => c.id.toString() === courseId.toString());
-            if (!course) return window.showToast("Course not found.", true);
-
-            const numericPrice = parseInt((course.price || "0").replace(/[^0-9]/g, '')) || 0;
-            const options = {
-                key: RAZORPAY_KEY_ID, amount: numericPrice * 100, currency: "INR", name: "Musicoul Institute", description: course.title, image: "WhatsApp Image 2026-04-02 at 4.29.39 PM.jpeg",
-                handler: async function (response) {
-                    try {
-                        await setDoc(doc(db, 'artifacts', appId, 'users', state.user.uid, 'bookings', courseId), {
-                            courseId: courseId, className: course.title, status: 'paid', paymentId: response.razorpay_payment_id, bookedAt: new Date().toISOString(), userEmail: state.user.email
-                        });
-                        window.showToast(`Payment successful! Welcome to <b>${course.title}</b>.`);
-                    } catch (e) { window.showToast("Network error saving booking to database.", true); }
-                }, prefill: { email: state.user.email }, theme: { color: "#dc2626" }
-            };
-            const rzp = new window.Razorpay(options);
-            rzp.on('payment.failed', function (response){ window.showToast("Payment Failed: " + response.error.description, true); });
-            rzp.open();
-        };
-
-        // --- ADMIN ASSIGN ACCESS CONTROLLER (Req 1) ---
-        window.openAssignModal = (targetUserId, targetUserEmail) => {
-            state.assignTargetUserId = targetUserId;
-            state.assignTargetUserEmail = targetUserEmail;
-            
-            const displayEl = document.getElementById('assign-student-display');
-            displayEl.innerText = `${targetUserEmail} (ID: ${targetUserId})`;
-            
-            const selectEl = document.getElementById('assign-course-select');
-            selectEl.innerHTML = state.dynamicCourses.map(course => `
-                <option value="${course.id}">${course.title} (${course.price})</option>
-            `).join('');
-            
-            document.getElementById('assign-modal').classList.remove('opacity-0', 'pointer-events-none');
-        };
-        
-        window.closeAssignModal = () => {
-            document.getElementById('assign-modal').classList.add('opacity-0', 'pointer-events-none');
-        };
-        
-        window.submitCourseAssignment = async () => {
-            const courseId = document.getElementById('assign-course-select').value;
-            const course = state.dynamicCourses.find(c => c.id.toString() === courseId.toString());
-            if (!course) return window.showToast("Course selection error.", true);
-            
-            try {
-                // Write directly to targeted student's bookings collection path (Rule 1 Compliant)
-                const bookingDocRef = doc(db, 'artifacts', appId, 'users', state.assignTargetUserId, 'bookings', courseId);
-                await setDoc(bookingDocRef, {
-                    courseId: courseId,
-                    className: course.title,
-                    status: 'assigned',
-                    assignedBy: ADMIN_EMAIL,
-                    bookedAt: new Date().toISOString(),
-                    userEmail: state.assignTargetUserEmail
-                });
-                
-                window.showToast(`Access granted! <b>${course.title}</b> was successfully assigned to <b>${state.assignTargetUserEmail}</b>.`);
-                window.closeAssignModal();
-            } catch (err) {
-                window.showToast("Database error assigning course.", true);
-                window.closeAssignModal();
-            }
-        };
-
-        // --- INTERACTIVE MATERIALS TREE BUILDER & EDITORS (Req 3) ---
-        // Recursively search any tree to add/edit/delete nodes safely
-        const findAndManipulateNode = (nodes, targetId, action, payload = {}) => {
-            for (let i = 0; i < nodes.length; i++) {
-                if (nodes[i].id === targetId) {
-                    if (action === 'DELETE') {
-                        nodes.splice(i, 1);
-                        return true;
-                    } else if (action === 'UPDATE') {
-                        nodes[i] = { ...nodes[i], ...payload };
-                        return true;
-                    } else if (action === 'ADD_CHILD') {
-                        if (!nodes[i].children) nodes[i].children = [];
-                        nodes[i].children.push(payload);
-                        return true;
-                    }
-                }
-                if (nodes[i].children && nodes[i].children.length > 0) {
-                    const result = findAndManipulateNode(nodes[i].children, targetId, action, payload);
-                    if (result) return true;
-                }
-            }
-            return false;
-        };
-
-        window.addRootFolder = () => {
-            const newNode = {
-                id: 'fold_' + Date.now().toString(),
-                type: 'folder',
-                title: 'New Folder',
-                sequence: state.editingCourseMaterials.length + 1,
-                children: []
-            };
-            state.editingCourseMaterials.push(newNode);
-            renderAdminMaterialsTree();
-        };
-
-        window.addRootFile = () => {
-            const newNode = {
-                id: 'file_' + Date.now().toString(),
-                type: 'file',
-                fileType: 'PDF',
-                title: 'Unsequenced Syllabus Document',
-                sequence: state.editingCourseMaterials.length + 1,
-                url: '#'
-            };
-            state.editingCourseMaterials.push(newNode);
-            renderAdminMaterialsTree();
-        };
-
-        window.addChildToNode = (parentId, childType) => {
-            const newNode = childType === 'folder' ? {
-                id: 'fold_' + Date.now().toString(),
-                type: 'folder',
-                title: 'Sub-Folder Level',
-                sequence: 1,
-                children: []
-            } : {
-                id: 'file_' + Date.now().toString(),
-                type: 'file',
-                fileType: 'PDF',
-                title: 'Attached Reference Document',
-                sequence: 1,
-                url: '#'
-            };
-            findAndManipulateNode(state.editingCourseMaterials, parentId, 'ADD_CHILD', newNode);
-            renderAdminMaterialsTree();
-        };
-
-        window.updateNodeField = (nodeId, field, value) => {
-            const val = (field === 'sequence') ? (parseInt(value) || 1) : value;
-            findAndManipulateNode(state.editingCourseMaterials, nodeId, 'UPDATE', { [field]: val });
-        };
-
-        window.deleteNode = (nodeId) => {
-            findAndManipulateNode(state.editingCourseMaterials, nodeId, 'DELETE');
-            renderAdminMaterialsTree();
-        };
-
-        // Recursive rendering function for building trees inside Admin Course Panel
-        const generateMaterialEditorHTML = (nodes, depth = 0) => {
-            if (!nodes) return '';
-            // Sort by sequence number for edit presentation as well
-            const sortedNodes = [...nodes].sort((a, b) => (a.sequence || 0) - (b.sequence || 0));
-            
-            return sortedNodes.map(node => {
-                const indentClass = `pl-${depth * 6}`;
-                const isFolder = node.type === 'folder';
-                
-                return `
-                    <div class="bg-white/5 p-4 rounded-xl border border-white/5 space-y-3 relative group" style="margin-left: ${depth * 24}px">
-                        <div class="flex flex-wrap items-center justify-between gap-4">
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs bg-red-600/20 text-red-500 font-bold px-2 py-0.5 rounded-md">${node.type.toUpperCase()}</span>
-                                <span class="text-xs text-gray-500 font-mono">ID: ${node.id}</span>
-                            </div>
-                            <button type="button" onclick="window.deleteNode('${node.id}')" class="text-xs bg-red-600/20 hover:bg-red-600 text-white rounded-full p-1 transition-all" title="Delete Node">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-                            <!-- Sequence Number -->
-                            <div class="md:col-span-2">
-                                <label class="block text-[9px] uppercase tracking-widest text-gray-400 mb-1">Seq No *</label>
-                                <input type="number" min="1" value="${node.sequence || 1}" 
-                                    onchange="window.updateNodeField('${node.id}', 'sequence', this.value)" 
-                                    class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white text-xs text-center font-bold focus:border-red-500">
-                            </div>
-                            
-                            <!-- Title -->
-                            <div class="${isFolder ? 'md:col-span-10' : 'md:col-span-6'}">
-                                <label class="block text-[9px] uppercase tracking-widest text-gray-400 mb-1">Display Title *</label>
-                                <input type="text" value="${node.title || ''}" 
-                                    onchange="window.updateNodeField('${node.id}', 'title', this.value)" 
-                                    class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white text-xs focus:border-red-500">
-                            </div>
-                            
-                            ${!isFolder ? `
-                                <!-- File Link Type -->
-                                <div class="md:col-span-2">
-                                    <label class="block text-[9px] uppercase tracking-widest text-gray-400 mb-1">Format</label>
-                                    <select onchange="window.updateNodeField('${node.id}', 'fileType', this.value)" 
-                                        class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white text-xs">
-                                        <option value="PDF" ${node.fileType==='PDF'?'selected':''}>PDF Document</option>
-                                        <option value="Audio" ${node.fileType==='Audio'?'selected':''}>Audio File</option>
-                                        <option value="Video" ${node.fileType==='Video'?'selected':''}>Video Player</option>
-                                        <option value="External Link" ${node.fileType==='External Link'?'selected':''}>External Link</option>
-                                    </select>
-                                </div>
-                                
-                                <!-- Link URL -->
-                                <div class="md:col-span-12">
-                                    <label class="block text-[9px] uppercase tracking-widest text-gray-400 mb-1">Media / Asset URL</label>
-                                    <input type="text" value="${node.url || ''}" placeholder="e.g. https://domain.com/vocal_run.mp4"
-                                        onchange="window.updateNodeField('${node.id}', 'url', this.value)" 
-                                        class="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white text-xs focus:border-red-500">
-                                </div>
-                            ` : ''}
-                        </div>
-
-                        ${isFolder ? `
-                            <div class="flex gap-2 pt-2">
-                                <button type="button" onclick="window.addChildToNode('${node.id}', 'folder')" class="text-[9px] text-red-400 border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 px-3 py-1 rounded-full uppercase tracking-wider font-bold transition-all">
-                                    + Add Folder inside
-                                </button>
-                                <button type="button" onclick="window.addChildToNode('${node.id}', 'file')" class="text-[9px] text-gray-400 border border-white/10 bg-white/5 hover:bg-white/10 px-3 py-1 rounded-full uppercase tracking-wider font-bold transition-all">
-                                    + Add Material inside
-                                </button>
-                            </div>
-                        ` : ''}
-                        
-                        <!-- Recursive children rendering -->
-                        ${node.children && node.children.length > 0 ? `
-                            <div class="pt-4 border-t border-white/5 space-y-4">
-                                ${generateMaterialEditorHTML(node.children, depth + 1)}
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            }).join('');
-        };
-
-        const renderAdminMaterialsTree = () => {
-            const container = document.getElementById('materials-tree-builder');
-            if (container) {
-                container.innerHTML = generateMaterialEditorHTML(state.editingCourseMaterials);
-                lucide.createIcons();
-            }
-        };
-
-
-        // --- VIRTUAL CLASSROOM VIEW CONTROLLERS (Req 2 & 3) ---
-        window.openClassroom = (courseId) => {
-            state.currentClassroomCourseId = courseId;
-            const course = state.dynamicCourses.find(c => c.id.toString() === courseId.toString());
-            if (!course) return window.showToast("Classroom error.", true);
-            
-            document.getElementById('classroom-course-title').innerText = course.title;
-            state.activeClassroomNodeId = null;
-            
-            // Render tree folders on classroom launch
-            renderClassroomView();
-            
-            const panel = document.getElementById('classroom-panel');
-            panel.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
-            panel.classList.add('translate-y-0', 'opacity-100');
-        };
-
-        window.closeClassroom = () => {
-            state.currentClassroomCourseId = null;
-            const panel = document.getElementById('classroom-panel');
-            panel.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
-            panel.classList.remove('translate-y-0', 'opacity-100');
-        };
-
-        // Recursive materials display sidebar parser (Sorted by Sequence)
-        const generateClassroomSidebarHTML = (nodes) => {
-            if (!nodes) return '';
-            const sorted = [...nodes].sort((a, b) => (a.sequence || 0) - (b.sequence || 0));
-            
-            return sorted.map(node => {
-                const isFolder = node.type === 'folder';
-                const hasChildren = node.children && node.children.length > 0;
-                
-                if (isFolder) {
-                    return `
-                        <div class="space-y-2">
-                            <div class="flex items-center gap-2.5 text-sm font-semibold text-white/95 bg-white/5 px-3 py-2 rounded-xl border border-white/5">
-                                <i data-lucide="folder" class="w-4 h-4 text-red-500"></i>
-                                <span class="bg-red-600/20 text-red-500 text-[9px] font-mono px-1.5 py-0.5 rounded">${node.sequence}</span>
-                                <span class="truncate font-serif italic">${node.title}</span>
-                            </div>
-                            ${hasChildren ? `
-                                <div class="pl-4 border-l border-white/10 space-y-2 mt-1">
-                                    ${generateClassroomSidebarHTML(node.children)}
-                                </div>
-                            ` : `
-                                <div class="pl-6 text-[10px] text-gray-600 italic">Empty Folder</div>
-                            `}
-                        </div>
-                    `;
-                } else {
-                    const fileIcons = {
-                        'PDF': 'file-text',
-                        'Audio': 'music-4',
-                        'Video': 'video',
-                        'External Link': 'external-link'
-                    };
-                    const iconName = fileIcons[node.fileType] || 'file';
-                    const isActive = state.activeClassroomNodeId === node.id;
-                    
-                    return `
-                        <button onclick="window.launchClassroomMedia('${node.id}')" 
-                                class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl transition-all border ${isActive ? 'bg-red-600/10 text-white border-red-500/40 font-bold' : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'}">
-                            <i data-lucide="${iconName}" class="w-4 h-4 ${isActive ? 'text-red-500' : 'text-gray-500'}"></i>
-                            <span class="bg-white/10 text-gray-400 text-[8px] font-mono px-1 py-0.5 rounded">${node.sequence}</span>
-                            <span class="text-xs truncate flex-grow">${node.title}</span>
-                        </button>
-                    `;
-                }
-            }).join('');
-        };
-
-        // Deep search within materials tree to launch specific preview
-        const findNodeInTree = (nodes, id) => {
-            for (const node of nodes) {
-                if (node.id === id) return node;
-                if (node.children && node.children.length > 0) {
-                    const childResult = findNodeInTree(node.children, id);
-                    if (childResult) return childResult;
-                }
-            }
-            return null;
-        };
-
-        window.launchClassroomMedia = (nodeId) => {
-            state.activeClassroomNodeId = nodeId;
-            renderClassroomView();
-        };
-
-        const renderClassroomView = () => {
-            const course = state.dynamicCourses.find(c => c.id.toString() === state.currentClassroomCourseId.toString());
-            if (!course) return;
-
-            // Re-render folder tree on sidebar
-            const treeContainer = document.getElementById('classroom-tree-container');
-            if (treeContainer) {
-                if (course.materials && course.materials.length > 0) {
-                    treeContainer.innerHTML = generateClassroomSidebarHTML(course.materials);
-                } else {
-                    treeContainer.innerHTML = `<div class="text-center py-8 text-gray-500 text-xs"><i data-lucide="frown" class="w-8 h-8 mx-auto mb-2 text-gray-600"></i>No workbook files loaded for this course yet.</div>`;
-                }
-            }
-
-            // Render Preview Panel
-            const previewContainer = document.getElementById('classroom-preview-pane');
-            const activeNode = state.activeClassroomNodeId ? findNodeInTree(course.materials || [], state.activeClassroomNodeId) : null;
-
-            if (activeNode) {
-                let mediaRenderHTML = '';
-                if (activeNode.fileType === 'Video') {
-                    mediaRenderHTML = `
-                        <div class="w-full max-w-4xl space-y-6 animate-fade-in">
-                            <div class="aspect-video bg-black border border-white/10 rounded-2xl overflow-hidden relative group">
-                                <div class="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
-                                    <div class="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center text-white shadow-2xl hover:scale-105 active:scale-95 transition-all cursor-pointer"><i data-lucide="play" class="w-8 h-8 fill-current ml-1"></i></div>
-                                </div>
-                                <!-- Custom media placeholder header overlay -->
-                                <div class="absolute top-0 inset-x-0 p-6 bg-gradient-to-b from-black/80 to-transparent flex items-center justify-between">
-                                    <span class="text-xs font-bold tracking-widest text-red-500 uppercase">Musicoul Cinematic Streamer</span>
-                                    <span class="text-xs text-gray-400 font-mono">HD Premium Playback</span>
-                                </div>
-                            </div>
-                            <div>
-                                <h4 class="text-2xl text-white font-serif italic">${activeNode.title}</h4>
-                                <p class="text-xs text-gray-400 mt-2 flex items-center gap-2"><i data-lucide="video" class="w-4 h-4 text-red-500"></i> Video Masterclass Module · Sorted sequence #${activeNode.sequence}</p>
-                            </div>
-                        </div>
-                    `;
-                } else if (activeNode.fileType === 'Audio') {
-                    mediaRenderHTML = `
-                        <div class="w-full max-w-2xl space-y-8 animate-fade-in">
-                            <div class="glass-panel p-8 md:p-12 rounded-[2rem] border border-white/10 text-center relative overflow-hidden">
-                                <div class="absolute inset-0 bg-red-900/5 blur-xl"></div>
-                                <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-red-600 to-red-800 flex items-center justify-center text-white mx-auto mb-8 shadow-[0_0_30px_rgba(220,38,38,0.4)]"><i data-lucide="music-4" class="w-10 h-10 animate-pulse"></i></div>
-                                <h4 class="text-2xl text-white font-serif mb-2">${activeNode.title}</h4>
-                                <p class="text-xs text-red-500 font-bold uppercase tracking-widest mb-6">Interactive Audio Lesson</p>
-                                
-                                <!-- Custom Audio Visualizer Simulation -->
-                                <div class="flex justify-center items-end gap-1.5 h-16 mb-8 select-none">
-                                    <div class="w-1.5 bg-red-500 h-6 rounded animate-pulse" style="animation-duration: 0.6s"></div>
-                                    <div class="w-1.5 bg-red-500 h-12 rounded animate-pulse" style="animation-duration: 0.9s"></div>
-                                    <div class="w-1.5 bg-red-600 h-16 rounded animate-pulse" style="animation-duration: 0.5s"></div>
-                                    <div class="w-1.5 bg-red-500 h-14 rounded animate-pulse" style="animation-duration: 0.8s"></div>
-                                    <div class="w-1.5 bg-red-600 h-8 rounded animate-pulse" style="animation-duration: 0.7s"></div>
-                                    <div class="w-1.5 bg-red-500 h-4 rounded animate-pulse" style="animation-duration: 1.1s"></div>
-                                </div>
-                                
-                                <!-- Audio Player controls -->
-                                <div class="bg-black/40 border border-white/5 rounded-full px-6 py-4 flex items-center justify-between gap-4">
-                                    <button class="text-white hover:text-red-500 transition-colors"><i data-lucide="play" class="w-5 h-5 fill-current"></i></button>
-                                    <div class="flex-grow h-1.5 bg-white/10 rounded-full relative overflow-hidden">
-                                        <div class="absolute inset-y-0 left-0 bg-red-600 w-1/3"></div>
-                                    </div>
-                                    <span class="text-xs text-gray-500 font-mono">01:42 / 05:00</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                } else if (activeNode.fileType === 'PDF') {
-                    mediaRenderHTML = `
-                        <div class="w-full max-w-3xl space-y-6 animate-fade-in">
-                            <div class="glass-panel p-10 rounded-[2rem] border border-white/10 min-h-[400px] flex flex-col justify-between">
-                                <div class="space-y-6">
-                                    <div class="flex items-center justify-between border-b border-white/10 pb-4">
-                                        <div class="flex items-center gap-3">
-                                            <i data-lucide="file-text" class="w-8 h-8 text-red-500"></i>
-                                            <div>
-                                                <h4 class="text-xl text-white font-serif">${activeNode.title}</h4>
-                                                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-mono">Workbook Syllabus Document</p>
-                                            </div>
-                                        </div>
-                                        <span class="text-xs bg-white/5 border border-white/10 text-gray-400 px-3 py-1 rounded-full">PDF Guide</span>
-                                    </div>
-                                    <div class="space-y-4 text-sm text-gray-400 font-light leading-relaxed">
-                                        <p class="font-bold text-white text-base">Section Overview:</p>
-                                        <p>This premium workbook contains notation, musical theory, homework exercises, and structured routines developed by Musicoul faculty.</p>
-                                        <p>Please review page 12 through 20 prior to attending the next synchronized live performance coaching event.</p>
-                                    </div>
-                                </div>
-                                <div class="pt-6 border-t border-white/5 flex flex-wrap gap-4 items-center justify-between">
-                                    <span class="text-xs text-gray-500">Format sequence: #${activeNode.sequence}</span>
-                                    <a href="${activeNode.url}" target="_blank" class="bg-white hover:bg-red-600 hover:text-white text-black px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all">Launch Document Preview</a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    // External Links
-                    mediaRenderHTML = `
-                        <div class="w-full max-w-xl animate-fade-in text-center">
-                            <div class="glass-panel p-10 rounded-[2rem] border border-white/10 space-y-6">
-                                <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-red-500 mx-auto"><i data-lucide="external-link" class="w-8 h-8"></i></div>
-                                <h4 class="text-2xl text-white font-serif font-light">${activeNode.title}</h4>
-                                <p class="text-sm text-gray-400 font-light leading-relaxed">This workspace module connects to an external synchronized collaborative portal or audio hosting service.</p>
-                                <a href="${activeNode.url}" target="_blank" class="inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)]">
-                                    Launch Module Link <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                }
-                previewContainer.innerHTML = mediaRenderHTML;
-            } else {
-                // Welcoming Empty Workspace
-                previewContainer.innerHTML = `
-                    <div class="text-center text-gray-500 max-w-lg select-none">
-                        <div class="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 mx-auto mb-8 animate-bounce" style="animation-duration: 3s"><i data-lucide="headphones" class="w-10 h-10"></i></div>
-                        <h4 class="text-2xl text-white font-serif italic mb-4">Your Musicoul Classroom Workspace</h4>
-                        <p class="text-sm text-gray-400 font-light leading-relaxed">Select any item from the structured curriculum directory on the left to launch the HD video stream, play synchronized audio loops, or preview workbooks.</p>
-                    </div>
-                `;
-            }
-            lucide.createIcons();
-        };
-
-        // --- Admin Specific Functions ---
-        window.setAdminTab = (tab) => { state.adminTab = tab; state.editingCourse = null; renderApp(); };
-        window.editCourse = (id) => {
-            const course = state.dynamicCourses.find(c => c.id.toString() === id.toString());
-            state.editingCourse = course;
-            
-            // Sync active materials structure recursively
-            state.editingCourseMaterials = course.materials ? JSON.parse(JSON.stringify(course.materials)) : [];
-            state.adminTab = 'create_course';
-            renderApp();
-            renderAdminMaterialsTree();
-        };
-
-        window.handleCreateCourse = async (e) => {
-            e.preventDefault();
-            const form = e.target;
-            const docId = state.editingCourse ? state.editingCourse.id.toString() : Date.now().toString();
-            
-            // Gather dynamic schedules from legacy components
-            const schedules = Array.from(document.querySelectorAll('.schedule-row')).map(row => ({
-                day: row.querySelector('.s-day').value, time: row.querySelector('.s-time').value, type: row.querySelector('.s-type').value
-            }));
-
-            // Safe, namespace-isolated input value helper to completely avoid overlapping form properties
-            const getInputValue = (fieldName) => {
-                const el = form.querySelector(`[name="${fieldName}"]`);
-                return el ? el.value : '';
-            };
-
-            const courseData = {
-                id: docId, 
-                title: getInputValue('title'), 
-                image: getInputValue('image'), 
-                desc: getInputValue('desc'),
-                features: getInputValue('features').split(',').map(f => f.trim()).filter(Boolean),
-                facultyName: getInputValue('facultyName'), 
-                facultyImage: getInputValue('facultyImage'),
-                price: getInputValue('price'), 
-                feeType: getInputValue('feeType'), 
-                type: getInputValue('type'),
-                category: getInputValue('category'), 
-                location: getInputValue('location'),
-                schedule: schedules, 
-                // Store the structured multi-level nested material folder JSON tree (Req 3)
-                materials: state.editingCourseMaterials 
-            };
-
-            try {
-                // Change button state to indicate network activity
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerText;
-                submitBtn.innerText = "Syncing to Cloud...";
-                submitBtn.disabled = true;
-
-                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', docId), courseData);
-                window.showToast(state.editingCourse ? "Course updated in Database!" : "Course published to Database!");
-                window.setAdminTab('dashboard');
-            } catch(error) {
-                console.error("Cloud write restricted.", error);
-                window.showToast("Database Error: Failed to save changes.", true);
-                const submitBtn = form.querySelector('button[type="submit"]');
-                submitBtn.disabled = false;
-                submitBtn.innerText = state.editingCourse ? 'Update Course' : 'Publish Course';
-            }
-        };
-
-        window.deleteCourse = async (id) => {
-             try { 
-                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', id.toString())); 
-                 window.showToast("Course deleted from Database."); 
-             } catch(e) {
-                 window.showToast("Database Error: Failed to delete.", true);
-             }
-        };
-
-        // --- Filters & Render Logic For Classes ---
-        window.updateFilter = (filterKey, value) => { state.filters[filterKey] = value; renderClassesGrid(); };
-
-        window.renderClassesGrid = () => {
-            const grid = document.getElementById('classes-grid');
-            if (!grid) return;
-            const coursesToRender = state.dynamicCourses.length > 0 ? state.dynamicCourses : DATA.classesData;
-            const filteredClasses = coursesToRender.filter(cls => {
-                const searchMatch = cls.title.toLowerCase().includes(state.filters.search.toLowerCase()) || cls.desc.toLowerCase().includes(state.filters.search.toLowerCase()) || (cls.location && cls.location.toLowerCase().includes(state.filters.search.toLowerCase()));
-                const typeMatch = state.filters.type === 'All' || cls.type === state.filters.type;
-                const catMatch = state.filters.category === 'All' || cls.category === state.filters.category;
-                return searchMatch && typeMatch && catMatch;
-            });
-
-            if (filteredClasses.length === 0) {
-                grid.innerHTML = `<div class="col-span-full flex flex-col items-center justify-center py-20 text-gray-500 glass-panel rounded-3xl"><i data-lucide="search-X" class="w-12 h-12 mb-4 text-gray-600"></i><p class="text-lg">No courses found matching your criteria.</p></div>`;
-            } else {
-                grid.innerHTML = filteredClasses.map(cls => {
-                    const hasAccess = state.userBookings[cls.id.toString()] || (state.user && state.user.email === ADMIN_EMAIL);
-                    
-                    return `
-                        <div class="glass-panel p-8 md:p-10 rounded-[2rem] hover:bg-neutral-900/60 transition-colors duration-500 flex flex-col h-full group relative overflow-hidden border border-white/5 hover:border-red-900/50">
-                            <div class="absolute top-0 right-0 w-64 h-64 bg-red-900/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-                            
-                            <div class="flex justify-between items-start mb-10 relative z-10">
-                                <div class="p-4 rounded-full bg-white/5 border border-white/10 text-white group-hover:bg-red-600 group-hover:border-red-500 transition-all duration-500 shadow-lg"><i data-lucide="${cls.type === 'Online' ? 'video' : 'map-pin'}" class="w-6 h-6"></i></div>
-                                
-                                ${hasAccess ? `
-                                    <span class="text-[9px] font-bold uppercase tracking-widest text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                                        <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping"></span> Student Authorized
-                                    </span>
-                                ` : `
-                                    <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 bg-black/50 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md">${cls.type} ${cls.location ? '· ' + cls.location : ''}</span>
-                                `}
-                            </div>
-                            
-                            <div class="mb-3 text-[10px] font-bold uppercase tracking-widest text-red-500 relative z-10">${cls.category}</div>
-                            ${cls.image ? `<img src="${cls.image}" class="w-full h-48 object-cover rounded-2xl mb-6 relative z-10 border border-white/10">` : ''}
-                            <h3 class="text-3xl font-light text-white mb-2 relative z-10 font-serif">${cls.title}</h3>
-                            ${cls.facultyName ? `<div class="flex items-center gap-3 mb-4 relative z-10">${cls.facultyImage ? `<img src="${cls.facultyImage}" class="w-8 h-8 rounded-full object-cover">` : '<div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="user" class="w-4 h-4 text-gray-400"></i></div>'}<span class="text-xs text-gray-400">Instructor: <span class="text-white">${cls.facultyName}</span></span></div>` : ''}
-                            <p class="text-sm text-gray-400 font-light mb-6 leading-relaxed flex-grow relative z-10">${cls.desc}</p>
-                            
-                            <!-- Schedules -->
-                            ${cls.schedule && cls.schedule.length > 0 ? `
-                                <div class="mb-4 bg-white/5 rounded-xl p-3 border border-white/5 relative z-10">
-                                    <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold mb-2">Schedule</p>
-                                    ${cls.schedule.map(s => `<p class="text-xs text-white flex items-center gap-2 mb-1.5"><i data-lucide="calendar" class="w-3 h-3 text-red-500"></i> ${s.day}, ${s.time} - <span class="text-gray-400">${s.type}</span></p>`).join('')}
-                                </div>
-                            ` : ''}
-                            
-                            <!-- PREMIUM SECURE MATERIALS SECTION (Req 2) -->
-                            <div class="mb-8 border-t border-white/5 pt-4 relative z-10">
-                                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-3 flex items-center gap-1.5">
-                                    <i data-lucide="folder-lock" class="w-3.5 h-3.5 text-red-500"></i> Learning Workbooks & Folders
-                                </p>
-                                
-                                ${hasAccess ? `
-                                    <div class="space-y-2">
-                                        <p class="text-xs text-emerald-400 flex items-center gap-1.5 mb-2"><i data-lucide="unlock" class="w-3.5 h-3.5"></i> Access Unlocked! Structured material folders are loaded.</p>
-                                        <button onclick="window.openClassroom('${cls.id}')" class="w-full bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 text-emerald-300 hover:text-white py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-                                            <i data-lucide="monitor-play" class="w-4 h-4"></i> Enter Virtual Classroom
-                                        </button>
-                                    </div>
-                                ` : `
-                                    <div class="bg-neutral-900/40 border border-white/5 rounded-2xl p-4 flex items-center gap-4">
-                                        <div class="p-3 bg-red-600/10 text-red-500 rounded-full border border-red-500/20">
-                                            <i data-lucide="lock" class="w-4 h-4"></i>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs text-white font-medium">Classroom Content Locked</p>
-                                            <p class="text-[10px] text-gray-500 mt-0.5">Enroll now or request administrative assignment to unlock folders.</p>
-                                        </div>
-                                    </div>
-                                `}
-                            </div>
-
-                            <ul class="mb-12 space-y-4 relative z-10">
-                                ${(cls.features || []).map(f => `<li class="flex items-center gap-4 text-sm text-gray-300 font-light"><i data-lucide="check-circle-2" class="w-4 h-4 text-red-600 flex-shrink-0"></i> ${f}</li>`).join('')}
-                            </ul>
-                            
-                            <div class="pt-8 border-t border-white/10 relative z-10 mt-auto">
-                                <div class="flex items-end gap-2 mb-8"><span class="text-4xl font-light text-white">${cls.price}</span><span class="text-sm text-gray-500 font-medium tracking-wide mb-1">${cls.period || cls.feeType || ''}</span></div>
-                                <button onclick="window.bookSession('${cls.id}')" class="w-full bg-white text-black py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]">Enroll & Pay</button>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            }
-            lucide.createIcons();
-        };
-
-        // --- Navigation & Rendering ---
-        const navLinksData = [ { id: 'home', label: 'Home' }, { id: 'classes', label: 'Courses' }, { id: 'library', label: 'Library' }, { id: 'store', label: 'Store' } ];
-
-        window.navigate = (page) => {
-            state.currentPage = page; window.closeMobileMenu(); renderApp(); window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.toggleMobileMenu = () => {
-            state.mobileMenuOpen = !state.mobileMenuOpen;
-            const menu = document.getElementById('mobile-menu'); 
-            const overlay = document.getElementById('mobile-menu-overlay');
-            const authCont = document.getElementById('mobile-auth-container'); 
-            const icon = document.getElementById('mobile-menu-icon');
-            
-            updateNavbarUI();
-
-            if (state.mobileMenuOpen) { 
-                menu.classList.remove('opacity-0', 'translate-x-full', 'pointer-events-none'); 
-                menu.classList.add('opacity-100', 'translate-x-0');
-                if (overlay) {
-                    overlay.classList.remove('opacity-0', 'pointer-events-none');
-                    overlay.classList.add('opacity-100');
-                }
-                authCont.classList.remove('translate-y-8', 'opacity-0'); 
-                icon.setAttribute('data-lucide', 'x'); 
-            } else { 
-                menu.classList.add('opacity-0', 'translate-x-full', 'pointer-events-none'); 
-                menu.classList.remove('opacity-100', 'translate-x-0');
-                if (overlay) {
-                    overlay.classList.add('opacity-0', 'pointer-events-none');
-                    overlay.classList.remove('opacity-100');
-                }
-                authCont.classList.add('translate-y-8', 'opacity-0'); 
-                icon.setAttribute('data-lucide', 'menu'); 
-            }
-            lucide.createIcons();
-        };
-        window.closeMobileMenu = () => { if(state.mobileMenuOpen) window.toggleMobileMenu(); }
-
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) { nav.classList.add('bg-black/80', 'backdrop-blur-2xl', 'border-b', 'border-white/5', 'py-4'); nav.classList.remove('bg-transparent', 'py-6', 'md:py-8'); } 
-            else { nav.classList.add('bg-transparent', 'py-6', 'md:py-8'); nav.classList.remove('bg-black/80', 'backdrop-blur-2xl', 'border-b', 'border-white/5', 'py-4'); }
-        });
-
-        const updateNavbarUI = () => {
-            const isAdmin = state.user && state.user.email === ADMIN_EMAIL;
-            const currentNavLinks = [...navLinksData];
-            if (isAdmin) currentNavLinks.push({ id: 'admin', label: 'Admin Panel' });
-
-            const desktopLinks = document.getElementById('nav-links');
-            if (desktopLinks) { desktopLinks.innerHTML = currentNavLinks.map(link => `<button onclick="window.navigate('${link.id}')" class="relative text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-500 py-2 ${state.currentPage === link.id ? 'text-white' : (link.id === 'admin' ? 'text-red-500 hover:text-red-400' : 'text-gray-500 hover:text-white')}">${link.label}${state.currentPage === link.id ? '<span class="absolute bottom-0 left-0 w-full h-[2px] rounded-full bg-red-600 shadow-[0_0_10px_rgba(220,38,38,0.8)]"></span>' : ''}</button>`).join(''); }
-
-            // Premium Styled Drawer Links
-            const mobileLinks = document.getElementById('mobile-nav-links');
-            if (mobileLinks) { 
-                mobileLinks.innerHTML = `
-                    <div class="flex flex-col gap-1 text-gray-500 text-[10px] font-bold tracking-[0.3em] uppercase mb-4 select-none">
-                        <span>Navigation</span>
-                        <div class="h-[1px] w-8 bg-red-600 mt-2"></div>
-                    </div>
-                    <div class="flex flex-col gap-6">
-                        ${currentNavLinks.map((link, idx) => `
-                            <button onclick="window.navigate('${link.id}')" 
-                                    style="transition-delay: ${idx * 60}ms" 
-                                    class="group text-left flex items-baseline gap-4 transition-all duration-500 transform ${state.mobileMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'}">
-                                <span class="text-[10px] font-mono font-bold tracking-widest text-red-600/80 select-none">0${idx + 1}</span>
-                                <span class="text-4xl md:text-5xl font-serif italic font-light tracking-wide text-white/80 group-hover:text-white group-hover:translate-x-3 transition-all duration-300 relative">
-                                    ${link.label}
-                                    ${state.currentPage === link.id ? `
-                                        <span class="absolute -bottom-1 left-0 w-full h-[1px] bg-gradient-to-r from-red-600 to-transparent"></span>
-                                    ` : ''}
-                                </span>
-                            </button>
-                        `).join('')}
-                    </div>
-                `;
-            }
-
-            const desktopAuth = document.getElementById('auth-container-desktop');
-            const isRealUser = state.user && !state.user.isAnonymous;
-            if (desktopAuth) {
-                if (isRealUser) { desktopAuth.innerHTML = `<div class="flex items-center gap-5"><div class="flex items-center gap-2.5 glass-panel px-4 py-2 rounded-full border border-white/10 ${isAdmin ? 'border-red-500/30' : ''}"><i data-lucide="${isAdmin ? 'shield-check' : 'user'}" class="w-3.5 h-3.5 ${isAdmin ? 'text-red-500' : 'text-gray-300'}"></i><span class="text-[11px] font-bold tracking-widest uppercase text-white truncate max-w-[90px]">${isAdmin ? 'ADMIN' : (state.user.email ? state.user.email.split('@')[0] : 'User')}</span></div><button onclick="window.handleSignOut()" class="text-xs text-gray-500 hover:text-red-500 uppercase tracking-widest font-bold transition-colors">Logout</button></div>`; } 
-                else { desktopAuth.innerHTML = `<button onclick="window.openAuthModal()" class="flex items-center gap-2 bg-white text-black hover:bg-gray-200 px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]">Sign In</button>`; }
-            }
-
-            const mobileAuth = document.getElementById('mobile-auth-container');
-            if (mobileAuth) {
-                if (isRealUser) { mobileAuth.innerHTML = `<div class="flex items-center justify-center gap-3 glass-panel px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full mb-4 ${isAdmin ? 'border border-red-500/50' : ''}"><i data-lucide="${isAdmin ? 'shield-check' : 'user'}" class="w-4 h-4 text-red-500"></i><span class="text-white truncate font-medium">${state.user.email}</span></div><button onclick="window.handleSignOut()" class="flex items-center justify-center gap-3 text-red-500 border border-red-500/20 bg-red-500/10 hover:bg-red-500/20 px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest w-full mb-4 transition-colors">Logout</button><button onclick="window.navigate('store')" class="flex items-center justify-center gap-3 text-white border border-white/20 hover:bg-white/10 px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full transition-colors"><i data-lucide="shopping-bag" class="w-4 h-4"></i> View Cart (${state.cartCount})</button>`; } 
-                else { mobileAuth.innerHTML = `<button onclick="window.openAuthModal()" class="flex items-center justify-center gap-3 bg-white text-black hover:bg-gray-200 px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest w-full mb-4 transition-colors">Sign In / Register</button><button onclick="window.navigate('store')" class="flex items-center justify-center gap-3 text-white border border-white/20 hover:bg-white/10 px-8 py-4 rounded-full text-sm uppercase tracking-widest w-full transition-colors"><i data-lucide="shopping-bag" class="w-4 h-4"></i> View Cart (${state.cartCount})</button>`; }
-            }
-            lucide.createIcons();
-            initLanguageSelects();
-        };
-
-        const updateCartBadge = () => {
-            const badge = document.getElementById('cart-badge');
-            if (badge) { if (state.cartCount > 0) { badge.innerText = state.cartCount; badge.classList.remove('hidden'); badge.classList.add('flex'); } else { badge.classList.add('hidden'); badge.classList.remove('flex'); } }
-        };
-
-        // --- Render Templates ---
-        const templates = {
-            home: () => `
-                <div class="page-transition">
-                    <div class="relative min-h-screen flex items-center pt-20 overflow-hidden">
-                        <div class="absolute inset-0 z-0">
-                            <img src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=90&w=2000" class="w-full h-full object-cover opacity-30 animate-slow-zoom">
-                            <div class="absolute inset-0 bg-gradient-to-r from-[#030303] via-[#030303]/80 to-transparent"></div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-transparent"></div>
-                        </div>
-                        <div class="relative z-10 max-w-screen-2xl mx-auto px-6 md:px-12 w-full">
-                            <div class="max-w-3xl animate-slide-up-fade">
-                                <p class="text-red-600 text-xs md:text-sm lg:text-base font-bold tracking-[0.4em] uppercase mb-6 flex items-center gap-4 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">
-                                    <span class="w-8 md:w-16 h-[1px] bg-red-600"></span> Premium Institute
-                                </p>
-                                <h1 class="text-5xl md:text-7xl lg:text-[6rem] font-light text-white tracking-tight leading-[1.05] mb-8">
-                                    Elevate your <br><span class="font-serif italic text-white/90">musical journey.</span>
-                                </h1>
-                                <p class="text-base md:text-lg lg:text-xl text-gray-400 font-light max-w-xl mb-12 tracking-wide leading-relaxed">
-                                    An exclusive platform to explore, enjoy, and master music through world-class online, offline, and recorded experiences.
-                                </p>
-                                <div class="flex flex-col sm:flex-row gap-5 md:gap-6">
-                                    <button onclick="window.navigate('classes')" class="group flex items-center justify-center gap-4 bg-white text-black px-8 md:px-10 py-4 md:py-5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-all duration-300 w-full sm:w-auto shadow-[0_0_30px_rgba(255,255,255,0.15)] hover:scale-105">
-                                        Start Learning <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                                    </button>
-                                    <button onclick="window.navigate('library')" class="group flex items-center justify-center gap-4 glass-panel hover:bg-white/10 text-white px-8 md:px-10 py-4 md:py-5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 w-full sm:w-auto hover:scale-105">
-                                        <i data-lucide="play" class="w-4 h-4 fill-current"></i> Browse Library
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-[#030303] py-24 md:py-32 px-6 md:px-12 relative z-10">
-                        <div class="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8">
-                            <div class="group cursor-pointer hover:-translate-y-3 transition-all duration-500 ease-out" onclick="window.navigate('classes')">
-                                <div class="w-16 h-16 rounded-2xl glass-panel flex items-center justify-center text-white mb-8 group-hover:bg-red-900/30 group-hover:text-red-500 group-hover:border-red-500/50 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_30px_rgba(220,38,38,0.3)]">
-                                    <i data-lucide="users" class="w-7 h-7"></i>
-                                </div>
-                                <h3 class="text-2xl font-light text-white mb-4 tracking-wide font-serif">Live & Offline</h3>
-                                <p class="text-base text-gray-500 leading-relaxed font-light mb-8 max-w-sm">Connect with world-class instructors in personalized 1-on-1s, or immerse yourself in our local studio environments across cities.</p>
-                                <span class="text-xs text-white font-medium uppercase tracking-widest flex items-center gap-2 group-hover:text-red-500 transition-colors">Explore Courses <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
-                            </div>
-                            <div class="group cursor-pointer hover:-translate-y-3 transition-all duration-500 ease-out" onclick="window.navigate('library')">
-                                <div class="w-16 h-16 rounded-2xl glass-panel flex items-center justify-center text-white mb-8 group-hover:bg-red-900/30 group-hover:text-red-500 group-hover:border-red-500/50 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_30px_rgba(220,38,38,0.3)]">
-                                    <i data-lucide="play" class="w-7 h-7"></i>
-                                </div>
-                                <h3 class="text-2xl font-light text-white mb-4 tracking-wide font-serif">The Library</h3>
-                                <p class="text-base text-gray-500 leading-relaxed font-light mb-8 max-w-sm">Unlimited access to our premium catalog of recorded masterclasses, exclusive videos, and curated notes.</p>
-                                <span class="text-xs text-white font-medium uppercase tracking-widest flex items-center gap-2 group-hover:text-red-500 transition-colors">Start Watching <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
-                            </div>
-                            <div class="group cursor-pointer hover:-translate-y-3 transition-all duration-500 ease-out" onclick="window.navigate('store')">
-                                <div class="w-16 h-16 rounded-2xl glass-panel flex items-center justify-center text-white mb-8 group-hover:bg-red-900/30 group-hover:text-red-500 group-hover:border-red-500/50 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_30px_rgba(220,38,38,0.3)]">
-                                    <i data-lucide="guitar" class="w-7 h-7"></i>
-                                </div>
-                                <h3 class="text-2xl font-light text-white mb-4 tracking-wide font-serif">Musicoul Store</h3>
-                                <p class="text-base text-gray-500 leading-relaxed font-light mb-8 max-w-sm">Equip yourself with premium instruments, professional studio gear, and exclusive brand merchandise.</p>
-                                <span class="text-xs text-white font-medium uppercase tracking-widest flex items-center gap-2 group-hover:text-red-500 transition-colors">Shop Gear <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `,
-            library: () => `
-                <div class="pt-32 pb-32 min-h-screen page-transition overflow-hidden relative">
-                    <div class="absolute top-40 right-0 w-[500px] h-[500px] bg-red-900/10 blur-[150px] rounded-full pointer-events-none"></div>
-
-                    <div class="px-6 md:px-12 max-w-screen-2xl mx-auto mb-24 relative z-10">
-                        <div class="relative h-[65vh] min-h-[500px] rounded-[2rem] overflow-hidden group cursor-pointer border border-white/10 hover:border-white/20 transition-colors duration-700" onclick="window.showToast('Premium video player opening...')">
-                            <img src="${(DATA.featuredCourse || {}).image}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 group-hover:opacity-100">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-                            <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent"></div>
-                            
-                            <div class="absolute bottom-0 left-0 p-8 md:p-16 max-w-3xl">
-                                <p class="text-red-500 text-xs font-bold tracking-[0.3em] uppercase mb-4 drop-shadow-md">${(DATA.featuredCourse || {}).type}</p>
-                                <h2 class="text-4xl md:text-6xl lg:text-7xl font-light text-white mb-6 tracking-tight font-serif drop-shadow-lg">${(DATA.featuredCourse || {}).title}</h2>
-                                <p class="text-gray-300 text-sm md:text-lg font-light mb-10 line-clamp-2 md:line-clamp-none max-w-2xl leading-relaxed">${(DATA.featuredCourse || {}).description}</p>
-                                <div class="flex items-center gap-4">
-                                    <button class="bg-white text-black px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-3 hover:bg-gray-200 hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                                        <i data-lucide="play" class="w-4 h-4 fill-current"></i> Play Trailer
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    ${(DATA.libraryCategories || []).map(cat => `
-                        <div class="mb-20 relative z-10">
-                            <h3 class="text-2xl font-light text-white mb-8 px-6 md:px-12 max-w-screen-2xl mx-auto tracking-wide font-serif">${cat.title}</h3>
-                            <div class="flex overflow-x-auto gap-6 px-6 md:px-12 pb-8 snap-x snap-mandatory hide-scrollbar">
-                                ${(cat.items || []).map(item => `
-                                    <div onclick="window.showToast('Playing: ${item.title}')" class="min-w-[280px] md:min-w-[400px] aspect-[16/10] bg-neutral-900 rounded-2xl overflow-hidden snap-center group cursor-pointer relative border border-white/5 hover:border-white/20 transition-all duration-500 shadow-xl">
-                                        <img src="${item.image}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100">
-                                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100">
-                                            <div class="w-16 h-16 rounded-full glass-panel flex items-center justify-center shadow-[0_0_30px_rgba(0,0,0,0.8)] border-white/30"><i data-lucide="play" class="text-white w-6 h-6 fill-current ml-1"></i></div>
-                                        </div>
-                                        <div class="absolute bottom-0 left-0 p-6 w-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                                            <h4 class="text-xl font-medium text-white mb-2 drop-shadow-lg font-serif">${item.title}</h4>
-                                            <p class="text-xs text-gray-400 font-medium tracking-wider uppercase drop-shadow-md">${item.duration}</p>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                                <div class="min-w-[24px] md:min-w-[48px]"></div>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `,
-            classes: () => `
-                <div class="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 max-w-screen-2xl mx-auto min-h-screen page-transition">
-                    <div class="max-w-4xl mb-12">
-                        <p class="text-red-600 text-xs md:text-sm font-bold tracking-[0.3em] uppercase mb-4 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">Courses & Classes</p>
-                        <h2 class="text-5xl md:text-6xl lg:text-8xl font-light text-white tracking-tight mb-6 md:mb-8 font-serif">Master your <span class="italic text-white/90">craft.</span></h2>
-                        <p class="text-base md:text-xl text-gray-400 font-light tracking-wide leading-relaxed">Elevate your skills with personalized online coaching or immersive offline studio sessions across major cities.</p>
-                    </div>
-
-                    <!-- Filter Bar -->
-                    <div class="flex flex-col md:flex-row items-center gap-4 mb-16 relative z-10 w-full">
-                        <div class="relative w-full md:w-2/5">
-                            <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i>
-                            <input type="text" id="search-input" oninput="window.updateFilter('search', this.value)" placeholder="Search courses, instruments, or cities..." value="${state.filters.search}" class="w-full glass-panel text-white pl-14 pr-6 py-4 rounded-full outline-none focus:border-red-500/50 transition-colors text-sm placeholder-gray-500">
-                        </div>
-                        <div class="relative w-full md:w-1/4">
-                            <select id="type-select" onchange="window.updateFilter('type', this.value)" class="w-full glass-panel text-white px-6 py-4 rounded-full outline-none focus:border-red-500/50 transition-colors text-sm appearance-none cursor-pointer">
-                                <option value="All" ${state.filters.type === 'All' ? 'selected' : ''}>All Locations</option>
-                                <option value="Online" ${state.filters.type === 'Online' ? 'selected' : ''}>Online Only</option>
-                                <option value="Offline" ${state.filters.type === 'Offline' ? 'selected' : ''}>Offline Studios</option>
-                            </select>
-                            <i data-lucide="chevron-down" class="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
-                        </div>
-                        <div class="relative w-full md:w-1/4">
-                            <select id="cat-select" onchange="window.updateFilter('category', this.value)" class="w-full glass-panel text-white px-6 py-4 rounded-full outline-none focus:border-red-500/50 transition-colors text-sm appearance-none cursor-pointer">
-                                <option value="All" ${state.filters.category === 'All' ? 'selected' : ''}>All Categories</option>
-                                <option value="Singing" ${state.filters.category === 'Singing' ? 'selected' : ''}>Singing / Vocals</option>
-                                <option value="Instruments" ${state.filters.category === 'Instruments' ? 'selected' : ''}>Instruments</option>
-                                <option value="Production" ${state.filters.category === 'Production' ? 'selected' : ''}>Music Production</option>
-                            </select>
-                            <i data-lucide="chevron-down" class="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
-                        </div>
-                    </div>
-                    
-                    <div id="classes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- Rendered dynamically -->
-                    </div>
-                </div>
-            `,
-            store: () => `
-                <div class="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 max-w-screen-2xl mx-auto min-h-screen page-transition">
-                    <div class="max-w-4xl mb-16 md:mb-24">
-                        <p class="text-red-600 text-xs md:text-sm font-bold tracking-[0.3em] uppercase mb-4 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">Store</p>
-                        <h2 class="text-5xl md:text-6xl lg:text-8xl font-light text-white tracking-tight mb-6 md:mb-8 font-serif">Premium <span class="italic text-white/90">Gear.</span></h2>
-                        <p class="text-base md:text-xl text-gray-400 font-light tracking-wide leading-relaxed">Professional instruments and exclusive merchandise tailored for the dedicated musician.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
-                        ${(DATA.storeItems || []).map(item => `
-                            <div class="group">
-                                <div class="aspect-[4/5] bg-neutral-900 rounded-2xl overflow-hidden mb-6 relative border border-white/5 group-hover:border-white/20 transition-colors duration-500 shadow-2xl">
-                                    <img src="${item.image}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-1000">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-8">
-                                        <button onclick="window.addToCart('${item.name}')" class="bg-white text-black px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 hover:bg-red-600 hover:text-white shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between items-start px-2">
-                                    <h3 class="text-lg font-light text-white leading-snug pr-4 font-serif">${item.name}</h3>
-                                    <p class="text-sm text-gray-400 font-bold tracking-wider">${item.price}</p>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `,
-            admin: () => `
-                <div class="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 max-w-screen-2xl mx-auto min-h-screen page-transition">
-                    <div class="max-w-4xl mb-12 flex items-center justify-between border-b border-white/10 pb-8">
-                        <div>
-                            <p class="text-red-500 text-xs font-bold tracking-[0.3em] uppercase mb-4 flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4"></i> Admin Panel</p>
-                            <h2 class="text-4xl md:text-5xl font-light text-white tracking-tight font-serif">Command Center</h2>
-                        </div>
-                    </div>
-
-                    <!-- Admin Tabs -->
-                    <div class="flex gap-4 mb-10 overflow-x-auto hide-scrollbar pb-2">
-                        <button onclick="window.setAdminTab('dashboard')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'dashboard' ? 'bg-red-600 text-white font-medium' : 'glass-panel text-gray-400 hover:text-white'}">Overview</button>
-                        <button onclick="window.setAdminTab('users')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'users' ? 'bg-red-600 text-white font-medium' : 'glass-panel text-gray-400 hover:text-white'}">Manage Users</button>
-                        <button onclick="window.setAdminTab('create_course')" class="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${state.adminTab === 'create_course' ? 'bg-red-600 text-white font-medium' : 'glass-panel text-gray-400 hover:text-white'}"><i data-lucide="plus" class="w-4 h-4 inline mb-0.5"></i> ${state.editingCourse ? 'Edit Course' : 'Add Course'}</button>
-                    </div>
-
-                    ${state.adminTab === 'dashboard' ? `
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-                        <div class="glass-panel p-8 rounded-[2rem] border border-white/5 relative overflow-hidden group hover:border-red-500/30 transition-colors">
-                            <div class="w-12 h-12 rounded-full bg-red-900/20 flex items-center justify-center text-red-500 mb-6"><i data-lucide="users" class="w-5 h-5"></i></div>
-                            <h4 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Total Users</h4>
-                            <p class="text-4xl text-white font-light font-serif">${state.allUsers.length || DATA.mockAdminStats.totalStudents}</p>
-                        </div>
-                        <div class="glass-panel p-8 rounded-[2rem] border border-white/5 relative overflow-hidden group hover:border-red-500/30 transition-colors">
-                            <div class="w-12 h-12 rounded-full bg-blue-900/20 flex items-center justify-center text-blue-500 mb-6"><i data-lucide="calendar-check" class="w-5 h-5"></i></div>
-                            <h4 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Active Courses</h4>
-                            <p class="text-4xl text-white font-light font-serif">${state.dynamicCourses.length}</p>
-                        </div>
-                        <div class="glass-panel p-8 rounded-[2rem] border border-white/5 relative overflow-hidden group hover:border-red-500/30 transition-colors">
-                            <div class="w-12 h-12 rounded-full bg-green-900/20 flex items-center justify-center text-green-500 mb-6"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
-                            <h4 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Platform Status</h4>
-                            <p class="text-sm text-green-400 font-medium">Online & Syncing to Cloud</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 gap-12">
-                        <div>
-                            <div class="flex items-center justify-between mb-8">
-                                <h3 class="text-2xl font-light text-white font-serif">Active Courses Directory</h3>
-                            </div>
-                            <div class="glass-panel rounded-3xl overflow-hidden border border-white/5">
-                                <div class="overflow-x-auto">
-                                    <table class="w-full text-left text-sm text-gray-400 min-w-[600px]">
-                                        <thead class="text-xs uppercase bg-white/5 text-gray-300 font-bold tracking-wider">
-                                            <tr>
-                                                <th class="px-6 py-4 rounded-tl-3xl">Course Title</th>
-                                                <th class="px-6 py-4">Faculty</th>
-                                                <th class="px-6 py-4">Price</th>
-                                                <th class="px-6 py-4">Type</th>
-                                                <th class="px-6 py-4 rounded-tr-3xl text-right">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            ${state.dynamicCourses.map(cls => `
-                                                <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-                                                    <td class="px-6 py-4 font-medium text-white">${cls.title}</td>
-                                                    <td class="px-6 py-4">${cls.facultyName || 'N/A'}</td>
-                                                    <td class="px-6 py-4 text-red-400 font-bold">${cls.price}</td>
-                                                    <td class="px-6 py-4">
-                                                        <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${cls.type === 'Online' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-orange-500/10 text-orange-400 border border-orange-500/20'}">
-                                                            ${cls.type || 'Unknown'}
-                                                        </span>
-                                                    </td>
-                                                    <td class="px-6 py-4 text-right">
-                                                        <button onclick="window.editCourse('${cls.id}')" class="text-gray-400 hover:text-white mx-2 transition-colors hover:scale-110 duration-200" title="Edit Course"><i data-lucide="edit" class="w-4 h-4"></i></button>
-                                                        <button onclick="window.deleteCourse('${cls.id}')" class="text-gray-400 hover:text-red-500 mx-2 transition-colors hover:scale-110 duration-200" title="Delete Course"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                                                    </td>
-                                                </tr>
-                                            `).join('')}
-                                            ${state.dynamicCourses.length === 0 ? `<tr><td colspan="5" class="px-6 py-8 text-center text-gray-500">No courses available. Create one to get started.</td></tr>` : ''}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    ` : ''}
-
-                    ${state.adminTab === 'users' ? `
-                    <div>
-                        <h3 class="text-2xl font-light text-white font-serif mb-8">Registered Users Directory</h3>
-                        <div class="glass-panel rounded-3xl overflow-hidden border border-white/5">
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-left text-sm text-gray-400 min-w-[600px]">
-                                    <thead class="text-xs uppercase bg-white/5 text-gray-300 font-bold tracking-wider">
-                                        <tr>
-                                            <th class="px-6 py-4 rounded-tl-3xl">Email Address</th>
-                                            <th class="px-6 py-4">User ID</th>
-                                            <th class="px-6 py-4">Last Activity</th>
-                                            <th class="px-6 py-4 rounded-tr-3xl text-right">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${state.allUsers.map(u => `
-                                            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-                                                <td class="px-6 py-4 font-medium text-white flex items-center gap-3">
-                                                    <div class="w-8 h-8 rounded-full bg-red-900/20 flex items-center justify-center text-red-500"><i data-lucide="user" class="w-4 h-4"></i></div>
-                                                    ${u.email || 'Anonymous Guest'}
-                                                </td>
-                                                <td class="px-6 py-4 text-xs font-mono text-gray-500">${u.id || u.uid || 'N/A'}</td>
-                                                <td class="px-6 py-4 text-xs">${u.lastLogin ? new Date(u.lastLogin).toLocaleString() : 'N/A'}</td>
-                                                <td class="px-6 py-4 text-right">
-                                                    <!-- Admin course grant button (Req 1) -->
-                                                    <button onclick="window.openAssignModal('${u.id || u.uid}', '${u.email}')" 
-                                                            class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2 rounded-full transition-all shadow-[0_0_10px_rgba(220,38,38,0.2)]">
-                                                        Assign Course
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        `).join('')}
-                                        ${state.allUsers.length === 0 ? `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-500">No registered users found.</td></tr>` : ''}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    ` : ''}
-
-                    ${state.adminTab === 'create_course' ? `
-                    <div class="max-w-4xl">
-                        <div class="flex justify-between items-center mb-8">
-                            <h3 class="text-2xl font-light text-white font-serif">${state.editingCourse ? 'Edit Course: ' + state.editingCourse.title : 'Create New Course'}</h3>
-                            ${state.editingCourse ? `<button onclick="window.setAdminTab('dashboard')" class="text-xs text-gray-400 hover:text-white flex items-center gap-1 border border-white/10 px-3 py-1.5 rounded-full"><i data-lucide="x" class="w-3 h-3"></i> Cancel Edit</button>` : ''}
-                        </div>
-                        <form onsubmit="window.handleCreateCourse(event)" class="glass-panel p-6 md:p-10 rounded-[2rem] border border-white/5 space-y-8">
-                            <!-- Basic Info -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Course Title *</label>
-                                    <input type="text" name="title" required value="${state.editingCourse?.title || ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Price (e.g. ₹4999) *</label>
-                                    <input type="text" name="price" required value="${state.editingCourse?.price || ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
-                                </div>
-                                <div class="md:col-span-2">
-                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Course Description *</label>
-                                    <textarea name="desc" required rows="3" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">${state.editingCourse?.desc || ''}</textarea>
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Course Image URL</label>
-                                    <input type="url" name="image" placeholder="https://..." value="${state.editingCourse?.image || ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Features (Comma separated)</label>
-                                    <input type="text" name="features" placeholder="Feature 1, Feature 2..." value="${state.editingCourse?.features ? state.editingCourse.features.join(', ') : ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
-                                </div>
-                            </div>
-                            
-                            <!-- Classification -->
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                                <div>
-                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Fee Type</label>
-                                    <select name="feeType" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors appearance-none">
-                                        <option value="/ month" ${state.editingCourse?.feeType==='/ month'?'selected':''}>Monthly</option>
-                                        <option value="/ session" ${state.editingCourse?.feeType==='/ session'?'selected':''}>Per Session</option>
-                                        <option value="One-time" ${state.editingCourse?.feeType==='One-time'?'selected':''}>One-time</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Category</label>
-                                    <select name="category" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors appearance-none">
-                                        <option value="Singing" ${state.editingCourse?.category==='Singing'?'selected':''}>Singing</option>
-                                        <option value="Instruments" ${state.editingCourse?.category==='Instruments'?'selected':''}>Instruments</option>
-                                        <option value="Production" ${state.editingCourse?.category==='Production'?'selected':''}>Production</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Class Type</label>
-                                    <select name="type" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors appearance-none">
-                                        <option value="Offline" ${state.editingCourse?.type==='Offline'?'selected':''}>Offline Studio</option>
-                                        <option value="Online" ${state.editingCourse?.type==='Online'?'selected':''}>Online Class</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Location/City</label>
-                                    <input type="text" name="location" value="${state.editingCourse?.location || ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
-                                </div>
-                            </div>
-
-                            <!-- Faculty -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Faculty Name</label>
-                                    <input type="text" name="facultyName" value="${state.editingCourse?.facultyName || ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Faculty Image URL</label>
-                                    <input type="url" name="facultyImage" placeholder="https://..." value="${state.editingCourse?.facultyImage || ''}" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
-                                </div>
-                            </div>
-
-                            <!-- Dynamic Class Schedules -->
-                            <div class="border-t border-white/10 pt-6">
-                                <div class="flex justify-between items-center mb-4">
-                                    <h4 class="text-lg text-white font-serif">Class Schedule</h4>
-                                    <button type="button" onclick="window.addScheduleRow()" class="text-[10px] text-red-500 hover:text-white font-bold uppercase tracking-widest flex items-center gap-1 border border-red-500/30 px-3 py-1.5 rounded-full"><i data-lucide="plus" class="w-3 h-3"></i> Add Session</button>
-                                </div>
-                                <div id="schedule-container" class="space-y-4">
-                                    ${(state.editingCourse?.schedule || []).map(s => window.getScheduleRowHTML(s)).join('')}
-                                </div>
-                            </div>
-
-                            <!-- ADVANCED MULTI-LEVEL STRUCTURED MATERIAL FOLDER BUILDER (Req 3) -->
-                            <div class="border-t border-white/10 pt-6">
-                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                                    <div>
-                                        <h4 class="text-lg text-white font-serif">Structured Syllabus Workbook Folders</h4>
-                                        <p class="text-xs text-gray-400">Create sequences, root folders, sub-folders, and attach videos, audios, and scores.</p>
-                                    </div>
-                                    <div class="flex gap-2">
-                                        <button type="button" onclick="window.addRootFolder()" class="text-[10px] text-red-500 hover:text-white font-bold uppercase tracking-widest flex items-center gap-1 border border-red-500/30 px-3 py-1.5 rounded-full"><i data-lucide="folder" class="w-3.5 h-3.5"></i> + Add Root Folder</button>
-                                        <button type="button" onclick="window.addRootFile()" class="text-[10px] text-gray-400 hover:text-white font-bold uppercase tracking-widest flex items-center gap-1 border border-white/10 px-3 py-1.5 rounded-full"><i data-lucide="file-plus-2" class="w-3.5 h-3.5"></i> + Add Root Material</button>
-                                    </div>
-                                </div>
-                                
-                                <div id="materials-tree-builder" class="space-y-6">
-                                    <!-- Structured Materials Hierarchical Tree injected dynamically -->
-                                </div>
-                            </div>
-
-                            <button type="submit" class="w-full bg-red-600 text-white py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-red-700 transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)] mt-8">
-                                ${state.editingCourse ? 'Update Course' : 'Publish Course'}
-                            </button>
-                        </form>
-                    </div>
-                    ` : ''}
-                </div>
-            `
-        };
-
-        const renderApp = () => {
-            const template = templates[state.currentPage] || templates.home;
-            document.getElementById('app-root').innerHTML = typeof template === 'function' ? template() : template;
-            updateNavbarUI(); 
-            lucide.createIcons();
-            if (state.currentPage === 'classes') { renderClassesGrid(); }
-
-            // Ensure default rows exist for Admin Course Form if empty, bypassing inline injected script limits
-            if (state.currentPage === 'admin' && state.adminTab === 'create_course') {
-                const schedCont = document.getElementById('schedule-container');
-                if (schedCont && schedCont.children.length === 0) {
-                    window.addScheduleRow();
-                }
-                renderAdminMaterialsTree();
-            }
-        };
-
-        // Initialize App State Immediately with safe local memory startup (prevent flash of original unedited data)
-        syncCoursesState([]);
-        renderApp();
-    </script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
